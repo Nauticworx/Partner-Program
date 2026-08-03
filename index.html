@@ -59,7 +59,7 @@
 
   <div class="nwx-map-content">
     <div class="nwx-svg-map-wrap">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 64.35 1019.9 365" preserveAspectRatio="xMidYMid slice">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 64.35 1019.9 365" preserveAspectRatio="xMidYMid meet">
   <style>
     .land { fill: #0c1c2b; stroke: #cee2eb; stroke-width: 0.45; vector-effect: non-scaling-stroke; }
     #AQ { display: none; }
@@ -449,7 +449,8 @@
   background: #ffffff;
   color: var(--nwx-text);
   font-family: Gotham, Helvetica, Arial, sans-serif;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 body.page-id-15425 .content-area,
@@ -2343,6 +2344,12 @@ body.page-id-15425 .entry-content > *:first-child {
 
 var BASE_VIEWBOX = { x: -2.45, y: 64.35, w: 1019.9, h: 365 };
 
+/* Southern Chile/Argentina extend a bit past BASE_VIEWBOX's bottom edge
+   (y=429.35); panning/zoom is allowed a little further south than
+   BASE_VIEWBOX.h so that land isn't hard-clipped. Pin percentages elsewhere
+   are still calibrated against BASE_VIEWBOX itself, so that stays untouched. */
+var MAP_VIEW_MAX_BOTTOM = BASE_VIEWBOX.y + 400;
+
 /* ==========================================================================
    CONTINUOUS WORLD WRAP
    The landing view stays Atlantic-centered (INITIAL_VIEWBOX below is
@@ -2459,8 +2466,8 @@ try {
 
 
 var INITIAL_VIEWBOX = {
-  x: BASE_VIEWBOX.x,
-  y: BASE_VIEWBOX.y,
+  x: -360,
+  y: MAP_VIEW_MAX_BOTTOM - BASE_VIEWBOX.h,
   w: BASE_VIEWBOX.w,
   h: BASE_VIEWBOX.h
 };
@@ -2730,7 +2737,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
     function keepViewInBounds() {
       var minY = BASE_VIEWBOX.y;
-      var maxY = BASE_VIEWBOX.y + BASE_VIEWBOX.h - mapView.h;
+      var maxY = Math.max(minY, MAP_VIEW_MAX_BOTTOM - mapView.h);
       mapView.y = clamp(mapView.y, minY, maxY);
       normalizeViewX();
     }
@@ -2746,11 +2753,11 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       };
     }
 
-    /* The SVG uses preserveAspectRatio="xMidYMid slice", which overflows
-       (crops the excess) whenever the container's shape doesn't exactly
+    /* The SVG uses preserveAspectRatio="xMidYMid meet", which letterboxes
+       (adds blank margins) whenever the container's shape doesn't exactly
        match the map content's own aspect ratio -- true almost anywhere
        except one exact window width. Positioning pins as a plain
-       percentage of the container ignores that overflow and lands them
+       percentage of the container ignores that margin and lands them
        slightly off. This works out the map's actual rendered rectangle
        inside the container first, so pins line up with the real pixels
        regardless of container shape. */
@@ -2763,11 +2770,11 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
       var renderedW, renderedH;
       if (containerAspect > contentAspect) {
-        renderedW = containerW;
-        renderedH = renderedW / contentAspect;
-      } else {
         renderedH = containerH;
         renderedW = renderedH * contentAspect;
+      } else {
+        renderedW = containerW;
+        renderedH = renderedW / contentAspect;
       }
 
       return {
