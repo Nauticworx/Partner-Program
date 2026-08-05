@@ -5,6 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nauticworx Partner Map</title>
 <style>html,body{margin:0;padding:0;background:#ffffff;}</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LG8CBXS558"></script>
+
+<style>
+#nwx-partner-map-v3{--nwx-sidebar-width:clamp(310px,28vw,410px);--nwx-map-layout-height:clamp(560px,68vh,700px);padding:12px;background:#f4f7f9}
+#nwx-partner-map-v3 .nwx-explorer-shell{width:100%;max-width:1900px;margin:0 auto;overflow:hidden;border:1px solid rgba(16,32,51,.12);border-radius:18px;background:#fff;box-shadow:0 14px 38px rgba(16,32,51,.09)}
+#nwx-partner-map-v3 .nwx-explorer-topbar{position:relative;z-index:800;padding:14px 16px 12px;border-bottom:1px solid rgba(16,32,51,.11);background:#fff}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{position:relative!important;inset:auto!important;display:grid!important;grid-template-columns:minmax(210px,1.6fr) repeat(4,minmax(130px,1fr)) auto!important;align-items:end;gap:10px;width:100%!important;max-width:none!important;padding:0;overflow:visible;border:0;box-shadow:none;background:transparent}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:0;padding:0 0 2px}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro-title{font-size:16px}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro-text{margin:0;font-size:12px}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-label{margin:0}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-input{height:40px;min-height:40px;border-radius:10px;padding-left:13px;padding-right:13px;background:#f9fbfc}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-wrap{align-self:end;margin:0}
+#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-button{width:auto;min-width:70px;height:40px;padding:0 14px;border-radius:10px;font-size:11px}
+#nwx-partner-map-v3 .nwx-sidebar-layout{gap:0;max-width:none}
+#nwx-partner-map-v3 .nwx-sidebar-panel{z-index:200;gap:0;padding:0;border-right:1px solid rgba(16,32,51,.11);background:#f8fafb}
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-section{display:block!important;margin:0;padding:16px;background:transparent}
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{position:sticky;top:0;z-index:5;margin:-16px -16px 12px;padding:16px;border-bottom:1px solid rgba(16,32,51,.1);background:rgba(248,250,251,.96)}
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-featured-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card{border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(16,32,51,.06)}
+@media(max-width:1180px){#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:minmax(230px,1.4fr) repeat(2,minmax(150px,1fr))!important}}
+@media(max-width:780px){#nwx-partner-map-v3{--nwx-map-layout-height:auto;padding:0;background:#fff}#nwx-partner-map-v3 .nwx-explorer-shell{overflow:visible;border:0;border-radius:0;box-shadow:none}#nwx-partner-map-v3 .nwx-explorer-topbar{padding:10px 12px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:1fr!important;gap:8px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-mobile-filter-tab{display:flex!important;align-items:center;justify-content:space-between;width:100%;min-height:42px;padding:0 13px;border:1px solid rgba(16,32,51,.16);border-radius:10px;background:#fff;color:var(--nwx-map-navy);font-weight:900}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-wrap{display:none}#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-clear-filters-wrap{display:block}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-button{width:100%}#nwx-partner-map-v3 .nwx-sidebar-layout{display:flex;flex-direction:column}#nwx-partner-map-v3 .nwx-map-canvas-column{order:1;width:100%;height:clamp(360px,62vh,540px)}#nwx-partner-map-v3 .nwx-map-module,#nwx-partner-map-v3 .nwx-map-stage{height:100%;min-height:100%}#nwx-partner-map-v3 .nwx-sidebar-panel{order:2;width:100%;height:auto;max-height:none;overflow:visible;border-top:1px solid rgba(16,32,51,.11);border-right:0}#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{position:relative}}
+</style>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag("js", new Date());
+  gtag("config", "G-LG8CBXS558");
+</script>
 </head>
 <body>
 <div id="nwx-partner-map-v3">
@@ -692,6 +721,10 @@ body.page-id-15425 .entry-content > *:first-child {
   margin: 0 0 4px;
 }
 
+#nwx-partner-map-v3 .nwx-mobile-filter-tab {
+  display: none;
+}
+
 #nwx-partner-map-v3 .nwx-filter-intro-title {
   color: var(--nwx-dark);
   font-size: 17px;
@@ -1118,6 +1151,22 @@ body.page-id-15425 .entry-content > *:first-child {
   font-size: 10px;
   font-weight: 900;
   line-height: 1;
+  white-space: nowrap;
+}
+
+#nwx-partner-map-v3 .nwx-region-pin.nwx-coming-soon .nwx-pin-tip {
+  width: fit-content;
+  max-width: 90vw;
+}
+
+#nwx-partner-map-v3 .nwx-region-pin.nwx-coming-soon .nwx-tip-top-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: auto;
+}
+
+#nwx-partner-map-v3 .nwx-region-pin.nwx-coming-soon .nwx-tip-region-name {
   white-space: nowrap;
 }
 
@@ -1574,9 +1623,11 @@ body.page-id-15425 .entry-content > *:first-child {
   }
 
   #nwx-partner-map-v3 .nwx-sidebar-panel {
+    position: static;
     height: auto;
     max-height: none;
     overflow: visible;
+    order: 2;
   }
 
   #nwx-partner-map-v3 .nwx-map-canvas-column,
@@ -1584,6 +1635,10 @@ body.page-id-15425 .entry-content > *:first-child {
   #nwx-partner-map-v3 .nwx-map-stage {
     height: 620px;
     min-height: 620px;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    order: 1;
   }
 
   #nwx-partner-map-v3 .nwx-modal {
@@ -1597,6 +1652,59 @@ body.page-id-15425 .entry-content > *:first-child {
 
   #nwx-partner-map-v3 .nwx-modal-actions {
     justify-content: flex-start;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-intro {
+    display: none;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-filter-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    border: 0;
+    background: transparent;
+    color: var(--nwx-map-navy);
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-filter-chevron {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-mobile-filter-chevron {
+    transform: rotate(180deg);
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    position: absolute !important;
+    top: 0 !important;
+    left: 14px !important;
+    z-index: 700;
+    width: 220px !important;
+    max-width: calc(100% - 28px) !important;
+    display: block !important;
+    max-height: 40px;
+    overflow: hidden;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 10px 24px rgba(12, 28, 43, 0.28);
+    transition: max-height 0.2s ease;
+    padding: 0 10px;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-sidebar-panel .nwx-filter-bar {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 0 10px 10px;
   }
 }
 
@@ -1652,6 +1760,16 @@ body.page-id-15425 .entry-content > *:first-child {
 #nwx-partner-map-v3 .nwx-faq-toggle:focus-visible,
 #nwx-partner-map-v3 .nwx-faq-toggle[aria-expanded="true"] {
   background: #0c1c2b;
+}
+
+@media (max-width: 1000px) {
+  #nwx-partner-map-v3 .nwx-faq-toggle {
+    width: 23px;
+    height: 23px;
+    min-width: 23px;
+    min-height: 23px;
+    font-size: 14px;
+  }
 }
 
 #nwx-partner-map-v3 .nwx-faq-panel {
@@ -1743,11 +1861,11 @@ body.page-id-15425 .entry-content > *:first-child {
   }
 
   #nwx-partner-map-v3 .nwx-faq-toggle {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    font-size: 23px;
+    width: 23px;
+    height: 23px;
+    min-width: 23px;
+    min-height: 23px;
+    font-size: 14px;
   }
 
   #nwx-partner-map-v3 .nwx-faq-panel {
@@ -1761,6 +1879,11 @@ body.page-id-15425 .entry-content > *:first-child {
 
 <script>
 (function () {
+  function trackEvent(name, params) {
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", name, params || {});
+  }
+
   function initNwxPartnerMapStable() {
     var PARTNER_FEED_URL = "https://script.google.com/macros/s/AKfycbzsAk65E_OJaBlBrIKJ01g4DAli7xsAsigoicrWk5tuAv0qfjvy6tUyRAtXFhMVDEAP/exec";
     var TRUSTED_PARTNERS_BASE_URL = "https://www.nauticworx.com/our-trusted-partners/";
@@ -2487,6 +2610,11 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     var panStartY = 0;
     var panStartViewX = 0;
     var panStartViewY = 0;
+    var isPinching = false;
+    var pinchStartDistance = 0;
+    var pinchStartZoom = 1;
+    var pinchMidX = 0;
+    var pinchMidY = 0;
 
     var COUNTRY_PIN_OVERRIDES = {
       US: { x: 9.3, y: 41.6 },
@@ -2502,6 +2630,8 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
     var cleanPartners = [];
     var feedOptions = {};
+    var viewedPartnerNames = {};
+    var mobileFilterTab = null;
     var activeKeyword = "";
     var activeCategories = [];
     var activeSubcategories = [];
@@ -2604,7 +2734,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     function metaLink(label, url, className) {
       if (!label) return "";
       if (!url) return escapeHtml(label);
-      return '<a class="nwx-meta-link ' + escapeAttr(className || "") + '" href="' + escapeAttr(url) + '">' + escapeHtml(label) + '</a>';
+      return '<a class="nwx-meta-link ' + escapeAttr(className || "") + '" href="' + escapeAttr(url) + '" target="_blank" rel="noopener">' + escapeHtml(label) + '</a>';
     }
 
     function metaSeparator() {
@@ -2769,9 +2899,10 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       var containerH = containerRect.height;
       var contentAspect = mapView.w / mapView.h;
       var containerAspect = containerW / containerH;
+      var isSlice = svgMap.getAttribute("preserveAspectRatio") === "xMidYMid slice";
 
       var renderedW, renderedH;
-      if (containerAspect > contentAspect) {
+      if (isSlice ? containerAspect <= contentAspect : containerAspect > contentAspect) {
         renderedH = containerH;
         renderedW = renderedH * contentAspect;
       } else {
@@ -2874,6 +3005,11 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     positionPin(pin);
   });
 }
+    function updateAspectMode() {
+      var isMobile = window.innerWidth <= 1000;
+      svgMap.setAttribute("preserveAspectRatio", isMobile ? "xMidYMid slice" : "xMidYMid meet");
+    }
+
     function updateMapView() {
       keepViewInBounds();
       svgMap.setAttribute("viewBox", mapView.x + " " + mapView.y + " " + mapView.w + " " + mapView.h);
@@ -2981,6 +3117,46 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     stage.addEventListener("pointerup", stopPanning);
     stage.addEventListener("pointercancel", stopPanning);
     stage.addEventListener("pointerleave", stopPanning);
+
+    function touchDistance(touches) {
+      var dx = touches[0].clientX - touches[1].clientX;
+      var dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    stage.addEventListener("touchstart", function (event) {
+      if (shouldIgnoreGesture(event)) return;
+      if (event.touches.length !== 2) return;
+
+      isPanning = false;
+      isPinching = true;
+      pinchStartDistance = touchDistance(event.touches);
+      pinchStartZoom = mapZoom;
+
+      var rect = stage.getBoundingClientRect();
+      pinchMidX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - rect.left;
+      pinchMidY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - rect.top;
+
+      event.preventDefault();
+    }, { passive: false });
+
+    stage.addEventListener("touchmove", function (event) {
+      if (!isPinching || event.touches.length !== 2) return;
+
+      var newDistance = touchDistance(event.touches);
+      var scale = newDistance / pinchStartDistance;
+      setMapZoom(pinchStartZoom * scale, pinchMidX, pinchMidY);
+
+      event.preventDefault();
+    }, { passive: false });
+
+    function stopPinching(event) {
+      if (event && event.touches && event.touches.length >= 2) return;
+      isPinching = false;
+    }
+
+    stage.addEventListener("touchend", stopPinching);
+    stage.addEventListener("touchcancel", stopPinching);
 
     function getCountryPoint(code) {
       var cleanCode = cleanText(code).toUpperCase();
@@ -3386,7 +3562,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
           '<div class="nwx-region-title-row nwx-profile-header-row">' +
             '<div><div class="nwx-modal-kicker">Partner Profile</div></div>' +
             '<div class="nwx-modal-actions">' +
-              '<a class="nwx-region-cta" href="' + escapeAttr(getRegionUrl(partner.region)) + '">View Region Page</a>' +
+              '<a class="nwx-region-cta" href="' + escapeAttr(getRegionUrl(partner.region)) + '" target="_blank" rel="noopener">View Region Page</a>' +
               '<button class="nwx-close" type="button" aria-label="Close partner details">×</button>' +
             '</div>' +
           '</div>' +
@@ -3500,6 +3676,16 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
         return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' + partnerCard(partner, { showTestimonial: false }) + '</div>';
       }).join("");
 
+      featured.forEach(function (partner) {
+        if (!partner.name || viewedPartnerNames[partner.name]) return;
+        viewedPartnerNames[partner.name] = true;
+        trackEvent("partner_profile_view", {
+          partner_name: partner.name,
+          region: partner.region || "",
+          category: partner.category || ""
+        });
+      });
+
       grid.querySelectorAll(".nwx-featured-partner-card").forEach(function (card) {
         stopLinkPropagation(card);
 
@@ -3551,7 +3737,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       return next;
     }
 
-    function bindTypeahead(input, results, optionsGetter, selectedGetter, selectedSetter, placeholder) {
+    function bindTypeahead(input, results, optionsGetter, selectedGetter, selectedSetter, placeholder, filterName) {
       if (!input) return;
       if (!results) return;
 
@@ -3571,6 +3757,14 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
         results.classList.remove("is-open");
         closeModal();
         renderAll();
+        trackEvent("map_filter_select", {
+          filter_name: filterName,
+          filter_value: value,
+          active_categories: activeCategories.join("|"),
+          active_subcategories: activeSubcategories.join("|"),
+          active_regions: activeRegions.join("|"),
+          active_countries: activeCountries.join("|")
+        });
       }
 
       function draw(forceAll) {
@@ -3729,15 +3923,23 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
           if (keywordInput) keywordInput.value = "";
           closeModal();
           renderAll();
+          trackEvent("map_reset_filters");
         });
       }
 
       if (keywordInput) {
+        var keywordTrackTimer = null;
+
         keywordInput.addEventListener("input", function () {
           activeKeyword = keywordInput.value || "";
           renderKeywordResults();
           closeModal();
           renderAll();
+
+          clearTimeout(keywordTrackTimer);
+          keywordTrackTimer = setTimeout(function () {
+            if (activeKeyword) trackEvent("map_search", { search_term: activeKeyword });
+          }, 600);
         });
 
         keywordInput.addEventListener("focus", renderKeywordResults);
@@ -3746,19 +3948,19 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       bindTypeahead(categoryInput, categoryResults, getCategoryOptions, function () { return activeCategories; }, function (values) {
         activeCategories = values;
         activeSubcategories = [];
-      }, "Type category...");
+      }, "Type category...", "category");
 
       bindTypeahead(subcategoryInput, subcategoryResults, getSubcategoryOptions, function () { return activeSubcategories; }, function (values) {
         activeSubcategories = values;
-      }, "Type subcategory...");
+      }, "Type subcategory...", "subcategory");
 
       bindTypeahead(regionInput, regionResults, getRegionOptions, function () { return activeRegions; }, function (values) {
         activeRegions = values;
-      }, "Type region...");
+      }, "Type region...", "region");
 
       bindTypeahead(countryInput, countryResults, getCountryOptions, function () { return activeCountries; }, function (values) {
         activeCountries = values;
-      }, "Type country...");
+      }, "Type country...", "country");
     }
 
     function renderKeywordResults() {
@@ -3855,64 +4057,90 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     }
 function buildSidebarLayout() {
   var mapModule = root.querySelector(".nwx-map-module");
-  var filterToggle = null;
   var filterBar = root.querySelector(".nwx-filter-bar");
   var testimonialSection = root.querySelector(".nwx-testimonial-section");
+  if (!mapModule || root.querySelector(".nwx-explorer-shell")) return;
 
-  if (!mapModule) return;
-  if (root.querySelector(".nwx-sidebar-layout")) return;
-
+  var shell = document.createElement("div");
+  shell.className = "nwx-explorer-shell";
+  var topbar = document.createElement("div");
+  topbar.className = "nwx-explorer-topbar";
   var layout = document.createElement("div");
   layout.className = "nwx-sidebar-layout";
-
   var sidebar = document.createElement("aside");
   sidebar.className = "nwx-sidebar-panel";
-  sidebar.setAttribute("aria-label", "Partner filters and partner list");
-
+  sidebar.setAttribute("aria-label", "Partner results");
   var mapColumn = document.createElement("div");
   mapColumn.className = "nwx-map-canvas-column";
 
-  root.insertBefore(layout, mapModule);
-
+  root.insertBefore(shell, mapModule);
+  shell.appendChild(topbar);
+  shell.appendChild(layout);
   layout.appendChild(sidebar);
   layout.appendChild(mapColumn);
-if (filterBar && !filterBar.querySelector(".nwx-filter-intro")) {
-  var filterIntro = document.createElement("div");
-  filterIntro.className = "nwx-filter-intro";
 
-  filterIntro.innerHTML =
-    '<div class="nwx-filter-intro-title">Nauticworx Partner Program</div>' +
-    '<div class="nwx-filter-intro-text">Apply filters to find relevant Nauticworx partners.</div>';
+  if (filterBar && !filterBar.querySelector(".nwx-filter-intro")) {
+    var intro = document.createElement("div");
+    intro.className = "nwx-filter-intro";
+    intro.innerHTML = '<div class="nwx-filter-intro-title">Find a Nauticworx Partner</div><div class="nwx-filter-intro-text">Search and filter the partner network.</div>';
+    filterBar.insertBefore(intro, filterBar.firstChild);
+  }
 
-  filterBar.insertBefore(filterIntro, filterBar.firstChild);
-}
   if (filterBar) {
-  sidebar.appendChild(filterBar);
-}
+    topbar.appendChild(filterBar);
+    if (!filterBar.querySelector(".nwx-mobile-filter-tab")) {
+      mobileFilterTab = document.createElement("button");
+      mobileFilterTab.type = "button";
+      mobileFilterTab.className = "nwx-mobile-filter-tab";
+      mobileFilterTab.setAttribute("aria-expanded", "false");
+      mobileFilterTab.innerHTML = 'Search &amp; Filters<span class="nwx-mobile-filter-chevron">&#9662;</span>';
+      mobileFilterTab.addEventListener("click", function (event) {
+        event.stopPropagation();
+        var isOpen = root.classList.toggle("nwx-mobile-filters-open");
+        mobileFilterTab.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+      filterBar.insertBefore(mobileFilterTab, filterBar.firstChild);
+    }
+  }
 
-var filterActions = document.createElement("div");
-filterActions.className = "nwx-sidebar-filter-actions";
+  var clearButton = filterBar ? filterBar.querySelector(".nwx-clear-filters-button") : null;
+  if (clearButton) {
+    clearButton.textContent = "Reset";
+    clearButton.setAttribute("aria-label", "Reset filters");
+    clearButton.setAttribute("title", "Reset filters");
+  }
 
-var clearButton = filterBar ? filterBar.querySelector(".nwx-clear-filters-button") : null;
-
-if (clearButton) {
-  clearButton.textContent = "Reset Filters";
-  clearButton.setAttribute("aria-label", "Reset filters");
-  clearButton.setAttribute("title", "Reset filters");
-  filterActions.appendChild(clearButton);
-}
-
-if (filterActions.children.length) {
-  sidebar.appendChild(filterActions);
-}
-
-mapColumn.appendChild(mapModule);
-
-if (testimonialSection) {
-  sidebar.appendChild(testimonialSection);
-}
+  mapColumn.appendChild(mapModule);
+  if (testimonialSection) sidebar.appendChild(testimonialSection);
 }
     buildSidebarLayout();
+
+    root.addEventListener("click", function (event) {
+      if (root.classList.contains("nwx-mobile-filters-open") && !event.target.closest(".nwx-filter-bar")) {
+        root.classList.remove("nwx-mobile-filters-open");
+        if (mobileFilterTab) mobileFilterTab.setAttribute("aria-expanded", "false");
+      }
+
+      var pin = event.target.closest(".nwx-region-pin");
+      if (pin) {
+        trackEvent("map_pin_click", {
+          pin_label: pin.getAttribute("aria-label") || "",
+          has_partners: !pin.classList.contains("nwx-coming-soon")
+        });
+      }
+
+      var card = event.target.closest(".nwx-partner-card, .nwx-featured-partner-card");
+      var nameEl = card ? card.querySelector(".nwx-partner-name, .nwx-testimonial-name") : null;
+      var partnerName = nameEl ? nameEl.textContent.trim() : "";
+
+      if (event.target.closest(".nwx-profile-cta")) {
+        trackEvent("partner_website_click", { partner_name: partnerName });
+      } else if (event.target.closest(".nwx-contact-cta")) {
+        trackEvent("partner_contact_click", { partner_name: partnerName });
+      } else if (event.target.closest(".nwx-region-cta")) {
+        trackEvent("region_page_click", { partner_name: partnerName });
+      }
+    });
 
 root.classList.remove("nwx-filters-collapsed");
 bindFiltersOnce();
@@ -3920,8 +4148,18 @@ updateFeedOptions({});
 renderRegionPins([]);
 renderFilters();
 renderCards([]);
+updateAspectMode();
 updateMapView();
 loadPartners();
+
+var aspectResizeTimer = null;
+window.addEventListener("resize", function () {
+  clearTimeout(aspectResizeTimer);
+  aspectResizeTimer = setTimeout(function () {
+    updateAspectMode();
+    updateMapView();
+  }, 150);
+});
 
 console.log("NWX consolidated map active");
   }
