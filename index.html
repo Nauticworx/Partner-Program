@@ -3943,12 +3943,7 @@ function buildSidebarLayout() {
   layout.appendChild(sidebar);
   layout.appendChild(mapColumn);
 
-  if (filterBar && !filterBar.querySelector(".nwx-filter-intro")) {
-    var intro = document.createElement("div");
-    intro.className = "nwx-filter-intro";
-    intro.innerHTML = '<div class="nwx-filter-intro-title">Find a Nauticworx Partner</div><div class="nwx-filter-intro-text">Search and filter the partner network.</div>';
-    filterBar.insertBefore(intro, filterBar.firstChild);
-  }
+
 
   if (filterBar) {
     topbar.appendChild(filterBar);
