@@ -556,6 +556,14 @@ body.page-id-15425 .entry-content > *:first-child {
   touch-action: none;
 }
 
+/* On touch screens, a one-finger vertical swipe should scroll the page rather
+   than being captured by the map. Two-finger pinch zoom remains available. */
+@media (max-width: 780px), (pointer: coarse) {
+  #nwx-partner-map-v3 .nwx-map-stage {
+    touch-action: pan-y pinch-zoom;
+  }
+}
+
 #nwx-partner-map-v3 .nwx-map-stage.is-pannable {
   cursor: grab;
 }
@@ -3070,6 +3078,13 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
     stage.addEventListener("pointerdown", function (event) {
       if (shouldIgnoreGesture(event)) return;
+
+      // Do not capture a single-finger touch gesture. This allows a vertical
+      // swipe to continue scrolling the parent page after reaching the bottom
+      // of the map. Mouse/pen dragging still pans the map, and two-finger touch
+      // gestures are handled by the pinch listeners below.
+      if (event.pointerType === "touch") return;
+
       if (typeof event.button === "number") {
         if (event.button !== 0) return;
       }
