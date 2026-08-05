@@ -28,6 +28,58 @@
 #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-featured-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card{border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(16,32,51,.06)}
 @media(max-width:1180px){#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:minmax(230px,1.4fr) repeat(2,minmax(150px,1fr))!important}}
 @media(max-width:780px){#nwx-partner-map-v3{--nwx-map-layout-height:auto;padding:0;background:#fff}#nwx-partner-map-v3 .nwx-explorer-shell{overflow:visible;border:0;border-radius:0;box-shadow:none}#nwx-partner-map-v3 .nwx-explorer-topbar{padding:10px 12px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:1fr!important;gap:8px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-mobile-filter-tab{display:flex!important;align-items:center;justify-content:space-between;width:100%;min-height:42px;padding:0 13px;border:1px solid rgba(16,32,51,.16);border-radius:10px;background:#fff;color:var(--nwx-map-navy);font-weight:900}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-wrap{display:none}#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-clear-filters-wrap{display:block}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-button{width:100%}#nwx-partner-map-v3 .nwx-sidebar-layout{display:flex;flex-direction:column}#nwx-partner-map-v3 .nwx-map-canvas-column{order:1;width:100%;height:clamp(360px,62vh,540px)}#nwx-partner-map-v3 .nwx-map-module,#nwx-partner-map-v3 .nwx-map-stage{height:100%;min-height:100%}#nwx-partner-map-v3 .nwx-sidebar-panel{order:2;width:100%;height:auto;max-height:none;overflow:visible;border-top:1px solid rgba(16,32,51,.11);border-right:0}#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{position:relative}}
+
+/* Edge-to-edge visual treatment: remove container chrome and blend sections into the page. */
+#nwx-partner-map-v3{
+  padding:0;
+  background:#fff;
+}
+#nwx-partner-map-v3 .nwx-explorer-shell,
+#nwx-partner-map-v3 .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-map-canvas-column,
+#nwx-partner-map-v3 .nwx-svg-map-wrap{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+#nwx-partner-map-v3 .nwx-explorer-topbar{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+@media(min-width:781px){
+  #nwx-partner-map-v3 .nwx-explorer-topbar{
+    box-shadow:none!important;
+  }
+}
+#nwx-partner-map-v3 .nwx-filter-bar{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#nwx-partner-map-v3 .nwx-sidebar-layout{
+  border:0!important;
+  box-shadow:none!important;
+}
+#nwx-partner-map-v3 .nwx-sidebar-panel{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{
+  border:0!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+@media(max-width:780px){
+  #nwx-partner-map-v3 .nwx-sidebar-panel{
+    border:0!important;
+  }
+}
 </style>
 <script>
   window.dataLayer = window.dataLayer || [];
