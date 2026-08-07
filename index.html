@@ -2261,8 +2261,8 @@ body.page-id-15425 .entry-content > *:first-child {
 #nwx-partner-map-v3 .nwx-filter-group-heading {
   display: block;
   color: var(--nwx-dark);
-  font-size: clamp(20px, 1.65vw, 28px);
-  font-weight: 900;
+  font-size: 18px;
+  font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
   white-space: nowrap;
@@ -3098,6 +3098,179 @@ body.page-id-15425 .entry-content > *:first-child {
   #nwx-partner-map-v3 .nwx-map-viewport {
     height: 430px !important;
     min-height: 430px !important;
+  }
+}
+
+
+/* Map | List sits between filters and partner cards. */
+#nwx-partner-map-v3 .nwx-results-top .nwx-view-bar {
+  margin: 0 !important;
+  padding: 6px 8px 8px 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-section {
+  margin-top: 0 !important;
+}
+
+
+/* ==========================================================================
+   DESKTOP COMPACT OVERRIDES
+   Restore the original single-row desktop filter bar and scale partner cards
+   closer to the 80% browser-zoom appearance shown in the reference.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  /* Keep the entire desktop filter/search toolbar in one row. */
+  #nwx-partner-map-v3 .nwx-results-top .nwx-filter-bar,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-sidebar-panel .nwx-filter-bar {
+    display: grid !important;
+    grid-template-columns:
+      minmax(360px, 1.75fr)
+      minmax(220px, 1fr)
+      minmax(150px, .72fr)
+      minmax(125px, .58fr)
+      minmax(125px, .58fr)
+      42px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 8px 0 8px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group,
+  #nwx-partner-map-v3 .nwx-category-group {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 7px !important;
+    min-width: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-compact-filter-group {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading {
+    display: block !important;
+    font-size: 21px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-input {
+    width: 100% !important;
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 5px 6px !important;
+    border: 1px solid #cfd7de !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    box-sizing: border-box !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 42px !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-button {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-reset-filter-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* Keep Map | List compact and tight above cards. */
+  #nwx-partner-map-v3 .nwx-results-top .nwx-view-bar {
+    padding: 4px 8px 5px 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-view-button,
+  #nwx-partner-map-v3 .nwx-view-divider {
+    font-size: 15px !important;
+  }
+
+  /* Compact the four-card desktop preview/list. */
+  #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
+    gap: 9px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card {
+    padding: 10px 12px !important;
+    min-height: 0 !important;
+    border-radius: 8px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card p,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card div,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card span,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card a {
+    font-size: 11.5px !important;
+    line-height: 1.28 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-name,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card-name,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-name {
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card img,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card .nwx-category-icon,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card .nwx-partner-icon {
+    max-width: 38px !important;
+    max-height: 38px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card a.nwx-partner-button,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card .nwx-partner-button,
+  #nwx-partner-map-v3 .nwx-results-top .nwx-partner-card .nwx-card-button {
+    padding: 5px 9px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+/* Slightly tighter desktop toolbar before it naturally needs to wrap. */
+@media (min-width: 761px) and (max-width: 1150px) {
+  #nwx-partner-map-v3 .nwx-results-top .nwx-filter-bar {
+    grid-template-columns:
+      minmax(300px, 1.5fr)
+      minmax(185px, .95fr)
+      minmax(130px, .68fr)
+      minmax(110px, .56fr)
+      minmax(110px, .56fr)
+      38px !important;
+    gap: 7px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading {
+    font-size: 18px !important;
   }
 }
 
@@ -5678,8 +5851,8 @@ function buildSidebarLayout() {
   layout.appendChild(topArea);
 
   if (filterBar) topArea.appendChild(filterBar);
-  if (testimonialSection) topArea.appendChild(testimonialSection);
   topArea.appendChild(viewBar);
+  if (testimonialSection) topArea.appendChild(testimonialSection);
 
   layout.appendChild(mapViewport);
   mapViewport.appendChild(mapModule);
