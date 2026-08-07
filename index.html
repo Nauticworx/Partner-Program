@@ -19,7 +19,7 @@
         <div class="nwx-map-stage">
 <div class="nwx-map-content">
     <div class="nwx-svg-map-wrap">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 66.796 1019.9 393.282" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 66.796 1019.9 393.282" preserveAspectRatio="xMidYMid slice">
   <style>
     .land { fill: #0c1c2b; stroke: #cee2eb; stroke-width: 0.45; vector-effect: non-scaling-stroke; }
     #AQ { display: none; }
@@ -290,7 +290,13 @@
 
 <div class="nwx-filter-bar">
   <label class="nwx-filter-label nwx-search-group">
-    <span class="nwx-filter-group-heading">SEARCH</span>
+    <span class="nwx-filter-group-heading" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="M21 21l-4.3-4.3"/>
+      </svg>
+    </span>
+    <span class="nwx-visually-hidden">Search</span>
 
     <div class="nwx-keyword-wrap">
       <input class="nwx-filter-input nwx-keyword-search" type="search" placeholder="Search partners, countries, services..." autocomplete="off">
@@ -300,10 +306,17 @@
   </label>
 
 <label class="nwx-filter-label nwx-category-group">
-  <span class="nwx-filter-group-heading">FILTER</span>
+  <span class="nwx-filter-group-heading" aria-hidden="true">
+    <svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5h16"/>
+      <path d="M7 12h10"/>
+      <path d="M10 19h4"/>
+    </svg>
+  </span>
+  <span class="nwx-visually-hidden">Filter</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-category-typeahead" type="search" placeholder="category..." autocomplete="off">
+    <input class="nwx-filter-input nwx-category-typeahead" type="search" placeholder="Category" autocomplete="off">
 
     <div class="nwx-selected-chips nwx-category-chips" aria-live="polite"></div>
 
@@ -315,7 +328,7 @@
   <span class="nwx-visually-hidden">Partner Subcategory</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-subcategory-typeahead" type="search" placeholder="subcategory..." autocomplete="off">
+    <input class="nwx-filter-input nwx-subcategory-typeahead" type="search" placeholder="Subcategory" autocomplete="off">
 
     <div class="nwx-selected-chips nwx-subcategory-chips" aria-live="polite"></div>
 
@@ -327,7 +340,7 @@
   <span class="nwx-visually-hidden">Region</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-region-typeahead" type="search" placeholder="region..." autocomplete="off">
+    <input class="nwx-filter-input nwx-region-typeahead" type="search" placeholder="Region" autocomplete="off">
 
     <div class="nwx-selected-chips nwx-region-chips" aria-live="polite"></div>
 
@@ -338,7 +351,7 @@
   <span class="nwx-visually-hidden">Country</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-country-typeahead" type="search" placeholder="country..." autocomplete="off">
+    <input class="nwx-filter-input nwx-country-typeahead" type="search" placeholder="Country" autocomplete="off">
 
     <div class="nwx-selected-chips nwx-country-chips" aria-live="polite"></div>
 
@@ -462,6 +475,15 @@ body.page-id-15425 .entry-content > *:first-child {
   overflow-x: hidden;
   background: #ffffff;
   padding: 0 4px 0 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Scroll still works via wheel/touch/drag; only the visual bar is hidden. */
+#nwx-partner-map-v3 .nwx-sidebar-panel::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 #nwx-partner-map-v3 .nwx-map-canvas-column {
@@ -2259,13 +2281,20 @@ body.page-id-15425 .entry-content > *:first-child {
 }
 
 #nwx-partner-map-v3 .nwx-filter-group-heading {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
   color: var(--nwx-dark);
-  font-size: clamp(20px, 1.65vw, 28px);
-  font-weight: 900;
   line-height: 1;
-  letter-spacing: -0.035em;
-  white-space: nowrap;
+}
+
+#nwx-partner-map-v3 .nwx-filter-group-heading svg {
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 
 #nwx-partner-map-v3 .nwx-visually-hidden {
@@ -2990,40 +3019,18 @@ body.page-id-15425 .entry-content > *:first-child {
   margin: 0 !important;
 }
 
+/* Map view: no card row above the map — the map should be fully visible
+   from the top the moment the page loads. Cards only appear in List view. */
+#nwx-partner-map-v3.nwx-results-view-map .nwx-results-top .nwx-testimonial-section {
+  display: none !important;
+}
+
+#nwx-partner-map-v3.nwx-results-view-map .nwx-results-top {
+  padding-bottom: 0 !important;
+}
+
 /* Map | List */
-#nwx-partner-map-v3 .nwx-view-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-  width: 100%;
-  padding: 8px 8px 8px 0;
-  background: #fff;
-}
 
-#nwx-partner-map-v3 .nwx-view-button {
-  appearance: none;
-  -webkit-appearance: none;
-  border: 0 !important;
-  outline: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 2px 0 !important;
-  color: var(--nwx-dark);
-  font: inherit;
-  font-size: 18px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-#nwx-partner-map-v3 .nwx-view-button.is-active {
-  color: var(--nwx-orange);
-}
-
-#nwx-partner-map-v3 .nwx-view-divider {
-  font-size: 18px;
-  font-weight: 800;
-}
 
 /* Map is its own isolated interaction viewport. */
 #nwx-partner-map-v3 .nwx-map-viewport {
@@ -3086,14 +3093,9 @@ body.page-id-15425 .entry-content > *:first-child {
     padding: 0 12px !important;
   }
 
-  #nwx-partner-map-v3 .nwx-view-bar {
-    padding: 10px 14px !important;
-  }
+  
 
-  #nwx-partner-map-v3 .nwx-view-button,
-  #nwx-partner-map-v3 .nwx-view-divider {
-    font-size: 17px;
-  }
+  
 
   #nwx-partner-map-v3 .nwx-map-viewport {
     height: 430px !important;
@@ -3103,10 +3105,7 @@ body.page-id-15425 .entry-content > *:first-child {
 
 
 /* Map | List sits between filters and partner cards. */
-#nwx-partner-map-v3 .nwx-results-top .nwx-view-bar {
-  margin: 0 !important;
-  padding: 6px 8px 8px 0 !important;
-}
+
 
 #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-section {
   margin-top: 0 !important;
@@ -3125,11 +3124,8 @@ body.page-id-15425 .entry-content > *:first-child {
   #nwx-partner-map-v3 .nwx-results-top .nwx-sidebar-panel .nwx-filter-bar {
     display: grid !important;
     grid-template-columns:
-      minmax(360px, 1.75fr)
-      minmax(220px, 1fr)
-      minmax(150px, .72fr)
-      minmax(125px, .58fr)
-      minmax(125px, .58fr)
+      minmax(200px, .85fr)
+      repeat(4, minmax(130px, 1fr))
       42px !important;
     align-items: center !important;
     gap: 10px !important;
@@ -3152,11 +3148,20 @@ body.page-id-15425 .entry-content > *:first-child {
   }
 
   #nwx-partner-map-v3 .nwx-filter-group-heading {
-    display: block !important;
-    font-size: 21px !important;
-    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px !important;
+    color: var(--nwx-dark) !important;
     margin: 0 !important;
-    white-space: nowrap !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading svg {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   #nwx-partner-map-v3 .nwx-visually-hidden {
@@ -3205,14 +3210,9 @@ body.page-id-15425 .entry-content > *:first-child {
   }
 
   /* Keep Map | List compact and tight above cards. */
-  #nwx-partner-map-v3 .nwx-results-top .nwx-view-bar {
-    padding: 4px 8px 5px 0 !important;
-  }
+  
 
-  #nwx-partner-map-v3 .nwx-view-button,
-  #nwx-partner-map-v3 .nwx-view-divider {
-    font-size: 15px !important;
-  }
+  
 
   /* Compact the four-card desktop preview/list. */
   #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
@@ -3260,17 +3260,10 @@ body.page-id-15425 .entry-content > *:first-child {
 @media (min-width: 761px) and (max-width: 1150px) {
   #nwx-partner-map-v3 .nwx-results-top .nwx-filter-bar {
     grid-template-columns:
-      minmax(300px, 1.5fr)
-      minmax(185px, .95fr)
-      minmax(130px, .68fr)
-      minmax(110px, .56fr)
-      minmax(110px, .56fr)
+      minmax(170px, .8fr)
+      repeat(4, minmax(105px, 1fr))
       38px !important;
     gap: 7px !important;
-  }
-
-  #nwx-partner-map-v3 .nwx-filter-group-heading {
-    font-size: 18px !important;
   }
 }
 
@@ -3437,6 +3430,394 @@ body {
     top: 10px !important;
     right: 10px !important;
   }
+}
+
+
+/* ==========================================================================
+   MOBILE: PARTNER CARDS ONLY IN LIST VIEW
+   Desktop keeps the 4-card preview above the map.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* Map view: filters + Map | List + map only. */
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-results-top .nwx-testimonial-section {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport {
+    display: block !important;
+  }
+
+  /* List view: show all matching cards and replace the map completely. */
+  #nwx-partner-map-v3.nwx-results-view-list .nwx-results-top .nwx-testimonial-section {
+    display: block !important;
+  }
+
+  #nwx-partner-map-v3.nwx-results-view-list .nwx-map-viewport {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-results-view-list .nwx-results-top .nwx-testimonial-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 0 12px 12px !important;
+  }
+
+  /* With cards hidden in Map view, keep only a small gap before the map. */
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-results-top {
+    padding-bottom: 4px !important;
+  }
+}
+
+
+/* Keep the zoom helpers fixed to the map viewport's top-right corner. */
+#nwx-partner-map-v3 .nwx-map-viewport {
+  position: relative !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 100 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls button {
+  box-shadow: none !important;
+}
+
+/* Mobile: keep the same segmented control but make it slightly more compact. */
+@media (max-width: 760px) {
+  
+
+  
+
+  
+
+  #nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+    top: 10px !important;
+    right: 10px !important;
+  }
+}
+
+
+/* Zoom helpers remain pinned to the top-right of the map viewport. */
+#nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 100 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  
+
+  
+
+  
+
+  #nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+    top: 10px !important;
+    right: 10px !important;
+  }
+}
+
+
+/* ==========================================================================
+   NAUTICWORX MAP / LIST PILL TOGGLE
+   Pill-shaped toggle: dark blue capsule, orange sliding thumb behind
+   whichever tab is active, inactive tab blends into the capsule.
+   ========================================================================== */
+
+/* ==========================================================================
+   NAUTICWORX MAP / LIST PILL TOGGLE
+   Pill-shaped toggle: translucent gradient capsule, orange sliding thumb
+   behind whichever tab is active, inactive tab blends into the capsule.
+   Sits to the left of search/filters in one row via .nwx-toolbar-row.
+   ========================================================================== */
+
+#nwx-partner-map-v3 .nwx-toolbar-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  width: 100% !important;
+  padding: 6px 8px 8px 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-toolbar-row .nwx-filter-bar {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-view-bar,
+#nwx-partner-map-v3 .nwx-view-bar {
+  position: relative !important;
+  display: inline-flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  height: 48px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 4px !important;
+  gap: 0 !important;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,.16), rgba(255,255,255,0) 42%),
+    #021229 !important;
+  border: 1px solid rgba(255,255,255,.1) !important;
+  border-radius: 999px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    inset 0 -1px 0 rgba(0,0,0,.35),
+    0 4px 14px rgba(2,18,41,.28) !important;
+  overflow: visible !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-thumb {
+  position: absolute !important;
+  top: 4px !important;
+  left: 4px !important;
+  height: 40px !important;
+  border-radius: 999px !important;
+  background: var(--nwx-orange, #e8642c) !important;
+  box-shadow: 0 2px 6px rgba(232,100,44,.35) !important;
+  transition: transform .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1) !important;
+  z-index: 1 !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-button,
+#nwx-partner-map-v3 .nwx-view-button:link,
+#nwx-partner-map-v3 .nwx-view-button:visited,
+#nwx-partner-map-v3 .nwx-view-button:focus,
+#nwx-partner-map-v3 .nwx-view-button:active {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  position: relative !important;
+  z-index: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 18px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  outline: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: rgba(255,255,255,.6) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  font: inherit !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  transform: none !important;
+  transition: color .28s ease !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-button:not(.is-active):hover {
+  color: rgba(255,255,255,.85) !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-button.is-active,
+#nwx-partner-map-v3 .nwx-view-button.is-active:hover,
+#nwx-partner-map-v3 .nwx-view-button.is-active:focus,
+#nwx-partner-map-v3 .nwx-view-button.is-active:focus-visible,
+#nwx-partner-map-v3 .nwx-view-button.is-active:active {
+  background: transparent !important;
+  color: #021229 !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-button:focus-visible {
+  outline: 2px solid var(--nwx-orange, #e8642c) !important;
+  outline-offset: 2px !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-button *,
+#nwx-partner-map-v3 .nwx-view-button:hover *,
+#nwx-partner-map-v3 .nwx-view-button:focus *,
+#nwx-partner-map-v3 .nwx-view-button:active * {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 16px !important;
+  height: 16px !important;
+  flex: 0 0 16px !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-icon svg {
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+#nwx-partner-map-v3 .nwx-view-divider {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-toolbar-row {
+    flex-wrap: wrap !important;
+    padding: 8px 12px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-view-bar,
+  #nwx-partner-map-v3 .nwx-view-bar {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-view-button,
+  #nwx-partner-map-v3 .nwx-view-button:hover,
+  #nwx-partner-map-v3 .nwx-view-button:focus,
+  #nwx-partner-map-v3 .nwx-view-button:active {
+    min-width: 0 !important;
+    height: 42px !important;
+    font-size: 15px !important;
+    padding: 0 16px !important;
+  }
+}
+
+
+/* ==========================================================================
+   PARTNER CARD CLEANUP
+   - no card outlines/borders
+   - website/contact actions fit on one row
+   ========================================================================== */
+
+#nwx-partner-map-v3 .nwx-partner-card,
+#nwx-partner-map-v3 .nwx-featured-partner-card,
+#nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card,
+#nwx-partner-map-v3 .nwx-testimonial-card {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove any special Premier/featured outline as well. */
+#nwx-partner-map-v3 .nwx-partner-card.is-premier,
+#nwx-partner-map-v3 .nwx-featured-partner-card.is-premier,
+#nwx-partner-map-v3 .nwx-premier-card {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep the two partner actions together horizontally. */
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-actions,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-links {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: auto !important;
+}
+
+/* Compact both action buttons enough to remain on one line. */
+#nwx-partner-map-v3 .nwx-partner-card a.nwx-partner-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-card-button,
+#nwx-partner-map-v3 .nwx-partner-card a[href].nwx-website-button,
+#nwx-partner-map-v3 .nwx-partner-card a[href].nwx-contact-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 28px !important;
+  height: 28px !important;
+  padding: 4px 8px !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+/* If the existing markup does not have an actions wrapper, keep adjacent
+   buttons inline instead of allowing generic button styles to force a row break. */
+#nwx-partner-map-v3 .nwx-partner-card a + a,
+#nwx-partner-map-v3 .nwx-partner-card button + button,
+#nwx-partner-map-v3 .nwx-partner-card a + button,
+#nwx-partner-map-v3 .nwx-partner-card button + a {
+  margin-left: 5px !important;
+}
+
+/* Mobile cards get slightly more room, but still keep both buttons together. */
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-partner-card a.nwx-partner-button,
+  #nwx-partner-map-v3 .nwx-partner-card .nwx-partner-button,
+  #nwx-partner-map-v3 .nwx-partner-card .nwx-card-button,
+  #nwx-partner-map-v3 .nwx-partner-card a[href].nwx-website-button,
+  #nwx-partner-map-v3 .nwx-partner-card a[href].nwx-contact-button {
+    min-height: 30px !important;
+    height: 30px !important;
+    padding: 4px 7px !important;
+    font-size: 10px !important;
+  }
+}
+
+
+/* Overlap: the two pills tuck into each other by 10px, masked round by
+   the outer capsule's overflow:hidden + border-radius. */
+
+
+/* Inactive hover stays nauticworx blue — only a slight lift. */
+
+
+/* Active tab — the orange pill, raised above the overlap seam. */
+
+
+/* Prevent any generic site rule from painting inner elements. */
+
+
+/* Keep Visit Website / Contact Partner labels on one line. */
+#nwx-partner-map-v3 .nwx-partner-card a,
+#nwx-partner-map-v3 .nwx-partner-card button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-card-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-website-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-contact-button {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-actions,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-links {
+  flex-wrap: nowrap !important;
 }
 
 </style>
@@ -4199,7 +4580,12 @@ var MAP_MAX_ZOOM = 28;
 
     var cleanPartners = [];
     var feedOptions = {};
-    var viewedPartnerNames = {};
+    /* Two independent dedupe sets so a partner can generate a "view" both
+       from having a pin on the map (opening the program) and again from
+       appearing as a card once the List is opened -- neither blocks the
+       other. */
+    var viewedOnMapPartnerNames = {};
+    var viewedInListPartnerNames = {};
     var mobileFilterTab = null;
     var activeKeyword = "";
     var activeCategories = [];
@@ -4454,11 +4840,11 @@ var MAP_MAX_ZOOM = 28;
       };
     }
 
-    /* The SVG uses preserveAspectRatio="xMidYMid meet", which letterboxes
-       (adds blank margins) whenever the container's shape doesn't exactly
-       match the map content's own aspect ratio -- true almost anywhere
-       except one exact window width. Positioning pins as a plain
-       percentage of the container ignores that margin and lands them
+    /* The SVG uses preserveAspectRatio="xMidYMid slice", which crops the
+       sides (never top/bottom) whenever the container's shape doesn't
+       exactly match the map content's own aspect ratio -- true almost
+       everywhere except one exact window width. Positioning pins as a
+       plain percentage of the container ignores that crop and lands them
        slightly off. This works out the map's actual rendered rectangle
        inside the container first, so pins line up with the real pixels
        regardless of container shape. */
@@ -4575,8 +4961,11 @@ var MAP_MAX_ZOOM = 28;
   });
 }
     function updateAspectMode() {
-      var isMobile = window.innerWidth <= 1000;
-      svgMap.setAttribute("preserveAspectRatio", isMobile ? "xMidYMid slice" : "xMidYMid meet");
+      /* Always fill the viewport edge-to-edge (no letterbox bars above or
+         below the northernmost/southernmost land). "slice" scales the map
+         to cover the container fully, cropping evenly off the sides rather
+         than leaving blank margins top/bottom. */
+      svgMap.setAttribute("preserveAspectRatio", "xMidYMid slice");
     }
 
     function updateMapView() {
@@ -5393,6 +5782,20 @@ if (target.closest(".nwx-typeahead-results")) return true;
         var partnersInGroup = group.partners.slice().sort(sortPartners);
         var codeList = codesFromPartners(partnersInGroup);
 
+        /* Opening the partner program counts one view per partner that
+           actually has a pin on the map -- fired here, once per partner,
+           the first time their pin appears. */
+        partnersInGroup.forEach(function (partner) {
+          if (!partner.name || viewedOnMapPartnerNames[partner.name]) return;
+          viewedOnMapPartnerNames[partner.name] = true;
+          trackEvent("partner_profile_view", {
+            partner_name: partner.name,
+            region: partner.region || "",
+            category: partner.category || "",
+            view_source: "map_pin"
+          });
+        });
+
         var button = document.createElement("button");
         button.type = "button";
         button.className = "nwx-region-pin nwx-country-pin" + (partnersInGroup.some(hasTestimonial) ? " has-testimonial" : "");
@@ -5618,12 +6021,14 @@ if (target.closest(".nwx-typeahead-results")) return true;
       }).join("");
 
       displayed.forEach(function (partner) {
-        if (!partner.name || viewedPartnerNames[partner.name]) return;
-        viewedPartnerNames[partner.name] = true;
+        if (!listMode) return;
+        if (!partner.name || viewedInListPartnerNames[partner.name]) return;
+        viewedInListPartnerNames[partner.name] = true;
         trackEvent("partner_profile_view", {
           partner_name: partner.name,
           region: partner.region || "",
-          category: partner.category || ""
+          category: partner.category || "",
+          view_source: "list"
         });
       });
 
@@ -5881,19 +6286,19 @@ if (target.closest(".nwx-typeahead-results")) return true;
       bindTypeahead(categoryInput, categoryResults, getCategoryOptions, function () { return activeCategories; }, function (values) {
         activeCategories = values;
         activeSubcategories = [];
-      }, "Type category...", "category");
+      }, "Category", "category");
 
       bindTypeahead(subcategoryInput, subcategoryResults, getSubcategoryOptions, function () { return activeSubcategories; }, function (values) {
         activeSubcategories = values;
-      }, "Type subcategory...", "subcategory");
+      }, "Subcategory", "subcategory");
 
       bindTypeahead(regionInput, regionResults, getRegionOptions, function () { return activeRegions; }, function (values) {
         activeRegions = values;
-      }, "Type region...", "region");
+      }, "Region", "region");
 
       bindTypeahead(countryInput, countryResults, getCountryOptions, function () { return activeCountries; }, function (values) {
         activeCountries = values;
-      }, "Type country...", "country");
+      }, "Country", "country");
     }
 
     function renderKeywordResults() {
@@ -6006,18 +6411,49 @@ function buildSidebarLayout() {
   viewBar.setAttribute("role", "tablist");
   viewBar.setAttribute("aria-label", "Partner results view");
   viewBar.innerHTML =
-    '<button type="button" class="nwx-view-button is-active" data-results-view="map" role="tab" aria-selected="true">Map</button>' +
-    '<span class="nwx-view-divider" aria-hidden="true">|</span>' +
-    '<button type="button" class="nwx-view-button" data-results-view="list" role="tab" aria-selected="false">List</button>';
+    '<div class="nwx-view-thumb"></div>' +
+    '<button type="button" class="nwx-view-button is-active" data-results-view="map" role="tab" aria-selected="true">' +
+      '<span class="nwx-view-icon" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11z"/>' +
+          '<circle cx="12" cy="10" r="2.2"/>' +
+        '</svg>' +
+      '</span>' +
+      '<span>Map</span>' +
+    '</button>' +
+    '<button type="button" class="nwx-view-button" data-results-view="list" role="tab" aria-selected="false">' +
+      '<span class="nwx-view-icon" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+          '<circle cx="5" cy="7" r="1"/><path d="M9 7h10"/>' +
+          '<circle cx="5" cy="12" r="1"/><path d="M9 12h10"/>' +
+          '<circle cx="5" cy="17" r="1"/><path d="M9 17h10"/>' +
+        '</svg>' +
+      '</span>' +
+      '<span>List</span>' +
+    '</button>';
+
+  var viewThumb = viewBar.querySelector(".nwx-view-thumb");
+
+  function moveViewThumb(target) {
+    if (!viewThumb || !target) return;
+    var barRect = viewBar.getBoundingClientRect();
+    var targetRect = target.getBoundingClientRect();
+    viewThumb.style.width = targetRect.width + "px";
+    viewThumb.style.transform = "translateX(" + (targetRect.left - barRect.left - 4) + "px)";
+  }
 
   var mapViewport = document.createElement("div");
   mapViewport.className = "nwx-map-viewport";
 
+  var toolbarRow = document.createElement("div");
+  toolbarRow.className = "nwx-toolbar-row";
+
   root.insertBefore(layout, mapModule);
   layout.appendChild(topArea);
 
-  if (filterBar) topArea.appendChild(filterBar);
-  topArea.appendChild(viewBar);
+  topArea.appendChild(toolbarRow);
+  toolbarRow.appendChild(viewBar);
+  if (filterBar) toolbarRow.appendChild(filterBar);
   if (testimonialSection) topArea.appendChild(testimonialSection);
 
   layout.appendChild(mapViewport);
@@ -6039,6 +6475,7 @@ function buildSidebarLayout() {
       tab.setAttribute("aria-selected", active ? "true" : "false");
     });
 
+    moveViewThumb(button);
     renderAll();
 
     if (view === "map") {
@@ -6046,6 +6483,15 @@ function buildSidebarLayout() {
         updateMapView();
       }, 20);
     }
+  });
+
+  window.addEventListener("resize", function () {
+    var activeTab = viewBar.querySelector(".nwx-view-button.is-active");
+    moveViewThumb(activeTab);
+  });
+
+  window.requestAnimationFrame(function () {
+    moveViewThumb(viewBar.querySelector(".nwx-view-button.is-active"));
   });
 
   var clearButton = filterBar ? filterBar.querySelector(".nwx-clear-filters-button") : null;
