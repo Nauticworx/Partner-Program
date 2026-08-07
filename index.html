@@ -2,85 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nauticworx Partner Map</title>
 <style>html,body{margin:0;padding:0;background:#ffffff;}</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LG8CBXS558"></script>
-
-<style>
-#nwx-partner-map-v3{--nwx-sidebar-width:clamp(310px,28vw,410px);--nwx-map-layout-height:clamp(560px,68vh,700px);padding:12px;background:#f4f7f9}
-#nwx-partner-map-v3 .nwx-explorer-shell{width:100%;max-width:1900px;margin:0 auto;overflow:hidden;border:1px solid rgba(16,32,51,.12);border-radius:18px;background:#fff;box-shadow:0 14px 38px rgba(16,32,51,.09)}
-#nwx-partner-map-v3 .nwx-explorer-topbar{position:relative;z-index:800;padding:14px 16px 12px;border-bottom:1px solid rgba(16,32,51,.11);background:#fff}
-@media(min-width:781px){#nwx-partner-map-v3 .nwx-explorer-shell{overflow:visible}#nwx-partner-map-v3 .nwx-explorer-topbar{position:sticky;top:0;z-index:1200;box-shadow:0 8px 18px rgba(16,32,51,.09)}}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{position:relative!important;inset:auto!important;display:grid!important;grid-template-columns:minmax(210px,1.6fr) repeat(4,minmax(130px,1fr)) auto!important;align-items:end;gap:10px;width:100%!important;max-width:none!important;padding:0;overflow:visible;border:0;box-shadow:none;background:transparent}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:0;padding:0 0 2px}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro-title{font-size:16px}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro-text{margin:0;font-size:12px}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-label{margin:0}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-input{height:40px;min-height:40px;border-radius:10px;padding-left:13px;padding-right:13px;background:#f9fbfc}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-wrap{align-self:end;margin:0}
-#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-button{width:auto;min-width:70px;height:40px;padding:0 14px;border-radius:10px;font-size:11px}
-#nwx-partner-map-v3 .nwx-sidebar-layout{gap:0;max-width:none}
-#nwx-partner-map-v3 .nwx-sidebar-panel{z-index:200;gap:0;padding:0;border-right:1px solid rgba(16,32,51,.11);background:#f8fafb}
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-section{display:block!important;margin:0;padding:16px;background:transparent}
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{position:sticky;top:0;z-index:5;margin:-16px -16px 12px;padding:16px;border-bottom:1px solid rgba(16,32,51,.1);background:rgba(248,250,251,.96)}
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-featured-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-partner-card,#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card{border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(16,32,51,.06)}
-@media(max-width:1180px){#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:minmax(230px,1.4fr) repeat(2,minmax(150px,1fr))!important}}
-@media(max-width:780px){#nwx-partner-map-v3{--nwx-map-layout-height:auto;padding:0;background:#fff}#nwx-partner-map-v3 .nwx-explorer-shell{overflow:visible;border:0;border-radius:0;box-shadow:none}#nwx-partner-map-v3 .nwx-explorer-topbar{padding:10px 12px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-bar{grid-template-columns:1fr!important;gap:8px}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-mobile-filter-tab{display:flex!important;align-items:center;justify-content:space-between;width:100%;min-height:42px;padding:0 13px;border:1px solid rgba(16,32,51,.16);border-radius:10px;background:#fff;color:var(--nwx-map-navy);font-weight:900}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-intro,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-wrap{display:none}#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-filter-label,#nwx-partner-map-v3.nwx-mobile-filters-open .nwx-explorer-topbar .nwx-clear-filters-wrap{display:block}#nwx-partner-map-v3 .nwx-explorer-topbar .nwx-clear-filters-button{width:100%}#nwx-partner-map-v3 .nwx-sidebar-layout{display:flex;flex-direction:column}#nwx-partner-map-v3 .nwx-map-canvas-column{order:1;width:100%;height:clamp(360px,62vh,540px)}#nwx-partner-map-v3 .nwx-map-module,#nwx-partner-map-v3 .nwx-map-stage{height:100%;min-height:100%}#nwx-partner-map-v3 .nwx-sidebar-panel{order:2;width:100%;height:auto;max-height:none;overflow:visible;border-top:1px solid rgba(16,32,51,.11);border-right:0}#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{position:relative}}
-
-/* Edge-to-edge visual treatment: remove container chrome and blend sections into the page. */
-#nwx-partner-map-v3{
-  padding:0;
-  background:#fff;
-}
-#nwx-partner-map-v3 .nwx-explorer-shell,
-#nwx-partner-map-v3 .nwx-map-module,
-#nwx-partner-map-v3 .nwx-map-stage,
-#nwx-partner-map-v3 .nwx-map-content,
-#nwx-partner-map-v3 .nwx-map-canvas-column,
-#nwx-partner-map-v3 .nwx-svg-map-wrap{
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  outline:0!important;
-}
-#nwx-partner-map-v3 .nwx-explorer-topbar{
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-@media(min-width:781px){
-  #nwx-partner-map-v3 .nwx-explorer-topbar{
-    box-shadow:none!important;
-  }
-}
-#nwx-partner-map-v3 .nwx-filter-bar{
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-}
-#nwx-partner-map-v3 .nwx-sidebar-layout{
-  border:0!important;
-  box-shadow:none!important;
-}
-#nwx-partner-map-v3 .nwx-sidebar-panel{
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  background:#fff!important;
-}
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header{
-  border:0!important;
-  box-shadow:none!important;
-  background:#fff!important;
-}
-@media(max-width:780px){
-  #nwx-partner-map-v3 .nwx-sidebar-panel{
-    border:0!important;
-  }
-}
-</style>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -92,10 +17,9 @@
 <div id="nwx-partner-map-v3">
       <div class="nwx-map-module">
         <div class="nwx-map-stage">
-
 <div class="nwx-map-content">
     <div class="nwx-svg-map-wrap">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 64.35 1019.9 365" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.45 66.796 1019.9 393.282" preserveAspectRatio="xMidYMid meet">
   <style>
     .land { fill: #0c1c2b; stroke: #cee2eb; stroke-width: 0.45; vector-effect: non-scaling-stroke; }
     #AQ { display: none; }
@@ -365,8 +289,8 @@
 </div>
 
 <div class="nwx-filter-bar">
-  <label class="nwx-filter-label">
-    Keyword Search
+  <label class="nwx-filter-label nwx-search-group">
+    <span class="nwx-filter-group-heading">SEARCH</span>
 
     <div class="nwx-keyword-wrap">
       <input class="nwx-filter-input nwx-keyword-search" type="search" placeholder="Search partners, countries, services..." autocomplete="off">
@@ -375,11 +299,11 @@
     </div>
   </label>
 
-<label class="nwx-filter-label">
-  Partner Category
+<label class="nwx-filter-label nwx-category-group">
+  <span class="nwx-filter-group-heading">FILTER</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-category-typeahead" type="search" placeholder="Type category..." autocomplete="off">
+    <input class="nwx-filter-input nwx-category-typeahead" type="search" placeholder="category..." autocomplete="off">
 
     <div class="nwx-selected-chips nwx-category-chips" aria-live="polite"></div>
 
@@ -387,11 +311,11 @@
   </div>
 </label>
 
-<label class="nwx-filter-label">
-  Partner Subcategory
+<label class="nwx-filter-label nwx-compact-filter-group">
+  <span class="nwx-visually-hidden">Partner Subcategory</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-subcategory-typeahead" type="search" placeholder="Type subcategory..." autocomplete="off">
+    <input class="nwx-filter-input nwx-subcategory-typeahead" type="search" placeholder="subcategory..." autocomplete="off">
 
     <div class="nwx-selected-chips nwx-subcategory-chips" aria-live="polite"></div>
 
@@ -399,22 +323,22 @@
   </div>
 </label>
 
-<label class="nwx-filter-label">
-  Region
+<label class="nwx-filter-label nwx-compact-filter-group">
+  <span class="nwx-visually-hidden">Region</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-region-typeahead" type="search" placeholder="Type region..." autocomplete="off">
+    <input class="nwx-filter-input nwx-region-typeahead" type="search" placeholder="region..." autocomplete="off">
 
     <div class="nwx-selected-chips nwx-region-chips" aria-live="polite"></div>
 
     <div class="nwx-typeahead-results nwx-region-results"></div>
   </div>
 </label>
-<label class="nwx-filter-label">
-  Country
+<label class="nwx-filter-label nwx-compact-filter-group">
+  <span class="nwx-visually-hidden">Country</span>
 
   <div class="nwx-typeahead-wrap">
-    <input class="nwx-filter-input nwx-country-typeahead" type="search" placeholder="Type country..." autocomplete="off">
+    <input class="nwx-filter-input nwx-country-typeahead" type="search" placeholder="country..." autocomplete="off">
 
     <div class="nwx-selected-chips nwx-country-chips" aria-live="polite"></div>
 
@@ -422,8 +346,11 @@
   </div>
 </label>
   <div class="nwx-clear-filters-wrap">
-    <button class="nwx-clear-filters-button" type="button" aria-label="Clear all filters" title="Clear all filters">
-      ×
+    <button class="nwx-clear-filters-button" type="button" aria-label="Reset all filters" title="Reset all filters">
+      <svg class="nwx-reset-filter-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20 11a8 8 0 1 0-2.34 5.66" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"/>
+        <path d="M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </div>
 </div>
@@ -438,8 +365,7 @@
             <div class="nwx-testimonial-kicker">Trusted Partners </div>
             <h2 class="nwx-testimonial-title">Learn more about our Partners</h2>
             <div class="nwx-testimonial-subtitle">
-              Partners with testimonials are highlighted on the map and shown below.
-            </div>
+</div>
           </div>
 
           <div class="nwx-testimonial-grid"></div>
@@ -561,14 +487,6 @@ body.page-id-15425 .entry-content > *:first-child {
   aspect-ratio: 1019.9 / 365;
   overflow: visible;
   touch-action: none;
-}
-
-/* On touch screens, a one-finger vertical swipe should scroll the page rather
-   than being captured by the map. Two-finger pinch zoom remains available. */
-@media (max-width: 780px), (pointer: coarse) {
-  #nwx-partner-map-v3 .nwx-map-stage {
-    touch-action: pan-y pinch-zoom;
-  }
 }
 
 #nwx-partner-map-v3 .nwx-map-stage.is-pannable {
@@ -1731,6 +1649,1457 @@ body.page-id-15425 .entry-content > *:first-child {
 }
 
 
+#nwx-partner-map-v3 .nwx-map-stage {
+  position: relative;
+}
+
+
+/* ==========================================================================
+   OPTION B — SEARCH-FIRST DIRECTORY REDESIGN
+   ========================================================================== */
+
+/* No shadows except map pin popups. */
+#nwx-partner-map-v3 *,
+#nwx-partner-map-v3 *::before,
+#nwx-partner-map-v3 *::after {
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-pin-tip {
+  box-shadow: 0 12px 28px rgba(2, 18, 41, 0.22) !important;
+}
+
+/* Search and results first, map second. */
+#nwx-partner-map-v3 .nwx-sidebar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  max-width: 1600px;
+  padding: 0 18px 24px;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel {
+  order: 1;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+  gap: 18px;
+}
+
+#nwx-partner-map-v3 .nwx-map-canvas-column {
+  order: 2;
+  width: 100%;
+  height: clamp(430px, 58vw, 690px);
+}
+
+#nwx-partner-map-v3 .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-stage {
+  height: 100%;
+  min-height: 430px;
+  border: 1px solid #d9e2ea;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Filter bar becomes a clean horizontal search panel. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+  display: grid !important;
+  grid-template-columns: minmax(260px, 1.5fr) repeat(4, minmax(150px, 1fr)) auto !important;
+  align-items: end;
+  gap: 10px;
+  padding: 18px 0 0;
+  border: 0;
+  background: #ffffff;
+}
+
+#nwx-partner-map-v3 .nwx-filter-intro,
+#nwx-partner-map-v3 .nwx-mobile-filter-tab {
+  display: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-filter-label {
+  min-width: 0;
+  margin: 0;
+  color: #102033;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+#nwx-partner-map-v3 .nwx-filter-input {
+  min-height: 46px;
+  border: 1px solid #cbd6df;
+  border-radius: 9px;
+  background: #ffffff;
+}
+
+#nwx-partner-map-v3 .nwx-filter-input:focus {
+  border-color: var(--nwx-orange);
+  outline: 2px solid rgba(232, 100, 44, 0.16);
+  outline-offset: 1px;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-wrap {
+  align-self: end;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-button {
+  min-height: 46px;
+  border-radius: 9px;
+}
+
+/* Partner results area. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-section {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 12px;
+  padding: 0;
+  text-align: left;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-kicker {
+  display: none;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-title {
+  display: block;
+  margin: 0;
+  color: #102033;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-subtitle {
+  display: block;
+  max-width: 560px;
+  margin: 0;
+  color: #5e6d7b;
+  font-size: 13px;
+  text-align: right;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  overflow: visible;
+}
+
+#nwx-partner-map-v3 .nwx-featured-partner-card,
+#nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card {
+  height: 100%;
+  border: 1px solid #d9e2ea;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+#nwx-partner-map-v3 .nwx-featured-partner-card:hover,
+#nwx-partner-map-v3 .nwx-featured-partner-card:focus-visible {
+  border-color: var(--nwx-orange);
+  transform: none;
+}
+
+/* Category icons: cards and map popups only. */
+#nwx-partner-map-v3 .nwx-partner-card-top {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+}
+
+#nwx-partner-map-v3 .nwx-card-category-icon {
+  width: 42px;
+  height: 42px;
+  display: block;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f4f7f9;
+}
+
+#nwx-partner-map-v3 .nwx-tip-partner {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  column-gap: 8px;
+  align-items: start;
+}
+
+#nwx-partner-map-v3 .nwx-popup-category-icon {
+  grid-row: 1 / span 4;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #f4f7f9;
+}
+
+#nwx-partner-map-v3 .nwx-tip-partner-name,
+#nwx-partner-map-v3 .nwx-tip-partner-meta,
+#nwx-partner-map-v3 .nwx-tip-partner-contact,
+#nwx-partner-map-v3 .nwx-tip-partner-testimonial {
+  grid-column: 2;
+}
+
+@media (max-width: 1180px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-keyword-wrap {
+    grid-column: auto;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-sidebar-layout {
+    gap: 14px;
+    padding: 0 10px 18px;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+    padding-top: 10px;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header {
+    display: block;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-subtitle {
+    margin-top: 4px;
+    text-align: left;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    height: 430px;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-stage {
+    min-height: 430px;
+    border-radius: 10px;
+  }
+}
+
+
+/* Final card/icon correction:
+   - Partner profile cards remain dark blue
+   - Category PNGs stay fully transparent
+*/
+#nwx-partner-map-v3 .nwx-featured-partner-card,
+#nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card {
+  height: 100%;
+  border: 1px solid rgba(206, 226, 235, 0.22);
+  border-radius: 12px;
+  background: var(--nwx-dark) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-featured-partner-card *,
+#nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card *,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-card * {
+  color: inherit;
+}
+
+#nwx-partner-map-v3 .nwx-card-category-icon,
+#nwx-partner-map-v3 .nwx-popup-category-icon {
+  display: block;
+  object-fit: contain;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/* Eliminate SVG letterboxing above Greenland and below Cape Horn. */
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-map-stage {
+  overflow: hidden !important;
+}
+
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+
+/* Correct Greenland-to-Cape-Horn framing.
+   The previous "slice" setting cropped the southern end of South America.
+   Match the map container to the cropped SVG aspect ratio instead, so both
+   Greenland and Cape Horn remain visible with no vertical letterboxing. */
+@media (min-width: 761px) {
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    height: auto !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-stage,
+  #nwx-partner-map-v3 .nwx-map-content,
+  #nwx-partner-map-v3 .nwx-svg-map-wrap {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 1019.9 / 393.282;
+    overflow: hidden !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+
+/* Bounded pan-and-zoom controls */
+#nwx-partner-map-v3 .nwx-map-zoom-controls {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 35;
+  display: grid !important;
+  grid-template-columns: 42px 42px auto;
+  gap: 6px;
+  align-items: center;
+}
+
+#nwx-partner-map-v3 .nwx-map-zoom-control {
+  min-width: 42px;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #cbd6df;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #021229;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-reset-control {
+  width: auto;
+  font-size: 12px;
+}
+
+#nwx-partner-map-v3 .nwx-map-zoom-control:hover,
+#nwx-partner-map-v3 .nwx-map-zoom-control:focus-visible {
+  border-color: var(--nwx-orange);
+  color: var(--nwx-orange);
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-map-zoom-controls {
+    right: 10px;
+    bottom: 10px;
+    grid-template-columns: 40px 40px;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-zoom-control {
+    min-width: 40px;
+    height: 40px;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-reset-control {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* Full gesture support on the map:
+   mouse wheel/trackpad, one-finger pan, two-finger pinch, and double-tap zoom. */
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  touch-action: none !important;
+  overscroll-behavior: contain;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage {
+  cursor: grab;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage.is-panning {
+  cursor: grabbing;
+}
+
+
+/* Reset-filters icon button, positioned directly after Country. */
+#nwx-partner-map-v3 .nwx-clear-filters-wrap {
+  align-self: end;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-button {
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  min-height: 46px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--nwx-orange);
+  border-radius: 9px;
+  background: #ffffff;
+  color: var(--nwx-orange);
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-button:hover,
+#nwx-partner-map-v3 .nwx-clear-filters-button:focus-visible {
+  background: rgba(232, 100, 44, 0.08);
+  border-color: var(--nwx-orange);
+  color: var(--nwx-orange);
+}
+
+#nwx-partner-map-v3 .nwx-reset-filter-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    justify-content: flex-end;
+  }
+}
+
+
+/* Final filter reset placement and map gesture corrections. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar > .nwx-clear-filters-wrap {
+  display: flex !important;
+  align-self: end;
+  justify-content: flex-start;
+  width: 46px;
+  margin: 0;
+  padding: 0;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar > .nwx-clear-filters-wrap
+.nwx-clear-filters-button {
+  position: static !important;
+  display: inline-grid !important;
+  place-items: center;
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 1px solid var(--nwx-orange) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  color: var(--nwx-orange) !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-reset-filter-icon {
+  display: block !important;
+  width: 24px !important;
+  height: 24px !important;
+  color: currentColor;
+  pointer-events: none;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-filter-actions {
+  display: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  touch-action: none !important;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 1180px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+  .nwx-clear-filters-wrap {
+    width: 46px;
+  }
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+  .nwx-clear-filters-wrap {
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+
+
+/* Map surface must receive mouse and touch drag gestures. */
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg,
+#nwx-partner-map-v3 .nwx-svg-map-wrap .land {
+  cursor: grab;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage.is-panning,
+#nwx-partner-map-v3 .nwx-map-stage.is-panning .land {
+  cursor: grabbing !important;
+}
+
+
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg,
+#nwx-partner-map-v3 .nwx-svg-map-wrap .land {
+  pointer-events: auto !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  touch-action: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg,
+#nwx-partner-map-v3 .nwx-svg-map-wrap .land {
+  cursor: grab;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage.is-panning,
+#nwx-partner-map-v3 .nwx-map-stage.is-panning *,
+#nwx-partner-map-v3 .nwx-map-stage.is-dragging,
+#nwx-partner-map-v3 .nwx-map-stage.is-dragging * {
+  cursor: grabbing !important;
+}
+
+
+/* Allow the embedded map to own scroll-wheel and pinch gestures while hovered. */
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
+
+/* Compact SEARCH / FILTER header inspired by the supplied layout. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+  display: grid !important;
+  grid-template-columns:
+    minmax(390px, 1.75fr)
+    minmax(235px, 1fr)
+    minmax(150px, .72fr)
+    minmax(125px, .58fr)
+    minmax(125px, .58fr)
+    48px !important;
+  align-items: start;
+  gap: 14px;
+  padding: 16px 0 12px;
+  border: 0;
+  background: #ffffff;
+}
+
+#nwx-partner-map-v3 .nwx-filter-label {
+  min-width: 0;
+  margin: 0;
+}
+
+#nwx-partner-map-v3 .nwx-search-group,
+#nwx-partner-map-v3 .nwx-category-group {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+}
+
+#nwx-partner-map-v3 .nwx-compact-filter-group {
+  display: block;
+  padding-top: 0;
+}
+
+#nwx-partner-map-v3 .nwx-filter-group-heading {
+  display: block;
+  color: var(--nwx-dark);
+  font-size: clamp(20px, 1.65vw, 28px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+
+#nwx-partner-map-v3 .nwx-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-keyword-wrap,
+#nwx-partner-map-v3 .nwx-typeahead-wrap {
+  min-width: 0;
+  width: 100%;
+}
+
+#nwx-partner-map-v3 .nwx-filter-input {
+  width: 100%;
+  min-height: 40px;
+  height: 40px;
+  padding: 7px 4px 5px;
+  border: 0;
+  border-top: 1px solid #cfd7de;
+  border-bottom: 1px solid #cfd7de;
+  border-radius: 0;
+  background: #ffffff;
+  color: #102033;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-filter-input::placeholder {
+  color: #788795;
+  opacity: 1;
+  text-transform: none;
+}
+
+#nwx-partner-map-v3 .nwx-filter-input:focus {
+  border-top-color: var(--nwx-orange);
+  border-bottom-color: var(--nwx-orange);
+  outline: 0;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-wrap {
+  display: flex !important;
+  align-items: center;
+  align-self: center !important;
+  justify-content: center;
+  width: 48px !important;
+  margin: 0;
+  padding: 0;
+}
+
+#nwx-partner-map-v3 .nwx-clear-filters-button {
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  display: inline-grid !important;
+  place-items: center;
+  border: 1.5px solid var(--nwx-orange) !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  color: var(--nwx-orange) !important;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-reset-filter-icon {
+  width: 23px !important;
+  height: 23px !important;
+}
+
+/* Pull the profile heading closer to the compact filter bar. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header {
+  margin: 0 0 10px;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Keep chips and suggestion menus aligned to the field, not the heading. */
+#nwx-partner-map-v3 .nwx-search-group .nwx-keyword-results,
+#nwx-partner-map-v3 .nwx-category-group .nwx-typeahead-results,
+#nwx-partner-map-v3 .nwx-category-group .nwx-selected-chips {
+  grid-column: 2;
+}
+
+@media (max-width: 1280px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    grid-template-columns:
+      minmax(320px, 1.55fr)
+      minmax(205px, .95fr)
+      minmax(135px, .68fr)
+      minmax(115px, .56fr)
+      minmax(115px, .56fr)
+      46px !important;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 980px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px 14px;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group {
+    grid-column: 1 / -1;
+  }
+
+  #nwx-partner-map-v3 .nwx-category-group {
+    grid-column: 1;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    width: 48px !important;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 620px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    grid-template-columns: 1fr !important;
+    gap: 9px;
+    padding-top: 10px;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group,
+  #nwx-partner-map-v3 .nwx-category-group {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading {
+    font-size: 20px;
+  }
+
+  #nwx-partner-map-v3 .nwx-category-group .nwx-typeahead-results,
+  #nwx-partner-map-v3 .nwx-category-group .nwx-selected-chips {
+    grid-column: 1;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    justify-self: end;
+  }
+}
+
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-header {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+#nwx-partner-map-v3 .nwx-clear-filters-button {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button:hover,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button:focus,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button:focus-visible,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button:active {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button::before,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar >
+.nwx-clear-filters-wrap .nwx-clear-filters-button::after {
+  content: none !important;
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   OPTION B MOBILE
+   Search-first controls with List / Map switching.
+   ========================================================================== */
+
+#nwx-partner-map-v3 .nwx-mobile-view-tabs {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-sidebar-layout {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 10px 18px;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel {
+    display: contents;
+  }
+
+  /* Search/filter panel comes first. */
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    order: 1;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 0 12px;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-filter-tab {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group,
+  #nwx-partner-map-v3 .nwx-category-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading {
+    font-size: 18px;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-input {
+    min-height: 44px;
+    height: 44px;
+    padding: 9px 8px;
+    border: 1px solid #cfd7de;
+    border-radius: 8px;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group .nwx-keyword-results,
+  #nwx-partner-map-v3 .nwx-category-group .nwx-typeahead-results,
+  #nwx-partner-map-v3 .nwx-category-group .nwx-selected-chips {
+    grid-column: 1;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    width: 100% !important;
+    justify-content: flex-end;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-button {
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+  }
+
+  /* Option B List / Map switch. */
+  #nwx-partner-map-v3 .nwx-mobile-view-tabs {
+    order: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin: 0 0 12px;
+    border-top: 1px solid #d9e2ea;
+    border-bottom: 1px solid #d9e2ea;
+    background: #ffffff;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tab {
+    min-height: 44px;
+    border: 0;
+    background: #ffffff;
+    color: #506171;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tab:first-child {
+    border-right: 1px solid #d9e2ea;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tab.is-active {
+    color: var(--nwx-orange);
+    box-shadow: inset 0 -3px 0 var(--nwx-orange) !important;
+  }
+
+  /* List is the default mobile view. */
+  #nwx-partner-map-v3 .nwx-testimonial-section {
+    order: 3;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  #nwx-partner-map-v3 .nwx-featured-partner-card,
+  #nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card {
+    min-height: 0;
+    width: 100%;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    order: 4;
+    width: 100%;
+    height: 430px !important;
+    margin: 0;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-stage,
+  #nwx-partner-map-v3 .nwx-map-content,
+  #nwx-partner-map-v3 .nwx-svg-map-wrap {
+    width: 100%;
+    height: 430px !important;
+    min-height: 430px !important;
+    aspect-ratio: auto !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-list .nwx-map-canvas-column {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-testimonial-section {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-map-canvas-column {
+    display: block !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-zoom-controls {
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+
+/* Remove leftover spacing between the search/filter area and partner cards. */
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+  margin-bottom: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-testimonial-section,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-section,
+#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-testimonial-header {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar {
+    padding-bottom: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tabs {
+    margin-top: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-testimonial-section {
+    margin-top: 0 !important;
+  }
+}
+
+
+/* ==========================================================================
+   CORRECTED OPTION B MOBILE
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  #nwx-partner-map-v3 {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* The mobile layout always shows the complete filter set. */
+  #nwx-partner-map-v3 .nwx-mobile-filter-tab,
+  #nwx-partner-map-v3 .nwx-mobile-filter-chevron {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar,
+  #nwx-partner-map-v3 .nwx-filter-bar,
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-filter-bar {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 10px 0 8px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group,
+  #nwx-partner-map-v3 .nwx-category-group,
+  #nwx-partner-map-v3 .nwx-compact-filter-group,
+  #nwx-partner-map-v3 .nwx-filter-label,
+  #nwx-partner-map-v3 .nwx-keyword-wrap,
+  #nwx-partner-map-v3 .nwx-typeahead-wrap {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-group-heading,
+  #nwx-partner-map-v3 .nwx-visually-hidden {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+    clip: auto !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    color: var(--nwx-dark) !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-search-group .nwx-filter-group-heading,
+  #nwx-partner-map-v3 .nwx-category-group .nwx-filter-group-heading {
+    font-size: 18px !important;
+  }
+
+  /* iOS Safari auto-zooms fields smaller than 16px. */
+  #nwx-partner-map-v3 input,
+  #nwx-partner-map-v3 select,
+  #nwx-partner-map-v3 textarea,
+  #nwx-partner-map-v3 .nwx-filter-input {
+    font-size: 16px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-input {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #cfd7de !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-clear-filters-wrap {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: flex-end !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tabs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+    margin: 0 0 10px !important;
+    background: #fff;
+    border-top: 1px solid #d9e2ea;
+    border-bottom: 1px solid #d9e2ea;
+    position: static !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tab {
+    min-height: 46px !important;
+    font-size: 16px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-testimonial-section,
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-canvas-column,
+  #nwx-partner-map-v3 .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-stage,
+  #nwx-partner-map-v3 .nwx-map-content,
+  #nwx-partner-map-v3 .nwx-svg-map-wrap {
+    min-height: 420px !important;
+    height: 420px !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-list .nwx-map-canvas-column {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-testimonial-section {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-map-canvas-column {
+    display: block !important;
+  }
+}
+
+
+/* FINAL OPTION B MOBILE LAYOUT: filters remain in normal document flow. */
+@media (max-width: 760px) {
+  #nwx-partner-map-v3,
+  #nwx-partner-map-v3 .nwx-sidebar-layout,
+  #nwx-partner-map-v3 .nwx-sidebar-panel {
+    position: static !important;
+    transform: none !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0 !important;
+    overflow: visible !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-filter-bar,
+  #nwx-partner-map-v3 .nwx-filter-bar {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+    transform: none !important;
+    translate: none !important;
+    order: 1 !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 16px 24px 18px !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    touch-action: auto !important;
+    cursor: default !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-filter-drag-handle,
+  #nwx-partner-map-v3 .nwx-drag-handle,
+  #nwx-partner-map-v3 [data-drag-handle],
+  #nwx-partner-map-v3 .nwx-mobile-filter-tab,
+  #nwx-partner-map-v3 .nwx-mobile-filter-chevron {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-view-tabs {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    transform: none !important;
+    order: 2 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-testimonial-section {
+    position: static !important;
+    z-index: auto !important;
+    transform: none !important;
+    order: 3 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-canvas-column {
+    position: static !important;
+    z-index: auto !important;
+    transform: none !important;
+    order: 3 !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-sidebar-panel .nwx-testimonial-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-featured-partner-card,
+  #nwx-partner-map-v3 .nwx-featured-partner-card .nwx-partner-card {
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-list .nwx-map-canvas-column {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-testimonial-section {
+    display: none !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-view-map .nwx-map-canvas-column {
+    display: block !important;
+  }
+}
+
+
+/* ==========================================================================
+   DESKTOP + MOBILE MAP/LIST RESULTS LAYOUT
+   Filters and partner cards are outside the map interaction area.
+   ========================================================================== */
+
+#nwx-partner-map-v3,
+#nwx-partner-map-v3 .nwx-results-layout,
+#nwx-partner-map-v3 .nwx-results-top {
+  width: 100%;
+  max-width: 1900px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top {
+  position: relative;
+  z-index: 20;
+  background: #fff;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-filter-bar {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-section {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-header {
+  display: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top .nwx-featured-partner-card,
+#nwx-partner-map-v3 .nwx-results-top .nwx-featured-partner-card .nwx-partner-card {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+/* Map | List */
+#nwx-partner-map-v3 .nwx-view-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 100%;
+  padding: 8px 8px 8px 0;
+  background: #fff;
+}
+
+#nwx-partner-map-v3 .nwx-view-button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 2px 0 !important;
+  color: var(--nwx-dark);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#nwx-partner-map-v3 .nwx-view-button.is-active {
+  color: var(--nwx-orange);
+}
+
+#nwx-partner-map-v3 .nwx-view-divider {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Map is its own isolated interaction viewport. */
+#nwx-partner-map-v3 .nwx-map-viewport {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: var(--nwx-map-layout-height);
+  min-height: var(--nwx-map-layout-height);
+  overflow: hidden !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: #fff;
+}
+
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-content,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-map-viewport svg {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+#nwx-partner-map-v3.nwx-results-view-list .nwx-map-viewport {
+  display: none !important;
+}
+
+/* Suppress obsolete sidebar/list-map UI from earlier versions. */
+#nwx-partner-map-v3 .nwx-sidebar-layout,
+#nwx-partner-map-v3 .nwx-sidebar-panel,
+#nwx-partner-map-v3 .nwx-map-canvas-column,
+#nwx-partner-map-v3 .nwx-mobile-view-tabs {
+  display: none !important;
+}
+
+/* The current elements are now owned by .nwx-results-layout, not those old wrappers. */
+#nwx-partner-map-v3 .nwx-results-layout .nwx-map-module {
+  display: block !important;
+}
+
+@media (max-width: 1050px) {
+  #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-results-top .nwx-filter-bar {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 0 12px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-view-bar {
+    padding: 10px 14px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-view-button,
+  #nwx-partner-map-v3 .nwx-view-divider {
+    font-size: 17px;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-viewport {
+    height: 430px !important;
+    min-height: 430px !important;
+  }
+}
 
 </style>
 
@@ -2325,11 +3694,15 @@ body.page-id-15425 .entry-content > *:first-child {
 
 var BASE_VIEWBOX = { x: -2.45, y: 64.35, w: 1019.9, h: 365 };
 
-/* Southern Chile/Argentina extend a bit past BASE_VIEWBOX's bottom edge
-   (y=429.35); panning/zoom is allowed a little further south than
-   BASE_VIEWBOX.h so that land isn't hard-clipped. Pin percentages elsewhere
-   are still calibrated against BASE_VIEWBOX itself, so that stays untouched. */
-var MAP_VIEW_MAX_BOTTOM = BASE_VIEWBOX.y + 400;
+/* Fixed vertical map limits:
+   - Top: northernmost rendered point of Greenland
+   - Bottom: southernmost rendered point of Cape Horn / Chile
+
+   BASE_VIEWBOX remains unchanged because partner-pin percentages are
+   calibrated against it. Only the visible/pannable viewport is cropped. */
+var MAP_VIEW_MIN_TOP = 66.796;
+var MAP_VIEW_MAX_BOTTOM = 460.078;
+var MAP_VIEW_VERTICAL_EXTENT = MAP_VIEW_MAX_BOTTOM - MAP_VIEW_MIN_TOP;
 
 /* ==========================================================================
    CONTINUOUS WORLD WRAP
@@ -2450,9 +3823,9 @@ try {
    base width/height, same aspect ratio the zoom math always keeps). */
 var INITIAL_VIEWBOX = {
   x: -26,
-  y: BASE_VIEWBOX.y,
+  y: MAP_VIEW_MIN_TOP,
   w: BASE_VIEWBOX.w * 0.8,
-  h: BASE_VIEWBOX.h * 0.8
+  h: MAP_VIEW_VERTICAL_EXTENT * 0.8
 };
 
 var mapView = {
@@ -2463,27 +3836,27 @@ var mapView = {
 };
 
 var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
+var MAP_MIN_ZOOM = mapZoom;
+var MAP_MAX_ZOOM = 28;
     var isPanning = false;
     var panStartX = 0;
     var panStartY = 0;
     var panStartViewX = 0;
     var panStartViewY = 0;
-    var isPinching = false;
+
+    var activeMapPointers = new Map();
     var pinchStartDistance = 0;
-    var pinchStartZoom = 1;
-    var pinchMidX = 0;
-    var pinchMidY = 0;
+    var pinchStartZoom = mapZoom;
+    var pinchAnchorX = 0;
+    var pinchAnchorY = 0;
+
+    var lastTapAt = 0;
+    var lastTapX = 0;
+    var lastTapY = 0;
 
     var COUNTRY_PIN_OVERRIDES = {
-      US: { x: 9.3, y: 41.6 },
-      CA: { x: 13.0, y: 31.5 },
-      MX: { x: 12.8, y: 51.2 },
-      NL: { x: 36.55, y: 25.25 },
-      AE: { x: 50.6, y: 48.4 },
-      FR: { x: 37.0, y: 38.5 },
-      GB: { x: 34.8, y: 31.5 },
-      AU: { x: 76.5, y: 67.8 },
-      NZ: { x: 86.4, y: 72.5 }
+      /* Retained only as an optional emergency fallback.
+         Normal partner pins now use the country SVG geometry automatically. */
     };
 
     var cleanPartners = [];
@@ -2726,7 +4099,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     }
 
     function keepViewInBounds() {
-      var minY = BASE_VIEWBOX.y;
+      var minY = MAP_VIEW_MIN_TOP;
       var maxY = Math.max(minY, MAP_VIEW_MAX_BOTTOM - mapView.h);
       mapView.y = clamp(mapView.y, minY, maxY);
       normalizeViewX();
@@ -2877,7 +4250,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
     function setMapZoom(nextZoom, focusX, focusY) {
       var rect = stage.getBoundingClientRect();
-      var clampedZoom = clamp(nextZoom, 1, 28);
+      var clampedZoom = clamp(nextZoom, MAP_MIN_ZOOM, MAP_MAX_ZOOM);
       var fx = typeof focusX === "number" ? focusX : rect.width / 2;
       var fy = typeof focusY === "number" ? focusY : rect.height / 2;
 
@@ -2886,7 +4259,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
       mapZoom = clampedZoom;
       mapView.w = WORLD_TILE_WIDTH / mapZoom;
-      mapView.h = BASE_VIEWBOX.h / mapZoom;
+      mapView.h = MAP_VIEW_VERTICAL_EXTENT / mapZoom;
       mapView.x = svgFocusX - fx / rect.width * mapView.w;
       mapView.y = svgFocusY - fy / rect.height * mapView.h;
 
@@ -2897,9 +4270,10 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       var target = event ? event.target : null;
       if (!target) return false;
       if (!target.closest) return false;
+      if (target.closest(".nwx-map-zoom-controls")) return true;
       if (target.closest(".nwx-filter-toggle")) return true;
       if (target.closest(".nwx-filter-bar")) return true;
-      if (target.closest(".nwx-typeahead-results")) return true;
+if (target.closest(".nwx-typeahead-results")) return true;
       if (target.closest(".nwx-keyword-results")) return true;
       if (target.closest(".nwx-modal")) return true;
       if (target.closest(".nwx-region-pin")) return true;
@@ -2907,142 +4281,479 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       return false;
     }
 
-    stage.addEventListener("wheel", function (event) {
-      if (shouldIgnoreGesture(event)) return;
-      event.preventDefault();
 
+    /* Visible map controls. */
+    var zoomControls = document.createElement("div");
+    zoomControls.className = "nwx-map-zoom-controls";
+    zoomControls.setAttribute("aria-label", "Map zoom controls");
+    zoomControls.innerHTML =
+      '<button type="button" class="nwx-map-zoom-control" data-map-action="zoom-in" aria-label="Zoom in" title="Zoom in">+</button>' +
+      '<button type="button" class="nwx-map-zoom-control" data-map-action="zoom-out" aria-label="Zoom out" title="Zoom out">−</button>' +
+      '<button type="button" class="nwx-map-zoom-control nwx-map-reset-control" data-map-action="reset" aria-label="Reset map view" title="Reset map view">Reset</button>';
+
+    stage.appendChild(zoomControls);
+
+    zoomControls.addEventListener("pointerdown", function (event) {
+      event.stopPropagation();
+    });
+
+    zoomControls.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-map-action]");
+      if (!button) return;
+
+      var action = button.getAttribute("data-map-action");
       var rect = stage.getBoundingClientRect();
 
-      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-        mapView.x = mapView.x + event.deltaX / rect.width * mapView.w;
+      if (action === "zoom-in") {
+        setMapZoom(mapZoom * 1.35, rect.width / 2, rect.height / 2);
+      } else if (action === "zoom-out") {
+        setMapZoom(mapZoom / 1.35, rect.width / 2, rect.height / 2);
+      } else if (action === "reset") {
+        mapZoom = MAP_MIN_ZOOM;
+        mapView.x = INITIAL_VIEWBOX.x;
+        mapView.y = INITIAL_VIEWBOX.y;
+        mapView.w = INITIAL_VIEWBOX.w;
+        mapView.h = INITIAL_VIEWBOX.h;
         updateMapView();
-        return;
       }
+    });
+
+    function handleMapWheel(event) {
+      if (shouldIgnoreGesture(event)) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      var rect = stage.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
 
       var focusX = event.clientX - rect.left;
       var focusY = event.clientY - rect.top;
-      var nextZoom = mapZoom + (event.deltaY < 0 ? 0.22 : -0.22);
-      setMapZoom(nextZoom, focusX, focusY);
-    }, { passive: false });
+
+      /* Normalize traditional mouse wheels and precision trackpads. */
+      var delta = event.deltaY;
+      if (typeof delta !== "number") {
+        delta = event.wheelDelta ? -event.wheelDelta : 0;
+      }
+
+      if (event.deltaMode === 1) delta *= 16;
+      if (event.deltaMode === 2) delta *= rect.height;
+
+      var zoomFactor = Math.exp(-delta * 0.0018);
+      setMapZoom(mapZoom * zoomFactor, focusX, focusY);
+    }
+
+    /* Capture phase prevents parent/iframe scroll handlers from winning. */
+    stage.addEventListener("wheel", handleMapWheel, {
+      passive: false,
+      capture: true
+    });
+    stage.addEventListener("mousewheel", handleMapWheel, {
+      passive: false,
+      capture: true
+    });
+
+
+    /* Robust wheel zoom fallback.
+       Some browsers/iframe hosts do not deliver wheel events reliably to
+       the SVG or stage listener. Capture at document level and zoom only
+       when the pointer is actually over the map. */
+    function handleDocumentMapWheel(event) {
+      var target = event.target;
+      if (!target || !stage.contains(target)) return;
+      if (shouldIgnoreGesture(event)) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      var rect = stage.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      var delta = typeof event.deltaY === "number"
+        ? event.deltaY
+        : (event.wheelDelta ? -event.wheelDelta : 0);
+
+      if (event.deltaMode === 1) delta *= 16;
+      if (event.deltaMode === 2) delta *= rect.height;
+
+      var focusX = event.clientX - rect.left;
+      var focusY = event.clientY - rect.top;
+      var zoomFactor = Math.exp(-delta * 0.0024);
+
+      setMapZoom(mapZoom * zoomFactor, focusX, focusY);
+    }
+
+    document.addEventListener("wheel", handleDocumentMapWheel, {
+      passive: false,
+      capture: true
+    });
+
+    document.addEventListener("mousewheel", handleDocumentMapWheel, {
+      passive: false,
+      capture: true
+    });
+
+    /* Explicit touch pinch fallback for mobile browsers that do not expose
+       two simultaneous Pointer Events consistently inside an iframe. */
+    var touchPinching = false;
+    var touchPinchDistance = 0;
+    var touchPinchZoom = mapZoom;
+
+    function touchDistance(a, b) {
+      var dx = b.clientX - a.clientX;
+      var dy = b.clientY - a.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function touchCenter(a, b) {
+      return {
+        x: (a.clientX + b.clientX) / 2,
+        y: (a.clientY + b.clientY) / 2
+      };
+    }
+
+    stage.addEventListener("touchstart", function (event) {
+      if (event.touches.length !== 2) return;
+      if (shouldIgnoreGesture(event)) return;
+
+      touchPinching = true;
+      touchPinchDistance = touchDistance(event.touches[0], event.touches[1]);
+      touchPinchZoom = mapZoom;
+      event.preventDefault();
+    }, { passive: false, capture: true });
+
+    stage.addEventListener("touchmove", function (event) {
+      if (!touchPinching || event.touches.length !== 2) return;
+
+      var rect = stage.getBoundingClientRect();
+      if (!rect.width || !rect.height || !touchPinchDistance) return;
+
+      var currentDistance = touchDistance(event.touches[0], event.touches[1]);
+      var center = touchCenter(event.touches[0], event.touches[1]);
+      var scale = currentDistance / touchPinchDistance;
+
+      setMapZoom(
+        touchPinchZoom * scale,
+        center.x - rect.left,
+        center.y - rect.top
+      );
+
+      event.preventDefault();
+      event.stopPropagation();
+    }, { passive: false, capture: true });
+
+    function stopTouchPinch(event) {
+      if (event.touches && event.touches.length >= 2) return;
+      touchPinching = false;
+      touchPinchDistance = 0;
+    }
+
+    stage.addEventListener("touchend", stopTouchPinch, {
+      passive: false,
+      capture: true
+    });
+    stage.addEventListener("touchcancel", stopTouchPinch, {
+      passive: false,
+      capture: true
+    });
+
+    function pointerDistance(a, b) {
+      var dx = b.clientX - a.clientX;
+      var dy = b.clientY - a.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function pointerCenter(a, b) {
+      return {
+        x: (a.clientX + b.clientX) / 2,
+        y: (a.clientY + b.clientY) / 2
+      };
+    }
 
     stage.addEventListener("pointerdown", function (event) {
       if (shouldIgnoreGesture(event)) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
 
-      // Do not capture a single-finger touch gesture. This allows a vertical
-      // swipe to continue scrolling the parent page after reaching the bottom
-      // of the map. Mouse/pen dragging still pans the map, and two-finger touch
-      // gestures are handled by the pinch listeners below.
-      if (event.pointerType === "touch") return;
-
-      if (typeof event.button === "number") {
-        if (event.button !== 0) return;
-      }
-
-      isPanning = true;
-      panStartX = event.clientX;
-      panStartY = event.clientY;
-      panStartViewX = mapView.x;
-      panStartViewY = mapView.y;
-      stage.classList.add("is-panning");
+      activeMapPointers.set(event.pointerId, {
+        clientX: event.clientX,
+        clientY: event.clientY,
+        pointerType: event.pointerType
+      });
 
       try {
         stage.setPointerCapture(event.pointerId);
       } catch (error) {}
 
+      if (activeMapPointers.size === 1) {
+        isPanning = true;
+        panStartX = event.clientX;
+        panStartY = event.clientY;
+        panStartViewX = mapView.x;
+        panStartViewY = mapView.y;
+        stage.classList.add("is-panning");
+      } else if (activeMapPointers.size === 2) {
+        isPanning = false;
+        stage.classList.remove("is-panning");
+
+        var points = Array.from(activeMapPointers.values());
+        var center = pointerCenter(points[0], points[1]);
+        var rect = stage.getBoundingClientRect();
+
+        pinchStartDistance = pointerDistance(points[0], points[1]);
+        pinchStartZoom = mapZoom;
+        pinchAnchorX = center.x - rect.left;
+        pinchAnchorY = center.y - rect.top;
+      }
+
       event.preventDefault();
-    });
+    }, { passive: false });
 
     stage.addEventListener("pointermove", function (event) {
-      if (!isPanning) return;
+      if (!activeMapPointers.has(event.pointerId)) return;
+
+      activeMapPointers.set(event.pointerId, {
+        clientX: event.clientX,
+        clientY: event.clientY,
+        pointerType: event.pointerType
+      });
 
       var rect = stage.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      if (activeMapPointers.size >= 2) {
+        var points = Array.from(activeMapPointers.values()).slice(0, 2);
+        var distance = pointerDistance(points[0], points[1]);
+        var center = pointerCenter(points[0], points[1]);
+
+        if (pinchStartDistance > 0) {
+          var scale = distance / pinchStartDistance;
+          setMapZoom(
+            pinchStartZoom * scale,
+            center.x - rect.left,
+            center.y - rect.top
+          );
+        }
+
+        event.preventDefault();
+        return;
+      }
+
+      if (!isPanning) return;
+
       var dx = event.clientX - panStartX;
       var dy = event.clientY - panStartY;
 
       mapView.x = panStartViewX - dx / rect.width * mapView.w;
       mapView.y = panStartViewY - dy / rect.height * mapView.h;
-
       updateMapView();
+
       event.preventDefault();
-    });
+    }, { passive: false });
 
-    function stopPanning(event) {
-      if (!isPanning) return;
-      isPanning = false;
-      stage.classList.remove("is-panning");
+    function finishMapPointer(event) {
+      var ended = activeMapPointers.get(event.pointerId);
+      activeMapPointers.delete(event.pointerId);
 
-      if (event) {
-        try {
-          stage.releasePointerCapture(event.pointerId);
-        } catch (error) {}
+      try {
+        stage.releasePointerCapture(event.pointerId);
+      } catch (error) {}
+
+      if (activeMapPointers.size === 1) {
+        var remaining = Array.from(activeMapPointers.values())[0];
+        isPanning = true;
+        panStartX = remaining.clientX;
+        panStartY = remaining.clientY;
+        panStartViewX = mapView.x;
+        panStartViewY = mapView.y;
+        stage.classList.add("is-panning");
+      } else {
+        isPanning = false;
+        pinchStartDistance = 0;
+        stage.classList.remove("is-panning");
+      }
+
+      /* Double-tap zoom for touch and pen input. */
+      if (
+        ended &&
+        ended.pointerType !== "mouse" &&
+        activeMapPointers.size === 0
+      ) {
+        var now = Date.now();
+        var dx = event.clientX - lastTapX;
+        var dy = event.clientY - lastTapY;
+        var closeEnough = Math.sqrt(dx * dx + dy * dy) < 32;
+
+        if (now - lastTapAt < 320 && closeEnough) {
+          var rect = stage.getBoundingClientRect();
+          setMapZoom(
+            mapZoom * 1.6,
+            event.clientX - rect.left,
+            event.clientY - rect.top
+          );
+          lastTapAt = 0;
+        } else {
+          lastTapAt = now;
+          lastTapX = event.clientX;
+          lastTapY = event.clientY;
+        }
       }
     }
 
-    stage.addEventListener("pointerup", stopPanning);
-    stage.addEventListener("pointercancel", stopPanning);
-    stage.addEventListener("pointerleave", stopPanning);
 
-    function touchDistance(touches) {
-      var dx = touches[0].clientX - touches[1].clientX;
-      var dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
+    /* Reliable desktop click-and-drag panning.
+       Document-level move/up listeners keep dragging active even when the
+       cursor briefly leaves the map or crosses an SVG country boundary. */
+    var mouseMapDragging = false;
+    var mouseDragStartX = 0;
+    var mouseDragStartY = 0;
+    var mouseDragViewX = 0;
+    var mouseDragViewY = 0;
+    var mouseDragMoved = false;
+
+    function beginDesktopMapDrag(event) {
+      if (event.button !== 0) return;
+      if (shouldIgnoreGesture(event)) return;
+
+      mouseMapDragging = true;
+      mouseDragMoved = false;
+      mouseDragStartX = event.clientX;
+      mouseDragStartY = event.clientY;
+      mouseDragViewX = mapView.x;
+      mouseDragViewY = mapView.y;
+
+      stage.classList.add("is-panning");
+      event.preventDefault();
     }
 
-    stage.addEventListener("touchstart", function (event) {
-      if (shouldIgnoreGesture(event)) return;
-      if (event.touches.length !== 2) return;
+    stage.addEventListener("mousedown", beginDesktopMapDrag, true);
+    svgMap.addEventListener("mousedown", beginDesktopMapDrag, true);
 
-      isPanning = false;
-      isPinching = true;
-      pinchStartDistance = touchDistance(event.touches);
-      pinchStartZoom = mapZoom;
+    /* Original listener retained below only as a disabled reference. */
+    if (false) stage.addEventListener("mousedown", function (event) {
+      if (event.button !== 0) return;
+      if (shouldIgnoreGesture(event)) return;
+
+      mouseMapDragging = true;
+      mouseDragMoved = false;
+      mouseDragStartX = event.clientX;
+      mouseDragStartY = event.clientY;
+      mouseDragViewX = mapView.x;
+      mouseDragViewY = mapView.y;
+
+      stage.classList.add("is-panning");
+      event.preventDefault();
+    }, true);
+
+    document.addEventListener("mousemove", function (event) {
+      if (!mouseMapDragging) return;
 
       var rect = stage.getBoundingClientRect();
-      pinchMidX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - rect.left;
-      pinchMidY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - rect.top;
+      if (!rect.width || !rect.height) return;
+
+      var dx = event.clientX - mouseDragStartX;
+      var dy = event.clientY - mouseDragStartY;
+
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        mouseDragMoved = true;
+      }
+
+      mapView.x = mouseDragViewX - dx / rect.width * mapView.w;
+      mapView.y = mouseDragViewY - dy / rect.height * mapView.h;
+      updateMapView();
 
       event.preventDefault();
-    }, { passive: false });
+    }, true);
 
-    stage.addEventListener("touchmove", function (event) {
-      if (!isPinching || event.touches.length !== 2) return;
+    document.addEventListener("mouseup", function () {
+      if (!mouseMapDragging) return;
+      mouseMapDragging = false;
+      stage.classList.remove("is-panning");
+    }, true);
 
-      var newDistance = touchDistance(event.touches);
-      var scale = newDistance / pinchStartDistance;
-      setMapZoom(pinchStartZoom * scale, pinchMidX, pinchMidY);
-
+    /* Prevent a drag ending over a country or pin from being interpreted
+       as a normal click. */
+    stage.addEventListener("click", function (event) {
+      if (!mouseDragMoved) return;
       event.preventDefault();
-    }, { passive: false });
+      event.stopPropagation();
+      mouseDragMoved = false;
+    }, true);
 
-    function stopPinching(event) {
-      if (event && event.touches && event.touches.length >= 2) return;
-      isPinching = false;
-    }
-
-    stage.addEventListener("touchend", stopPinching);
-    stage.addEventListener("touchcancel", stopPinching);
+    stage.addEventListener("pointerup", finishMapPointer);
+    stage.addEventListener("pointercancel", finishMapPointer);
+    stage.addEventListener("lostpointercapture", function (event) {
+      if (activeMapPointers.has(event.pointerId)) {
+        finishMapPointer(event);
+      }
+    });
 
     function getCountryPoint(code) {
       var cleanCode = cleanText(code).toUpperCase();
       if (!cleanCode) return null;
 
-      if (COUNTRY_PIN_OVERRIDES[cleanCode]) return COUNTRY_PIN_OVERRIDES[cleanCode];
-
-      // Deliberately an id lookup, not data-country: only the original
-      // (untranslated) .land element keeps its id -- the tiled copies have
-      // it stripped in buildWorldCopies() -- so this always measures the
-      // real, untransformed bounding box.
+      /* Use the actual SVG country geometry instead of manually maintained
+         percentages. This prevents new partners from inheriting a misplaced
+         country pin and scales automatically as more countries are added. */
       var country = svgMap.querySelector("#" + cleanCode);
-      if (!country) return null;
-      if (!country.getBBox) return null;
+      if (!country || !country.getBBox) return null;
 
       var box = country.getBBox();
-      var svgX = box.x + box.width / 2;
-      var svgY = box.y + box.height / 2;
+      var centerX = box.x + box.width / 2;
+      var centerY = box.y + box.height / 2;
+      var chosenX = centerX;
+      var chosenY = centerY;
+
+      function isInside(x, y) {
+        if (typeof country.isPointInFill !== "function") return false;
+
+        var point;
+        if (svgMap.createSVGPoint) {
+          point = svgMap.createSVGPoint();
+          point.x = x;
+          point.y = y;
+        } else {
+          point = new DOMPoint(x, y);
+        }
+
+        try {
+          return country.isPointInFill(point);
+        } catch (error) {
+          return false;
+        }
+      }
+
+      /* A bounding-box center can land in the sea for curved countries,
+         island groups, or countries with concave boundaries. Search from
+         the center outward and use the closest point that is actually land. */
+      if (!isInside(chosenX, chosenY)) {
+        var found = false;
+        var gridSteps = 28;
+
+        for (var radius = 1; radius <= gridSteps && !found; radius += 1) {
+          for (var yStep = -radius; yStep <= radius && !found; yStep += 1) {
+            for (var xStep = -radius; xStep <= radius; xStep += 1) {
+              if (
+                Math.abs(xStep) !== radius &&
+                Math.abs(yStep) !== radius
+              ) continue;
+
+              var x = centerX + xStep / gridSteps * box.width / 2;
+              var y = centerY + yStep / gridSteps * box.height / 2;
+
+              if (isInside(x, y)) {
+                chosenX = x;
+                chosenY = y;
+                found = true;
+                break;
+              }
+            }
+          }
+        }
+      }
 
       return {
-        x: (svgX - BASE_VIEWBOX.x) / BASE_VIEWBOX.w * 100,
-        y: (svgY - BASE_VIEWBOX.y) / BASE_VIEWBOX.h * 100
+        x: (chosenX - BASE_VIEWBOX.x) / BASE_VIEWBOX.w * 100,
+        y: (chosenY - BASE_VIEWBOX.y) / BASE_VIEWBOX.h * 100
       };
     }
 
@@ -3208,6 +4919,29 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       });
     }
 
+
+    var CATEGORY_ICON_FILES = {
+      "Crew, Medical & Welfare Services": "Crew, Medical & Welfare Services.png",
+      "Green Solutions & Sustainability": "Green Solutions & Sustainability.png",
+      "Legal, Insurance & Finance": "Legal, Insurance & Finance.png",
+      "Logistics, Transport & Port Services": "Logistics, Transport & Port Services.png",
+      "Marine Equipment & Systems": "Marine Equipment & Systems.png",
+      "Offshore & Marine Support Services": "Offshore & Marine Support Services.png",
+      "Offshore Wind & Renewable Services": "Offshore Wind & Renewable Services.png",
+      "Shipbuilding, Repair & Maintenance": "Shipbuilding, Repair & Maintenance.png",
+      "Shipyards & Newbuild Projects": "Shipyards & Newbuild Projects.png",
+      "Spare Parts & Consumables": "Spare Parts & Consumables.png",
+      "Technology, Digital & Innovation": "Technology, Digital & Innovation.png"
+    };
+
+    function categoryIconHtml(partner, className) {
+      var fileName = CATEGORY_ICON_FILES[partner.category];
+      if (!fileName) return "";
+      return '<img class="' + className + '" src="assets/' +
+        encodeURIComponent(fileName).replace(/%2F/g, "/") +
+        '" alt="" aria-hidden="true">';
+    }
+
     function partnerPreview(partner) {
       var categoryLine = partnerCategoryMeta(partner);
       var contactLine = [partner.contactName, partner.contactTitle].filter(Boolean).join(" · ");
@@ -3215,6 +4949,7 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 
       return '' +
         '<span class="nwx-tip-partner">' +
+          categoryIconHtml(partner, "nwx-popup-category-icon") +
           '<span class="nwx-tip-partner-name">' + escapeHtml(partner.name) + '</span>' +
           (categoryLine ? '<span class="nwx-tip-partner-meta">' + categoryLine + '</span>' : '') +
           (contactLine ? '<span class="nwx-tip-partner-contact">' + escapeHtml(contactLine) + '</span>' : '') +
@@ -3396,11 +5131,12 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
       return '' +
         '<div class="nwx-partner-card">' +
           '<div class="nwx-partner-card-top">' +
+            categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
               '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>' +
               (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') +
             '</div>' +
-            '<span class="nwx-tier-badge' + tierClass + '">' + escapeHtml(tierLabel) + '</span>' +
+            
           '</div>' +
           '<div class="nwx-meta">' + locationMeta + '</div>' +
           (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
@@ -3503,44 +5239,46 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
     });
 
     function renderCards(partners) {
-      var headerKicker = root.querySelector(".nwx-testimonial-kicker");
-      var headerTitle = root.querySelector(".nwx-testimonial-title");
-      var headerSubtitle = root.querySelector(".nwx-testimonial-subtitle");
-
-      if (headerKicker) headerKicker.textContent = "Featured Partners";
-      if (headerTitle) headerTitle.textContent = "Partner Profiles";
-      if (headerSubtitle) headerSubtitle.textContent = "Showing up to four matching partners. Partners with testimonials are highlighted on the map.";
-
       if (!grid) return;
 
-      var featured = partners.slice().sort(function (a, b) {
+      var sorted = partners.slice().sort(function (a, b) {
         var aScore = hasTestimonial(a) ? 0 : 1;
         var bScore = hasTestimonial(b) ? 0 : 1;
         if (aScore !== bScore) return aScore - bScore;
         return sortPartners(a, b);
-      }).slice(0, 4);
+      });
 
-      if (!featured.length) {
+      var listMode = root.classList.contains("nwx-results-view-list");
+      var displayed = listMode ? sorted : sorted.slice(0, 4);
+
+      if (!displayed.length) {
         var emptyRegions = activeRegions.filter(function (region) { return !regionHasAnyPartners(region); });
         var emptySubcategories = activeSubcategories.filter(function (subcategory) { return !subcategoryHasAnyPartners(subcategory); });
         var emptyLabels = emptyRegions.concat(emptySubcategories);
 
         if (emptyLabels.length) {
-          grid.innerHTML = '<div class="nwx-testimonial-card nwx-coming-soon-card">' +
-            '<div class="nwx-testimonial-name">Coming Soon</div>' +
-          '</div>';
+          grid.innerHTML =
+            '<div class="nwx-testimonial-card nwx-coming-soon-card">' +
+              '<div class="nwx-testimonial-name">Coming Soon</div>' +
+            '</div>';
           return;
         }
 
-        grid.innerHTML = '<div class="nwx-testimonial-card"><div class="nwx-testimonial-name">No partners match this filter</div><div class="nwx-testimonial-meta">Try a different category, subcategory, keyword, region, or country.</div></div>';
+        grid.innerHTML =
+          '<div class="nwx-testimonial-card">' +
+            '<div class="nwx-testimonial-name">No partners match this filter</div>' +
+            '<div class="nwx-testimonial-meta">Try a different category, subcategory, keyword, region, or country.</div>' +
+          '</div>';
         return;
       }
 
-      grid.innerHTML = featured.map(function (partner, index) {
-        return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' + partnerCard(partner, { showTestimonial: false }) + '</div>';
+      grid.innerHTML = displayed.map(function (partner, index) {
+        return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+          partnerCard(partner, { showTestimonial: false }) +
+        '</div>';
       }).join("");
 
-      featured.forEach(function (partner) {
+      displayed.forEach(function (partner) {
         if (!partner.name || viewedPartnerNames[partner.name]) return;
         viewedPartnerNames[partner.name] = true;
         trackEvent("partner_profile_view", {
@@ -3556,23 +5294,15 @@ var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
         card.addEventListener("click", function (event) {
           if (event.target.closest("a")) return;
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(featured[index]);
+          openPartnerDetail(displayed[index]);
         });
 
         card.addEventListener("keydown", function (event) {
-          if (event.key === "Enter") {
-            if (event.target.closest("a")) return;
-            event.preventDefault();
-            var index = Number(card.getAttribute("data-index"));
-            openPartnerDetail(featured[index]);
-          }
-
-          if (event.key === " ") {
-            if (event.target.closest("a")) return;
-            event.preventDefault();
-            var indexSpace = Number(card.getAttribute("data-index"));
-            openPartnerDetail(featured[indexSpace]);
-          }
+          if (event.key !== "Enter" && event.key !== " ") return;
+          if (event.target.closest("a")) return;
+          event.preventDefault();
+          var index = Number(card.getAttribute("data-index"));
+          openPartnerDetail(displayed[index]);
         });
       });
     }
@@ -3923,61 +5653,74 @@ function buildSidebarLayout() {
   var mapModule = root.querySelector(".nwx-map-module");
   var filterBar = root.querySelector(".nwx-filter-bar");
   var testimonialSection = root.querySelector(".nwx-testimonial-section");
-  if (!mapModule || root.querySelector(".nwx-explorer-shell")) return;
 
-  var shell = document.createElement("div");
-  shell.className = "nwx-explorer-shell";
-  var topbar = document.createElement("div");
-  topbar.className = "nwx-explorer-topbar";
+  if (!mapModule || root.querySelector(".nwx-results-layout")) return;
+
   var layout = document.createElement("div");
-  layout.className = "nwx-sidebar-layout";
-  var sidebar = document.createElement("aside");
-  sidebar.className = "nwx-sidebar-panel";
-  sidebar.setAttribute("aria-label", "Partner results");
-  var mapColumn = document.createElement("div");
-  mapColumn.className = "nwx-map-canvas-column";
+  layout.className = "nwx-results-layout";
 
-  root.insertBefore(shell, mapModule);
-  shell.appendChild(topbar);
-  shell.appendChild(layout);
-  layout.appendChild(sidebar);
-  layout.appendChild(mapColumn);
+  var topArea = document.createElement("div");
+  topArea.className = "nwx-results-top";
 
+  var viewBar = document.createElement("div");
+  viewBar.className = "nwx-view-bar";
+  viewBar.setAttribute("role", "tablist");
+  viewBar.setAttribute("aria-label", "Partner results view");
+  viewBar.innerHTML =
+    '<button type="button" class="nwx-view-button is-active" data-results-view="map" role="tab" aria-selected="true">Map</button>' +
+    '<span class="nwx-view-divider" aria-hidden="true">|</span>' +
+    '<button type="button" class="nwx-view-button" data-results-view="list" role="tab" aria-selected="false">List</button>';
 
+  var mapViewport = document.createElement("div");
+  mapViewport.className = "nwx-map-viewport";
 
-  if (filterBar) {
-    topbar.appendChild(filterBar);
-    if (!filterBar.querySelector(".nwx-mobile-filter-tab")) {
-      mobileFilterTab = document.createElement("button");
-      mobileFilterTab.type = "button";
-      mobileFilterTab.className = "nwx-mobile-filter-tab";
-      mobileFilterTab.setAttribute("aria-expanded", "false");
-      mobileFilterTab.innerHTML = 'Search &amp; Filters<span class="nwx-mobile-filter-chevron">&#9662;</span>';
-      mobileFilterTab.addEventListener("click", function (event) {
-        event.stopPropagation();
-        var isOpen = root.classList.toggle("nwx-mobile-filters-open");
-        mobileFilterTab.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
-      filterBar.insertBefore(mobileFilterTab, filterBar.firstChild);
+  root.insertBefore(layout, mapModule);
+  layout.appendChild(topArea);
+
+  if (filterBar) topArea.appendChild(filterBar);
+  if (testimonialSection) topArea.appendChild(testimonialSection);
+  topArea.appendChild(viewBar);
+
+  layout.appendChild(mapViewport);
+  mapViewport.appendChild(mapModule);
+
+  root.classList.add("nwx-results-view-map");
+
+  viewBar.addEventListener("click", function (event) {
+    var button = event.target.closest("[data-results-view]");
+    if (!button) return;
+
+    var view = button.getAttribute("data-results-view");
+    root.classList.toggle("nwx-results-view-map", view === "map");
+    root.classList.toggle("nwx-results-view-list", view === "list");
+
+    viewBar.querySelectorAll("[data-results-view]").forEach(function (tab) {
+      var active = tab === button;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+    });
+
+    renderAll();
+
+    if (view === "map") {
+      window.setTimeout(function () {
+        updateMapView();
+      }, 20);
     }
-  }
+  });
 
   var clearButton = filterBar ? filterBar.querySelector(".nwx-clear-filters-button") : null;
   if (clearButton) {
-    clearButton.textContent = "Reset";
-    clearButton.setAttribute("aria-label", "Reset filters");
-    clearButton.setAttribute("title", "Reset filters");
+    clearButton.setAttribute("aria-label", "Reset all filters");
+    clearButton.setAttribute("title", "Reset all filters");
   }
-
-  mapColumn.appendChild(mapModule);
-  if (testimonialSection) sidebar.appendChild(testimonialSection);
 }
     buildSidebarLayout();
 
     root.addEventListener("click", function (event) {
       if (root.classList.contains("nwx-mobile-filters-open") && !event.target.closest(".nwx-filter-bar")) {
         root.classList.remove("nwx-mobile-filters-open");
-        if (mobileFilterTab) mobileFilterTab.setAttribute("aria-expanded", "false");
+
       }
 
       var pin = event.target.closest(".nwx-region-pin");
@@ -4037,5 +5780,7 @@ console.log("NWX consolidated map active");
     run();
   }
 })();
+
+
 </script></body>
 </html>
