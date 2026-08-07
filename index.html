@@ -3841,6 +3841,94 @@ body {
   overflow-wrap: normal !important;
 }
 
+
+/* ==========================================================================
+   MOBILE: SEARCH/FILTERS COLLAPSE BEHIND AN ICON
+   Desktop is untouched. Below 760px, the search + filter bar is hidden by
+   default and replaced by a single toggle icon in the toolbar row; tapping
+   it drops the full bar down as an overlay panel. Tapping the icon again,
+   or tapping anywhere outside the panel, closes it (see the root click
+   handler in the script).
+   ========================================================================== */
+
+#nwx-partner-map-v3 .nwx-mobile-filter-toggle {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-toolbar-row {
+    position: relative !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-filter-toggle {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255,255,255,.1) !important;
+    border-radius: 999px !important;
+    background:
+      linear-gradient(to bottom, rgba(255,255,255,.16), rgba(255,255,255,0) 42%),
+      #021229 !important;
+    color: #ffffff !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.1),
+      inset 0 -1px 0 rgba(0,0,0,.35),
+      0 4px 14px rgba(2,18,41,.28) !important;
+    cursor: pointer !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-mobile-filter-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-mobile-filter-toggle {
+    background: var(--nwx-orange, #e8642c) !important;
+    border-color: transparent !important;
+  }
+
+  /* Filter bar becomes a collapsible overlay panel, closed by default. */
+  #nwx-partner-map-v3 .nwx-toolbar-row .nwx-filter-bar {
+    display: none !important;
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 60 !important;
+    background: #ffffff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 12px 28px rgba(2,18,41,.22) !important;
+    padding: 14px !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-toolbar-row .nwx-filter-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-search-group,
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-category-group,
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-compact-filter-group {
+    width: 100% !important;
+  }
+
+  #nwx-partner-map-v3.nwx-mobile-filters-open .nwx-clear-filters-wrap {
+    align-self: flex-end !important;
+  }
+}
+
 </style>
 
 
@@ -6326,11 +6414,31 @@ function buildSidebarLayout() {
   var toolbarRow = document.createElement("div");
   toolbarRow.className = "nwx-toolbar-row";
 
+  /* Mobile-only: search/filters collapse behind this icon instead of
+     always taking up space above the map. Hidden on desktop via CSS. */
+  var mobileFilterToggle = document.createElement("button");
+  mobileFilterToggle.type = "button";
+  mobileFilterToggle.className = "nwx-mobile-filter-toggle";
+  mobileFilterToggle.setAttribute("aria-label", "Search and filters");
+  mobileFilterToggle.setAttribute("aria-expanded", "false");
+  mobileFilterToggle.innerHTML =
+    '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M4 5h16"/>' +
+      '<path d="M7 12h10"/>' +
+      '<path d="M10 19h4"/>' +
+    '</svg>';
+
+  mobileFilterToggle.addEventListener("click", function () {
+    var open = root.classList.toggle("nwx-mobile-filters-open");
+    mobileFilterToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
   root.insertBefore(layout, mapModule);
   layout.appendChild(topArea);
 
   topArea.appendChild(toolbarRow);
   toolbarRow.appendChild(viewBar);
+  toolbarRow.appendChild(mobileFilterToggle);
   if (filterBar) toolbarRow.appendChild(filterBar);
   if (testimonialSection) topArea.appendChild(testimonialSection);
 
@@ -6381,9 +6489,14 @@ function buildSidebarLayout() {
     buildSidebarLayout();
 
     root.addEventListener("click", function (event) {
-      if (root.classList.contains("nwx-mobile-filters-open") && !event.target.closest(".nwx-filter-bar")) {
+      if (
+        root.classList.contains("nwx-mobile-filters-open") &&
+        !event.target.closest(".nwx-filter-bar") &&
+        !event.target.closest(".nwx-mobile-filter-toggle")
+      ) {
         root.classList.remove("nwx-mobile-filters-open");
-
+        var toggleButton = root.querySelector(".nwx-mobile-filter-toggle");
+        if (toggleButton) toggleButton.setAttribute("aria-expanded", "false");
       }
 
       var pin = event.target.closest(".nwx-region-pin");
