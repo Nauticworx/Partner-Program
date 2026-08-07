@@ -3274,6 +3274,171 @@ body.page-id-15425 .entry-content > *:first-child {
   }
 }
 
+
+/* ==========================================================================
+   MAP-ONLY SCROLLING
+   The iframe/document itself no longer scrolls. Filters, Map | List and
+   preview cards remain outside the scrollable region. Only the map viewport
+   can scroll vertically.
+   ========================================================================== */
+
+html,
+body {
+  height: 100%;
+  overflow: hidden !important;
+}
+
+#nwx-partner-map-v3 {
+  height: 100%;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#nwx-partner-map-v3 .nwx-results-top {
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  background: #fff;
+  padding-bottom: 7px !important;
+}
+
+/* Minimal separation between preview cards and the map. */
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-section {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-viewport {
+  flex: 1 1 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  scrollbar-gutter: stable;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep the actual map taller than the remaining viewport when necessary,
+   so any vertical scrollbar belongs to the map only. */
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage {
+  height: var(--nwx-map-layout-height) !important;
+  min-height: var(--nwx-map-layout-height) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* List mode should use the normal page area and not leave an empty map scroller. */
+#nwx-partner-map-v3.nwx-results-view-list .nwx-results-layout {
+  overflow-y: auto !important;
+}
+
+#nwx-partner-map-v3.nwx-results-view-list .nwx-results-top {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+}
+
+#nwx-partner-map-v3.nwx-results-view-list .nwx-map-viewport {
+  display: none !important;
+}
+
+/* Mobile keeps the same containment principle. */
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-results-top {
+    padding-bottom: 6px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage {
+    height: 430px !important;
+    min-height: 430px !important;
+  }
+}
+
+
+/* ==========================================================================
+   MAP VIEWPORT CORRECTION
+   Fill the entire scrollable map canvas so scrolling cannot expose a large
+   blank lower section. Zoom helpers remain fixed at the map's top-right.
+   ========================================================================== */
+
+#nwx-partner-map-v3 .nwx-map-viewport {
+  position: relative !important;
+}
+
+/* The scrollable map canvas has one explicit height. Every map layer fills it. */
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-content,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-svg-map-wrap {
+  width: 100% !important;
+  height: var(--nwx-map-layout-height) !important;
+  min-height: var(--nwx-map-layout-height) !important;
+  max-height: var(--nwx-map-layout-height) !important;
+  aspect-ratio: auto !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Force the SVG itself to fill the complete map canvas instead of ending
+   early and leaving scrollable white space underneath. */
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-svg-map-wrap > svg {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+}
+
+/* Zoom helpers stay visible in the upper-right of the map viewport. */
+#nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+  position: absolute !important;
+  top: 12px !important;
+  right: 14px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 80 !important;
+  margin: 0 !important;
+}
+
+/* Keep map content clear of the controls without creating a border/outline. */
+#nwx-partner-map-v3 .nwx-map-viewport,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+#nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 760px) {
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-map-module,
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-map-stage,
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-map-content,
+  #nwx-partner-map-v3 .nwx-map-viewport .nwx-svg-map-wrap {
+    height: 430px !important;
+    min-height: 430px !important;
+    max-height: 430px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-map-viewport > .nwx-map-zoom-controls {
+    top: 10px !important;
+    right: 10px !important;
+  }
+}
+
 </style>
 
 
@@ -4464,7 +4629,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
       '<button type="button" class="nwx-map-zoom-control" data-map-action="zoom-out" aria-label="Zoom out" title="Zoom out">−</button>' +
       '<button type="button" class="nwx-map-zoom-control nwx-map-reset-control" data-map-action="reset" aria-label="Reset map view" title="Reset map view">Reset</button>';
 
-    stage.appendChild(zoomControls);
+    var zoomControlsHost = root.querySelector(".nwx-map-viewport") || stage;
+    zoomControlsHost.appendChild(zoomControls);
 
     zoomControls.addEventListener("pointerdown", function (event) {
       event.stopPropagation();
