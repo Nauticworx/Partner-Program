@@ -508,7 +508,13 @@ body.page-id-15425 .entry-content > *:first-child {
 #nwx-partner-map-v3 .nwx-map-stage {
   aspect-ratio: 1019.9 / 365;
   overflow: visible;
-  touch-action: none;
+  /* Map zoom/pinch has been removed and the map's vertical range is
+     fixed to the full world height, but horizontal drag-to-pan is still
+     enabled -- touch-action stays pan-y so vertical touch gestures pass
+     straight through to the page's native scroll; horizontal drag is
+     handled by JS (see the pointerdown/pointermove pan handlers), which
+     only locks in once movement is clearly more horizontal than vertical. */
+  touch-action: pan-y;
 }
 
 #nwx-partner-map-v3 .nwx-map-stage.is-pannable {
@@ -3789,35 +3795,50 @@ body {
 }
 
 
-/* Overlap: the two pills tuck into each other by 10px, masked round by
-   the outer capsule's overflow:hidden + border-radius. */
+/* ==========================================================================
+   PARTNER CARD BUTTONS: SAME LINE, FIT INSIDE THE CARD
+   Final, authoritative rule for the "Website" / "Contact" buttons --
+   wins over every earlier nowrap/max-width:none rule above. Both stay on
+   one row (shortened labels make that fit comfortably); each button can
+   still shrink instead of spilling past the card, and the card itself
+   clips as a failsafe.
+   ========================================================================== */
 
-
-/* Inactive hover stays nauticworx blue — only a slight lift. */
-
-
-/* Active tab — the orange pill, raised above the overlap seam. */
-
-
-/* Prevent any generic site rule from painting inner elements. */
-
-
-/* Keep Visit Website / Contact Partner labels on one line. */
-#nwx-partner-map-v3 .nwx-partner-card a,
-#nwx-partner-map-v3 .nwx-partner-card button,
-#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-button,
-#nwx-partner-map-v3 .nwx-partner-card .nwx-card-button,
-#nwx-partner-map-v3 .nwx-partner-card .nwx-website-button,
-#nwx-partner-map-v3 .nwx-partner-card .nwx-contact-button {
-  white-space: nowrap !important;
-  word-break: keep-all !important;
-  overflow-wrap: normal !important;
+#nwx-partner-map-v3 .nwx-partner-card {
+  overflow: hidden !important;
 }
 
 #nwx-partner-map-v3 .nwx-partner-card .nwx-partner-actions,
 #nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions,
 #nwx-partner-map-v3 .nwx-partner-card .nwx-partner-links {
+  display: flex !important;
   flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card a,
+#nwx-partner-map-v3 .nwx-partner-card button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-partner-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-card-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-website-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-contact-button,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-profile-cta,
+#nwx-partner-map-v3 .nwx-partner-card .nwx-contact-cta,
+#nwx-partner-map-v3 .nwx-partner-card a[href].nwx-website-button,
+#nwx-partner-map-v3 .nwx-partner-card a[href].nwx-contact-button {
+  box-sizing: border-box !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
 }
 
 </style>
@@ -4538,13 +4559,15 @@ try {
 }
 
 
-/* Europe-centered, zoomed in 20% from the full-world view (0.8x the
-   base width/height, same aspect ratio the zoom math always keeps). */
+/* Fixed full-world view: fit every partner's land horizontally and
+   vertically. Map zoom/pan interaction has been removed entirely (see
+   the disabled listeners below), so this is the only view that's ever
+   shown -- there's nothing to zoom or pan into. */
 var INITIAL_VIEWBOX = {
-  x: -26,
+  x: BASE_VIEWBOX.x,
   y: MAP_VIEW_MIN_TOP,
-  w: BASE_VIEWBOX.w * 0.8,
-  h: MAP_VIEW_VERTICAL_EXTENT * 0.8
+  w: BASE_VIEWBOX.w,
+  h: MAP_VIEW_VERTICAL_EXTENT
 };
 
 var mapView = {
@@ -4554,9 +4577,12 @@ var mapView = {
   h: INITIAL_VIEWBOX.h
 };
 
+/* Locked: min === max means setMapZoom() (still called by the now-hidden
+   zoom controls / any leftover code paths) always clamps back to this
+   single fit-everything level. */
 var mapZoom = WORLD_TILE_WIDTH / INITIAL_VIEWBOX.w;
 var MAP_MIN_ZOOM = mapZoom;
-var MAP_MAX_ZOOM = 28;
+var MAP_MAX_ZOOM = mapZoom;
     var isPanning = false;
     var panStartX = 0;
     var panStartY = 0;
@@ -4798,9 +4824,9 @@ var MAP_MAX_ZOOM = 28;
         contactName: cleanText(partner.contactName || partner.contactname),
         contactTitle: cleanText(partner.contactTitle || partner.contacttitle),
         websiteUrl: cleanText(partner.websiteUrl || partner.websiteurl),
-        ctaLabel: cleanText(partner.ctaLabel || partner.ctalabel) || "Visit Website",
+        ctaLabel: cleanText(partner.ctaLabel || partner.ctalabel) || "Website",
         contactUrl: cleanText(partner.contactUrl || partner.contacturl),
-        contactCtaLabel: cleanText(partner.contactCtaLabel || partner.contactctalabel) || "Contact Partner"
+        contactCtaLabel: cleanText(partner.contactCtaLabel || partner.contactctalabel) || "Contact"
       };
     }
 
@@ -5009,117 +5035,16 @@ if (target.closest(".nwx-typeahead-results")) return true;
     }
 
 
-    /* Visible map controls. */
-    var zoomControls = document.createElement("div");
-    zoomControls.className = "nwx-map-zoom-controls";
-    zoomControls.setAttribute("aria-label", "Map zoom controls");
-    zoomControls.innerHTML =
-      '<button type="button" class="nwx-map-zoom-control" data-map-action="zoom-in" aria-label="Zoom in" title="Zoom in">+</button>' +
-      '<button type="button" class="nwx-map-zoom-control" data-map-action="zoom-out" aria-label="Zoom out" title="Zoom out">−</button>' +
-      '<button type="button" class="nwx-map-zoom-control nwx-map-reset-control" data-map-action="reset" aria-label="Reset map view" title="Reset map view">Reset</button>';
-
-    var zoomControlsHost = root.querySelector(".nwx-map-viewport") || stage;
-    zoomControlsHost.appendChild(zoomControls);
-
-    zoomControls.addEventListener("pointerdown", function (event) {
-      event.stopPropagation();
-    });
-
-    zoomControls.addEventListener("click", function (event) {
-      var button = event.target.closest("[data-map-action]");
-      if (!button) return;
-
-      var action = button.getAttribute("data-map-action");
-      var rect = stage.getBoundingClientRect();
-
-      if (action === "zoom-in") {
-        setMapZoom(mapZoom * 1.35, rect.width / 2, rect.height / 2);
-      } else if (action === "zoom-out") {
-        setMapZoom(mapZoom / 1.35, rect.width / 2, rect.height / 2);
-      } else if (action === "reset") {
-        mapZoom = MAP_MIN_ZOOM;
-        mapView.x = INITIAL_VIEWBOX.x;
-        mapView.y = INITIAL_VIEWBOX.y;
-        mapView.w = INITIAL_VIEWBOX.w;
-        mapView.h = INITIAL_VIEWBOX.h;
-        updateMapView();
-      }
-    });
-
-    function handleMapWheel(event) {
-      if (shouldIgnoreGesture(event)) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      var rect = stage.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      var focusX = event.clientX - rect.left;
-      var focusY = event.clientY - rect.top;
-
-      /* Normalize traditional mouse wheels and precision trackpads. */
-      var delta = event.deltaY;
-      if (typeof delta !== "number") {
-        delta = event.wheelDelta ? -event.wheelDelta : 0;
-      }
-
-      if (event.deltaMode === 1) delta *= 16;
-      if (event.deltaMode === 2) delta *= rect.height;
-
-      var zoomFactor = Math.exp(-delta * 0.0018);
-      setMapZoom(mapZoom * zoomFactor, focusX, focusY);
-    }
-
-    /* Capture phase prevents parent/iframe scroll handlers from winning. */
-    stage.addEventListener("wheel", handleMapWheel, {
-      passive: false,
-      capture: true
-    });
-    stage.addEventListener("mousewheel", handleMapWheel, {
-      passive: false,
-      capture: true
-    });
+    /* Zoom controls removed along with map zoom/scroll interaction --
+       the map is fixed to a single full-world view, so there's nothing
+       for +/-/Reset to do. */
 
 
-    /* Robust wheel zoom fallback.
-       Some browsers/iframe hosts do not deliver wheel events reliably to
-       the SVG or stage listener. Capture at document level and zoom only
-       when the pointer is actually over the map. */
-    function handleDocumentMapWheel(event) {
-      var target = event.target;
-      if (!target || !stage.contains(target)) return;
-      if (shouldIgnoreGesture(event)) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      var rect = stage.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      var delta = typeof event.deltaY === "number"
-        ? event.deltaY
-        : (event.wheelDelta ? -event.wheelDelta : 0);
-
-      if (event.deltaMode === 1) delta *= 16;
-      if (event.deltaMode === 2) delta *= rect.height;
-
-      var focusX = event.clientX - rect.left;
-      var focusY = event.clientY - rect.top;
-      var zoomFactor = Math.exp(-delta * 0.0024);
-
-      setMapZoom(mapZoom * zoomFactor, focusX, focusY);
-    }
-
-    document.addEventListener("wheel", handleDocumentMapWheel, {
-      passive: false,
-      capture: true
-    });
-
-    document.addEventListener("mousewheel", handleDocumentMapWheel, {
-      passive: false,
-      capture: true
-    });
+    /* Map zoom/scroll interaction removed: wheel events over the map now
+       pass through untouched so the page scrolls normally instead of the
+       map capturing them. The map view is fixed to show the entire world
+       (see INITIAL_VIEWBOX / MAP_MIN_ZOOM === MAP_MAX_ZOOM below), so
+       there is nothing to zoom into anyway. */
 
     /* Explicit touch pinch fallback for mobile browsers that do not expose
        two simultaneous Pointer Events consistently inside an iframe. */
@@ -5140,7 +5065,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
       };
     }
 
-    stage.addEventListener("touchstart", function (event) {
+    if (false) stage.addEventListener("touchstart", function (event) {
       if (event.touches.length !== 2) return;
       if (shouldIgnoreGesture(event)) return;
 
@@ -5150,7 +5075,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
       event.preventDefault();
     }, { passive: false, capture: true });
 
-    stage.addEventListener("touchmove", function (event) {
+    if (false) stage.addEventListener("touchmove", function (event) {
       if (!touchPinching || event.touches.length !== 2) return;
 
       var rect = stage.getBoundingClientRect();
@@ -5176,11 +5101,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
       touchPinchDistance = 0;
     }
 
-    stage.addEventListener("touchend", stopTouchPinch, {
+    if (false) stage.addEventListener("touchend", stopTouchPinch, {
       passive: false,
       capture: true
     });
-    stage.addEventListener("touchcancel", stopTouchPinch, {
+    if (false) stage.addEventListener("touchcancel", stopTouchPinch, {
       passive: false,
       capture: true
     });
@@ -5198,9 +5123,18 @@ if (target.closest(".nwx-typeahead-results")) return true;
       };
     }
 
+    /* Horizontal-only pan. Zoom/pinch stays removed. For touch, the first
+       few pixels of movement are left undecided so a vertical drag can
+       still hand off to the page's native scroll instead of being
+       captured by the map -- only once movement is clearly more
+       horizontal than vertical does this start panning. Mouse drags lock
+       to horizontal immediately since there's no page-scroll ambiguity. */
+    var pointerPanAxis = null; // null = undecided (touch only), "x" = panning, "y" = handed off to page scroll
+
     stage.addEventListener("pointerdown", function (event) {
       if (shouldIgnoreGesture(event)) return;
       if (event.pointerType === "mouse" && event.button !== 0) return;
+      if (activeMapPointers.size >= 1) return; // single-pointer pan only, no pinch
 
       activeMapPointers.set(event.pointerId, {
         clientX: event.clientX,
@@ -5212,119 +5146,62 @@ if (target.closest(".nwx-typeahead-results")) return true;
         stage.setPointerCapture(event.pointerId);
       } catch (error) {}
 
-      if (activeMapPointers.size === 1) {
-        isPanning = true;
-        panStartX = event.clientX;
-        panStartY = event.clientY;
-        panStartViewX = mapView.x;
-        panStartViewY = mapView.y;
-        stage.classList.add("is-panning");
-      } else if (activeMapPointers.size === 2) {
-        isPanning = false;
-        stage.classList.remove("is-panning");
+      isPanning = true;
+      pointerPanAxis = event.pointerType === "mouse" ? "x" : null;
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panStartViewX = mapView.x;
+      panStartViewY = mapView.y;
+      stage.classList.add("is-panning");
 
-        var points = Array.from(activeMapPointers.values());
-        var center = pointerCenter(points[0], points[1]);
-        var rect = stage.getBoundingClientRect();
-
-        pinchStartDistance = pointerDistance(points[0], points[1]);
-        pinchStartZoom = mapZoom;
-        pinchAnchorX = center.x - rect.left;
-        pinchAnchorY = center.y - rect.top;
-      }
-
-      event.preventDefault();
+      if (pointerPanAxis === "x") event.preventDefault();
     }, { passive: false });
 
     stage.addEventListener("pointermove", function (event) {
+      if (!isPanning) return;
       if (!activeMapPointers.has(event.pointerId)) return;
-
-      activeMapPointers.set(event.pointerId, {
-        clientX: event.clientX,
-        clientY: event.clientY,
-        pointerType: event.pointerType
-      });
 
       var rect = stage.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
-      if (activeMapPointers.size >= 2) {
-        var points = Array.from(activeMapPointers.values()).slice(0, 2);
-        var distance = pointerDistance(points[0], points[1]);
-        var center = pointerCenter(points[0], points[1]);
-
-        if (pinchStartDistance > 0) {
-          var scale = distance / pinchStartDistance;
-          setMapZoom(
-            pinchStartZoom * scale,
-            center.x - rect.left,
-            center.y - rect.top
-          );
-        }
-
-        event.preventDefault();
-        return;
-      }
-
-      if (!isPanning) return;
-
       var dx = event.clientX - panStartX;
       var dy = event.clientY - panStartY;
 
+      if (pointerPanAxis === null) {
+        var lockThreshold = 6;
+        if (Math.abs(dx) < lockThreshold && Math.abs(dy) < lockThreshold) return;
+
+        pointerPanAxis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+
+        if (pointerPanAxis === "y") {
+          /* Vertical intent: release this gesture back to the page's
+             native scroll instead of panning the map. */
+          isPanning = false;
+          activeMapPointers.delete(event.pointerId);
+          stage.classList.remove("is-panning");
+          try { stage.releasePointerCapture(event.pointerId); } catch (error) {}
+          return;
+        }
+      }
+
+      if (pointerPanAxis !== "x") return;
+
       mapView.x = panStartViewX - dx / rect.width * mapView.w;
-      mapView.y = panStartViewY - dy / rect.height * mapView.h;
       updateMapView();
 
       event.preventDefault();
     }, { passive: false });
 
     function finishMapPointer(event) {
-      var ended = activeMapPointers.get(event.pointerId);
       activeMapPointers.delete(event.pointerId);
 
       try {
         stage.releasePointerCapture(event.pointerId);
       } catch (error) {}
 
-      if (activeMapPointers.size === 1) {
-        var remaining = Array.from(activeMapPointers.values())[0];
-        isPanning = true;
-        panStartX = remaining.clientX;
-        panStartY = remaining.clientY;
-        panStartViewX = mapView.x;
-        panStartViewY = mapView.y;
-        stage.classList.add("is-panning");
-      } else {
-        isPanning = false;
-        pinchStartDistance = 0;
-        stage.classList.remove("is-panning");
-      }
-
-      /* Double-tap zoom for touch and pen input. */
-      if (
-        ended &&
-        ended.pointerType !== "mouse" &&
-        activeMapPointers.size === 0
-      ) {
-        var now = Date.now();
-        var dx = event.clientX - lastTapX;
-        var dy = event.clientY - lastTapY;
-        var closeEnough = Math.sqrt(dx * dx + dy * dy) < 32;
-
-        if (now - lastTapAt < 320 && closeEnough) {
-          var rect = stage.getBoundingClientRect();
-          setMapZoom(
-            mapZoom * 1.6,
-            event.clientX - rect.left,
-            event.clientY - rect.top
-          );
-          lastTapAt = 0;
-        } else {
-          lastTapAt = now;
-          lastTapX = event.clientX;
-          lastTapY = event.clientY;
-        }
-      }
+      isPanning = false;
+      pointerPanAxis = null;
+      stage.classList.remove("is-panning");
     }
 
 
@@ -5385,8 +5262,9 @@ if (target.closest(".nwx-typeahead-results")) return true;
         mouseDragMoved = true;
       }
 
+      /* Horizontal-only: vertical mouse movement is ignored, the map's
+         vertical range is already fixed to the full world height. */
       mapView.x = mouseDragViewX - dx / rect.width * mapView.w;
-      mapView.y = mouseDragViewY - dy / rect.height * mapView.h;
       updateMapView();
 
       event.preventDefault();
@@ -5863,11 +5741,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
       var tierClass = /premier/i.test(tierLabel) ? " nwx-tier-badge-premier" : "";
 
       if (partner.websiteUrl) {
-        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.ctaLabel || "Visit Website") + '</a>';
+        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.ctaLabel || "Website") + '</a>';
       }
 
       if (partner.contactUrl) {
-        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.contactCtaLabel || "Contact Partner") + '</a>';
+        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.contactCtaLabel || "Contact") + '</a>';
       }
 
       return '' +
