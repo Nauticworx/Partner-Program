@@ -3929,6 +3929,27 @@ body {
   }
 }
 
+
+
+/* ==========================================================================
+   PAGE-SCROLL PASS-THROUGH FIX
+   Vertical wheel/touch gestures over the map belong to the surrounding page.
+   Horizontal dragging can still be used by the map's pointer-pan code.
+   ========================================================================== */
+#nwx-partner-map-v3 .nwx-map-viewport {
+  overflow-y: hidden !important;
+  overscroll-behavior: auto !important;
+  scrollbar-gutter: auto !important;
+  touch-action: pan-y !important;
+}
+
+#nwx-partner-map-v3 .nwx-map-stage,
+#nwx-partner-map-v3 .nwx-map-content,
+#nwx-partner-map-v3 .nwx-svg-map-wrap,
+#nwx-partner-map-v3 .nwx-svg-map-wrap > svg {
+  touch-action: pan-y !important;
+  overscroll-behavior: auto !important;
+}
 </style>
 
 
@@ -5230,9 +5251,13 @@ if (target.closest(".nwx-typeahead-results")) return true;
         pointerType: event.pointerType
       });
 
-      try {
-        stage.setPointerCapture(event.pointerId);
-      } catch (error) {}
+      /* Mouse can capture immediately. Touch/pen waits until the gesture
+         is clearly horizontal so vertical swipes remain native page scrolls. */
+      if (event.pointerType === "mouse") {
+        try {
+          stage.setPointerCapture(event.pointerId);
+        } catch (error) {}
+      }
 
       isPanning = true;
       pointerPanAxis = event.pointerType === "mouse" ? "x" : null;
@@ -5260,6 +5285,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
         if (Math.abs(dx) < lockThreshold && Math.abs(dy) < lockThreshold) return;
 
         pointerPanAxis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+
+        if (pointerPanAxis === "x") {
+          /* Capture only after horizontal intent is established. */
+          try { stage.setPointerCapture(event.pointerId); } catch (error) {}
+        }
 
         if (pointerPanAxis === "y") {
           /* Vertical intent: release this gesture back to the page's
