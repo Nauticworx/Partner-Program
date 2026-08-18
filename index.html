@@ -5739,7 +5739,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
             openComingSoonModal(region.name);
             return;
           }
-          window.location.href = getRegionUrl(region.name);
+          window.open(getRegionUrl(region.name), "_top");
         });
 
         mapContent.appendChild(button);
