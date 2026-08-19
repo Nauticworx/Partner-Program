@@ -5701,7 +5701,10 @@ if (target.closest(".nwx-typeahead-results")) return true;
         }
 
         if (activeRegions.length) {
-          if (activeRegions.indexOf(partner.region) === -1) return false;
+          var regionMatch = Array.isArray(partner.regions) && partner.regions.some(function (region) {
+            return activeRegions.indexOf(region) !== -1;
+          });
+          if (!regionMatch) return false;
         }
 
         if (activeCountries.length) {
