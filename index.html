@@ -1234,7 +1234,16 @@ body.page-id-15425 .entry-content > *:first-child {
 /* 5. Modal + partner cards ------------------------------------------------ */
 
 #nwx-partner-map-v3 .nwx-modal {
-  position: absolute;
+  /* Fixed (not absolute) so the popup is always positioned against the
+     browser viewport rather than the map's own box. The map stage is a
+     short, aspect-ratio-locked, overflow:hidden container in several
+     responsive layouts, so an absolutely-positioned modal nested inside it
+     could get clipped at the bottom (or top/left/right) whenever its
+     content was taller than the map's own height. Anchoring to the
+     viewport sidesteps that entirely without touching pin positions, map
+     zoom/pan, or page scroll -- the modal card below still self-bounds its
+     own height and scrolls internally for long partner lists. */
+  position: fixed;
   inset: 0;
   z-index: 300;
   display: none;
