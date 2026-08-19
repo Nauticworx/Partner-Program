@@ -5811,7 +5811,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
             openComingSoonModal(region.name);
             return;
           }
-          window.open(getRegionUrl(region.name), "_top");
+          openRegionPopup(region.name);
         });
 
         mapContent.appendChild(button);
@@ -6019,6 +6019,63 @@ if (target.closest(".nwx-typeahead-results")) return true;
         '</div></div>';
 
       openModal();
+    }
+
+    function getRegionPopupPartners(regionName) {
+      return getFilteredPartners().filter(function (partner) {
+        return Array.isArray(partner.regions) && partner.regions.indexOf(regionName) !== -1;
+      }).sort(function (a, b) {
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      });
+    }
+
+    function openRegionPopup(regionName) {
+      var regionPartners = getRegionPopupPartners(regionName);
+
+      var listHtml = regionPartners.length ?
+        '<div class="nwx-region-summary">' +
+          regionPartners.map(function (partner, index) {
+            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+              partnerCard(partner) +
+            '</div>';
+          }).join("") +
+        '</div>' :
+        '<div class="nwx-testimonial-card">' +
+          '<div class="nwx-testimonial-name">No partners match the current filters</div>' +
+        '</div>';
+
+      modalCard.innerHTML =
+        '<div class="nwx-modal-header">' +
+          '<div class="nwx-region-title-row">' +
+            '<div>' +
+              '<div class="nwx-modal-kicker">Region Partners</div>' +
+              '<div class="nwx-region-modal-name">' + escapeHtml(regionName) + '</div>' +
+            '</div>' +
+            '<div class="nwx-modal-actions">' +
+              '<a class="nwx-region-cta" href="' + escapeAttr(getRegionUrl(regionName)) + '" target="_blank" rel="noopener">View Region Page</a>' +
+              '<button class="nwx-close" type="button" aria-label="Close">×</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="nwx-modal-body">' + listHtml + '</div>';
+
+      openModal();
+
+      modalCard.querySelectorAll(".nwx-modal-body .nwx-featured-partner-card").forEach(function (card) {
+        card.addEventListener("click", function (event) {
+          if (event.target.closest("a")) return;
+          var index = Number(card.getAttribute("data-index"));
+          openPartnerDetail(regionPartners[index]);
+        });
+
+        card.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          if (event.target.closest("a")) return;
+          event.preventDefault();
+          var index = Number(card.getAttribute("data-index"));
+          openPartnerDetail(regionPartners[index]);
+        });
+      });
     }
 
     function openModal() {
