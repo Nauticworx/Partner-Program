@@ -5657,7 +5657,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
     function regionHasAnyPartners(regionName) {
       return cleanPartners.some(function (partner) {
-        return partner.region === regionName;
+        return Array.isArray(partner.regions) && partner.regions.indexOf(regionName) !== -1;
       });
     }
 
