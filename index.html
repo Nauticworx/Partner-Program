@@ -4942,6 +4942,28 @@ var MAP_MAX_ZOOM = mapZoom;
       return found;
     }
 
+    function normalizeRegionsList(regions, fallbackRegion) {
+      var source = Array.isArray(regions) ? regions : [];
+      var seen = {};
+      var result = [];
+
+      source.forEach(function (value) {
+        var cleanValue = cleanText(value);
+        if (!cleanValue) return;
+        var key = cleanValue.toLowerCase();
+        if (seen[key]) return;
+        seen[key] = true;
+        result.push(cleanValue);
+      });
+
+      if (!result.length) {
+        var cleanFallback = cleanText(fallbackRegion);
+        if (cleanFallback) result.push(cleanFallback);
+      }
+
+      return result;
+    }
+
     function normalizePartner(partner) {
       var subcategories = [];
 
@@ -4964,8 +4986,11 @@ var MAP_MAX_ZOOM = mapZoom;
 
       if (!code) code = getCountryCodeByName(country);
 
+      var region = cleanText(partner.region);
+
       return {
-        region: cleanText(partner.region),
+        region: region,
+        regions: normalizeRegionsList(partner.regions, region),
         country: country,
         countryCode: code,
         tier: cleanText(partner.tier) || "Industry Partner",
