@@ -1441,7 +1441,7 @@ body.page-id-15425 .entry-content > *:first-child {
   line-height: 1.45;
 }
 
-#nwx-partner-map-v3 .nwx-category-line {
+#nwx-partner-map-v3 . {
   color: var(--nwx-blue);
 }
 
@@ -1580,7 +1580,7 @@ body.page-id-15425 .entry-content > *:first-child {
   color: var(--nwx-blue);
 }
 
-#nwx-partner-map-v3 .nwx-sidebar-panel .nwx-description {
+#nwx-partner-map-v3 .nwx-sidebar-panel . {
   color: rgba(255, 255, 255, 0.78);
   font-size: 11px;
   line-height: 1.35;
@@ -5961,9 +5961,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') +
-          (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
-          (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">' + escapeHtml(partner.testimonial) + '</div>' : '') +
         '</div>';
     }
 
