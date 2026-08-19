@@ -5760,7 +5760,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
       REGION_PAGES.forEach(function (region) {
         var regionPartners = (partners || cleanPartners).filter(function (partner) {
-          return partner.region === region.name;
+          return Array.isArray(partner.regions) && partner.regions.indexOf(region.name) !== -1;
         }).sort(sortPartners);
 
         var testimonialPartners = regionPartners.filter(hasTestimonial);
