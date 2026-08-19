@@ -5961,15 +5961,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') +
-            '</div>' +
-            
-              (partner.partnerPageUrl ?
-                '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' :
-                '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') +
-          '<div class="nwx-meta">' + locationMeta + '</div>' +
-          (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
-          (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') +
           (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
           (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
         '</div>';
