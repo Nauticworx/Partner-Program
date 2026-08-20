@@ -5583,6 +5583,27 @@ if (target.closest(".nwx-typeahead-results")) return true;
       return null;
     }
 
+    // Resolves a map point for one explicit country name from a partner's
+    // countries[] list. Reuses partner.countryCode only for the partner's
+    // own primary country (unchanged behavior for single-country partners);
+    // every other listed country is resolved by name via the existing
+    // getCountryCodeByName()/getCountryPoint() helpers. Returns null (fails
+    // safely) if the country name cannot be resolved to a valid location.
+    function getCountryPinPoint(partner, countryName) {
+      if (countryName === partner.country && partner.countryCode) {
+        var pointByCode = getCountryPoint(partner.countryCode);
+        if (pointByCode) return { point: pointByCode, code: partner.countryCode };
+      }
+
+      var code = getCountryCodeByName(countryName);
+      if (!code) return null;
+
+      var point = getCountryPoint(code);
+      if (!point) return null;
+
+      return { point: point, code: code };
+    }
+
     // Every tiled copy of a country shares data-country="XX" (set in
     // buildWorldCopies()), so this finds the country wherever it currently
     // renders -- original tile, left copy, or right copy -- instead of only
@@ -5850,30 +5871,45 @@ if (target.closest(".nwx-typeahead-results")) return true;
       });
 
       var groups = {};
+      var unresolvedCountryPinNames = {};
 
       partners.forEach(function (partner) {
-  var point = getPartnerPoint(partner);
+        var countryList = Array.isArray(partner.countries) && partner.countries.length ? partner.countries : [partner.country];
 
-  if (!point) return;
+        countryList.forEach(function (countryName) {
+          if (!countryName) return;
 
-  var key = partner.countryCode || partner.country;
-        if (!groups[key]) {
-          groups[key] = {
-            country: partner.country,
-            region: partner.region,
-            x: point.x,
-            y: point.y,
-            partners: []
-          };
-        }
+          var resolved = getCountryPinPoint(partner, countryName);
+          if (!resolved) {
+            unresolvedCountryPinNames[countryName] = true;
+            return;
+          }
 
-        groups[key].partners.push(partner);
+          var key = resolved.code;
+          if (!groups[key]) {
+            groups[key] = {
+              country: countryName,
+              region: partner.region,
+              x: resolved.point.x,
+              y: resolved.point.y,
+              partners: []
+            };
+          }
+
+          if (groups[key].partners.indexOf(partner) === -1) {
+            groups[key].partners.push(partner);
+          }
+        });
       });
+
+      if (Object.keys(unresolvedCountryPinNames).length && window.console && console.warn) {
+        console.warn("Country pin location could not be resolved for: " + Object.keys(unresolvedCountryPinNames).join(", "));
+      }
 
       Object.keys(groups).forEach(function (key) {
         var group = groups[key];
         var partnersInGroup = group.partners.slice().sort(sortPartners);
-        var codeList = codesFromPartners(partnersInGroup);
+        var codeList = [key];
 
         /* Opening the partner program counts one view per partner that
            actually has a pin on the map -- fired here, once per partner,
