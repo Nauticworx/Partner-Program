@@ -5729,7 +5729,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
         }
 
         if (activeCountries.length) {
-          if (activeCountries.indexOf(partner.country) === -1) return false;
+          var countryList = Array.isArray(partner.countries) && partner.countries.length ? partner.countries : [partner.country];
+          var countryMatch = countryList.some(function (country) {
+            return activeCountries.indexOf(country) !== -1;
+          });
+        if (!countryMatch) return false;
         }
 
         return true;
