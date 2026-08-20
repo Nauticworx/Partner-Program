@@ -4981,6 +4981,8 @@ var MAP_MAX_ZOOM = mapZoom;
       return result;
     }
 
+        function normalizeCountriesList(countries, fallbackCountry) { var source = Array.isArray(countries) ? countries : []; var seen = {}; var result = []; source.forEach(function (value) { var cleanValue = cleanText(value); if (!cleanValue) return; var key = cleanValue.toLowerCase(); if (seen[key]) return; seen[key] = true; result.push(cleanValue); }); if (!result.length) { var cleanFallback = cleanText(fallbackCountry); if (cleanFallback) result.push(cleanFallback); } return result; }
+
     function normalizePartner(partner) {
       var subcategories = [];
 
@@ -5010,6 +5012,7 @@ var MAP_MAX_ZOOM = mapZoom;
         regions: normalizeRegionsList(partner.regions, region),
         country: country,
         countryCode: code,
+        countries: normalizeCountriesList(partner.countries, country),
         tier: cleanText(partner.tier) || "Industry Partner",
         category: cleanText(partner.category),
         subcategories: subcategories,
