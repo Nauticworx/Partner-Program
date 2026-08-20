@@ -5778,8 +5778,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
       return cleanPartners.filter(function (partner) {
         var searchableText = [
           partner.name,
-          partner.country,
-          partner.region,
+          Array.isArray(partner.countries) && partner.countries.length ? partner.countries.join(" ") : partner.country,
+          Array.isArray(partner.regions) && partner.regions.length ? partner.regions.join(" ") : partner.region,
           partner.tier,
           partner.category,
           Array.isArray(partner.subcategories) ? partner.subcategories.join(" ") : "",
@@ -5985,6 +5985,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           trackEvent("partner_profile_view", {
             partner_name: partner.name,
             region: partner.region || "",
+            regions: Array.isArray(partner.regions) ? partner.regions.join("|") : "",
             category: partner.category || "",
             view_source: "map_pin"
           });
@@ -6066,7 +6067,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">' + escapeHtml(partner.testimonial) + '</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
         '</div>';
     }
 
@@ -6329,6 +6330,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         trackEvent("partner_profile_view", {
           partner_name: partner.name,
           region: partner.region || "",
+          regions: Array.isArray(partner.regions) ? partner.regions.join("|") : "",
           category: partner.category || "",
           view_source: "list"
         });
@@ -6615,7 +6617,9 @@ if (target.closest(".nwx-typeahead-results")) return true;
       }
 
       var matches = cleanPartners.filter(function (partner) {
-        var text = [partner.name, partner.country, partner.region, partner.category, partner.subcategories.join(" ")].join(" ").toLowerCase();
+                var partnerRegions = Array.isArray(partner.regions) && partner.regions.length ? partner.regions : (partner.region ? [partner.region] : []);
+        var partnerCountries = Array.isArray(partner.countries) && partner.countries.length ? partner.countries : (partner.country ? [partner.country] : []);
+        var text = [partner.name, partnerCountries.join(" "), partnerRegions.join(" "), partner.category, partner.subcategories.join(" ")].join(" ").toLowerCase();
         return text.indexOf(query) !== -1;
       }).slice(0, 8);
 
@@ -6626,7 +6630,10 @@ if (target.closest(".nwx-typeahead-results")) return true;
       }
 
       keywordResults.innerHTML = matches.map(function (partner, index) {
-        return '<button class="nwx-keyword-result" type="button" data-index="' + index + '"><span class="nwx-keyword-result-name">' + escapeHtml(partner.name) + '</span><span class="nwx-keyword-result-meta">' + escapeHtml(partner.country + " · " + partner.region) + '</span><span class="nwx-keyword-result-category">' + escapeHtml(partner.category) + '</span></button>';
+        var resultRegions = Array.isArray(partner.regions) && partner.regions.length ? partner.regions : (partner.region ? [partner.region] : []);
+        var resultCountries = Array.isArray(partner.countries) && partner.countries.length ? partner.countries : (partner.country ? [partner.country] : []);
+        var resultMeta = [resultCountries.join(", "), resultRegions.join(", ")].filter(Boolean).join(" · ");
+        return '<button class="nwx-keyword-result" type="button" data-index="' + index + '"><span class="nwx-keyword-result-name">' + escapeHtml(partner.name) + '</span><span class="nwx-keyword-result-meta">' + escapeHtml(resultMeta) + '</span><span class="nwx-keyword-result-category">' + escapeHtml(partner.category) + '</span></button>';
       }).join("");
 
       keywordResults.classList.add("is-open");
