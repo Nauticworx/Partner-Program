@@ -4901,9 +4901,18 @@ var MAP_MAX_ZOOM = mapZoom;
     }
 
     function partnerLocationMeta(partner) {
+      var countries = Array.isArray(partner.countries) && partner.countries.length ?
+        partner.countries : (partner.country ? [partner.country] : []);
+      var regions = Array.isArray(partner.regions) && partner.regions.length ?
+        partner.regions : (partner.region ? [partner.region] : []);
+
       var parts = [];
-      if (partner.country) parts.push(escapeHtml(partner.country));
-      if (partner.region) parts.push(metaLink(partner.region, getRegionUrl(partner.region), "nwx-region-meta-link"));
+      if (countries.length) parts.push(escapeHtml(countries.join(", ")));
+      if (regions.length) {
+        parts.push(regions.map(function (regionName) {
+          return metaLink(regionName, getRegionUrl(regionName), "nwx-region-meta-link");
+        }).join(", "));
+      }
       return parts.join(" " + metaSeparator() + " ");
     }
 
@@ -6771,6 +6780,15 @@ function buildSidebarLayout() {
 
   layout.appendChild(mapViewport);
   mapViewport.appendChild(mapModule);
+
+  /* The shared detail/region/country modal must stay visible in both Map
+     and List view. .nwx-map-viewport (and everything moved inside it above)
+     is display:none in List mode, so the modal is moved back out to be a
+     direct child of .nwx-results-layout -- a sibling of the viewport rather
+     than a descendant of it -- without altering openModal()/closeModal(),
+     the modal's own fixed-position CSS, or its markup. */
+  var modalEl = mapModule.querySelector(".nwx-modal");
+  if (modalEl) layout.appendChild(modalEl);
 
   root.classList.add("nwx-results-view-map");
 
