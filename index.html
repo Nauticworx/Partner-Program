@@ -4918,7 +4918,7 @@ var MAP_MAX_ZOOM = mapZoom;
 
     function partnerCategoryMeta(partner) {
       var parts = [];
-      if (partner.category) parts.push(metaLink(partner.category, getRegionalMetaUrl(partner.region, partner.category), "nwx-category-meta-link"));
+      if (partner.category) parts.push(escapeHtml(partner.category));
 
       if (Array.isArray(partner.subcategories)) {
         partner.subcategories.forEach(function (subcategory) {
