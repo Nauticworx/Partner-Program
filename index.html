@@ -1301,6 +1301,14 @@ body.page-id-15425 .entry-content > *:first-child {
   line-height: 1.05;
 }
 
+#nwx-partner-map-v3 .nwx-modal-partner-count {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  font-weight: 700;
+}
+
 #nwx-partner-map-v3 .nwx-modal-actions,
 #nwx-partner-map-v3 .nwx-card-actions {
   display: flex;
@@ -5178,6 +5186,52 @@ var MAP_MAX_ZOOM = mapZoom;
       pin.classList.toggle("nwx-pin-near-top", chosen.y < 16);
       pin.classList.toggle("nwx-pin-near-bottom", chosen.y > 84);
     }
+
+    /* Shared, viewport-aware correction for a pin's hover/focus tooltip
+       (.nwx-pin-tip), used by both region and country pins. The
+       nwx-pin-near-* classes above already give the tip a sensible default
+       side/edge based on the pin's position *within the map*, but the map
+       itself can be taller than the actual browser viewport (short windows,
+       mobile) -- in that case a tip that isn't near the map's own edge can
+       still be clipped by the real viewport edge. This nudges the tip back
+       into view with margin only (never touching left/top/right/bottom or
+       transform, which the CSS classes above already own), so it composes
+       safely with the existing positioning instead of fighting it. Deliberately
+       run only on hover/focus (not on every pan/zoom/resize positionPin()
+       call) to stay lightweight and never interfere with map dragging. */
+    function adjustTipViewportPosition(pin) {
+      var tip = pin.querySelector(".nwx-pin-tip");
+      if (!tip) return;
+
+      tip.style.marginTop = "";
+      tip.style.marginLeft = "";
+      tip.style.maxHeight = "";
+
+      var margin = 10;
+      var viewportWidth = window.innerWidth;
+      var viewportHeight = window.innerHeight;
+
+      var rect = tip.getBoundingClientRect();
+      if (rect.bottom > viewportHeight - margin) {
+        tip.style.marginTop = (viewportHeight - margin - rect.bottom) + "px";
+      } else if (rect.top < margin) {
+        tip.style.marginTop = (margin - rect.top) + "px";
+      }
+
+      rect = tip.getBoundingClientRect();
+      var available = Math.max(160, viewportHeight - margin * 2);
+      if (rect.height > available) {
+        tip.style.maxHeight = available + "px";
+      }
+
+      rect = tip.getBoundingClientRect();
+      if (rect.right > viewportWidth - margin) {
+        tip.style.marginLeft = (viewportWidth - margin - rect.right) + "px";
+      } else if (rect.left < margin) {
+        tip.style.marginLeft = (margin - rect.left) + "px";
+      }
+    }
+
     function updateAllPins() {
   root.querySelectorAll(
     ".nwx-region-pin, .nwx-country-pin, .nwx-region-page-pin"
@@ -5838,6 +5892,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
         button.addEventListener("mouseenter", function () {
           highlightCodes(codesForRegions([region.name]));
+          adjustTipViewportPosition(button);
         });
 
         button.addEventListener("mouseleave", function () {
@@ -5846,6 +5901,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
         button.addEventListener("focus", function () {
           highlightCodes(codesForRegions([region.name]));
+          adjustTipViewportPosition(button);
         });
 
         button.addEventListener("blur", function () {
@@ -5952,6 +6008,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
         button.addEventListener("mouseenter", function () {
           highlightCodes(codeList);
+          adjustTipViewportPosition(button);
         });
 
         button.addEventListener("mouseleave", function () {
@@ -5960,6 +6017,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
         button.addEventListener("focus", function () {
           highlightCodes(codeList);
+          adjustTipViewportPosition(button);
         });
 
         button.addEventListener("blur", function () {
@@ -5967,12 +6025,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         });
 
         button.addEventListener("click", function () {
-          if (partnersInGroup.length === 1) {
-            openPartnerDetail(partnersInGroup[0]);
-            return;
-          }
-
-          openPartnerList(group.country, partnersInGroup);
+          openCountryPopup(group.country);
         });
 
         mapContent.appendChild(button);
@@ -6126,6 +6179,69 @@ if (target.closest(".nwx-typeahead-results")) return true;
           event.preventDefault();
           var index = Number(card.getAttribute("data-index"));
           openPartnerDetail(regionPartners[index]);
+        });
+      });
+    }
+
+    /* Mirrors getRegionPopupPartners() -- same normalized countries[]
+       source of truth used by Country filtering (getFilteredPartners()) and
+       country-pin membership (renderCountryPins()), so this doesn't
+       introduce a second filtering system. Never infers from
+       partner.regions. */
+    function getCountryPopupPartners(countryName) {
+      return getFilteredPartners().filter(function (partner) {
+        var countryList = Array.isArray(partner.countries) && partner.countries.length ? partner.countries : [partner.country];
+        return countryList.indexOf(countryName) !== -1;
+      }).sort(function (a, b) {
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      });
+    }
+
+    function openCountryPopup(countryName) {
+      var countryPartners = getCountryPopupPartners(countryName);
+
+      var listHtml = countryPartners.length ?
+        '<div class="nwx-region-summary">' +
+          countryPartners.map(function (partner, index) {
+            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+              partnerCard(partner) +
+            '</div>';
+          }).join("") +
+        '</div>' :
+        '<div class="nwx-testimonial-card">' +
+          '<div class="nwx-testimonial-name">No partners match the current filters</div>' +
+        '</div>';
+
+      modalCard.innerHTML =
+        '<div class="nwx-modal-header">' +
+          '<div class="nwx-region-title-row">' +
+            '<div>' +
+              '<div class="nwx-modal-kicker">Country Partners</div>' +
+              '<div class="nwx-region-modal-name">' + escapeHtml(countryName) + '</div>' +
+              '<div class="nwx-modal-partner-count">' + countryPartners.length + ' partner' + (countryPartners.length === 1 ? '' : 's') + '</div>' +
+            '</div>' +
+            '<div class="nwx-modal-actions">' +
+              '<button class="nwx-close" type="button" aria-label="Close">×</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="nwx-modal-body">' + listHtml + '</div>';
+
+      openModal();
+
+      modalCard.querySelectorAll(".nwx-modal-body .nwx-featured-partner-card").forEach(function (card) {
+        card.addEventListener("click", function (event) {
+          if (event.target.closest("a")) return;
+          var index = Number(card.getAttribute("data-index"));
+          openPartnerDetail(countryPartners[index]);
+        });
+
+        card.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          if (event.target.closest("a")) return;
+          event.preventDefault();
+          var index = Number(card.getAttribute("data-index"));
+          openPartnerDetail(countryPartners[index]);
         });
       });
     }
