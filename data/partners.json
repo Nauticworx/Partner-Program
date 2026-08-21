@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T22:05:36.104Z",
+  "updatedAt": "2026-08-21T22:11:24.183Z",
   "partners": [
     {
       "region": "Northern Europe",
@@ -37,7 +37,7 @@
       "regions": [
         "Northern Europe"
       ],
-      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
+      "regionsDisplay": "Northern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -110,7 +110,7 @@
       "regions": [
         "Northern Europe"
       ],
-      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
+      "regionsDisplay": "Northern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -258,7 +258,7 @@
       "regions": [
         "Northern Europe"
       ],
-      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
+      "regionsDisplay": "Northern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
