@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T21:41:13.303Z",
+  "updatedAt": "2026-08-21T22:05:36.104Z",
   "partners": [
     {
       "region": "Northern Europe",
@@ -8,6 +8,7 @@
         "Southern Europe",
         "Southeastern Europe"
       ],
+      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -36,6 +37,7 @@
       "regions": [
         "Northern Europe"
       ],
+      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -79,6 +81,7 @@
         "West Africa",
         "West Asia"
       ],
+      "regionsDisplay": "Worldwide",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -107,6 +110,7 @@
       "regions": [
         "Northern Europe"
       ],
+      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -136,6 +140,7 @@
         "Southern Africa",
         "West Africa"
       ],
+      "regionsDisplay": "Southern Africa, West Africa",
       "country": "Namibia",
       "countryCode": "NA",
       "countries": [
@@ -164,6 +169,7 @@
       "regions": [
         "West Africa"
       ],
+      "regionsDisplay": "West Africa",
       "country": "Côte d’Ivoire",
       "countryCode": "CI",
       "countries": [
@@ -192,6 +198,7 @@
       "regions": [
         "West Africa"
       ],
+      "regionsDisplay": "West Africa",
       "country": "Ghana",
       "countryCode": "GH",
       "countries": [
@@ -222,6 +229,7 @@
         "Middle East",
         "Northern Europe"
       ],
+      "regionsDisplay": "East Asia, Middle East, Northern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
@@ -250,6 +258,7 @@
       "regions": [
         "Northern Europe"
       ],
+      "regionsDisplay": "Northern Europe, Southern Europe, Southeastern Europe",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
