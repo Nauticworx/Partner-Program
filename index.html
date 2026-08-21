@@ -4908,7 +4908,9 @@ var MAP_MAX_ZOOM = mapZoom;
 
       var parts = [];
       if (countries.length) parts.push(escapeHtml(countries.join(", ")));
-      if (regions.length) {
+      if (partner.regionsDisplay) {
+                parts.push(escapeHtml(partner.regionsDisplay));
+      } else if (regions.length) {
         parts.push(regions.map(function (regionName) {
           return metaLink(regionName, getRegionUrl(regionName), "nwx-region-meta-link");
         }).join(", "));
@@ -5042,7 +5044,8 @@ var MAP_MAX_ZOOM = mapZoom;
         ctaLabel: cleanText(partner.ctaLabel || partner.ctalabel) || "Website",
         contactUrl: cleanText(partner.contactUrl || partner.contacturl),
         contactCtaLabel: cleanText(partner.contactCtaLabel || partner.contactctalabel) || "Contact",
-        partnerPageUrl: cleanText(partner.partnerPageUrl || partner.partnerpageurl)
+        partnerPageUrl: cleanText(partner.partnerPageUrl || partner.partnerpageurl),
+                regionsDisplay: cleanText(partner.regionsDisplay || partner.regionsdisplay)
       };
     }
 
