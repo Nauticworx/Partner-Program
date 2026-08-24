@@ -4031,6 +4031,7 @@ body {
 
   function initNwxPartnerMapStable() {
     var PARTNER_FEED_URL = "https://script.google.com/macros/s/AKfycbzsAk65E_OJaBlBrIKJ01g4DAli7xsAsigoicrWk5tuAv0qfjvy6tUyRAtXFhMVDEAP/exec";
+    var STATIC_FEED_URL = "data/partners.json"; // Task Q: production static feed; PARTNER_FEED_URL (Apps Script /exec) kept as the rollback target
     var TRUSTED_PARTNERS_BASE_URL = "https://www.nauticworx.com/our-trusted-partners/";
     var TRUSTED_REGION_SLUGS = {
       "Australia / Oceania": "australia-oceania",
@@ -6682,7 +6683,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
     }
 
     function loadPartners() {
-      fetch(PARTNER_FEED_URL + "?v=" + Date.now())
+      fetch(STATIC_FEED_URL)
         .then(function (response) {
           return response.json();
         })
