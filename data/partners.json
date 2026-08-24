@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T22:11:24.183Z",
+  "updatedAt": "2026-08-24T22:31:22.981Z",
   "partners": [
     {
       "region": "Northern Europe",
@@ -258,7 +258,7 @@
       "regions": [
         "Northern Europe"
       ],
-      "regionsDisplay": "Northern Europe",
+      "regionsDisplay": "Northern Europe (test)",
       "country": "Netherlands",
       "countryCode": "NL",
       "countries": [
