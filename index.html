@@ -4029,6 +4029,17 @@ body {
     window.gtag("event", name, params || {});
   }
 
+  /* TASK R4: shared minimal Partner impression event. source must be one of
+     initial_logo_strip | main_list | region_popup | country_popup. */
+  function trackPartnerImpression(partner, source) {
+    if (!partner || !partner.name) return;
+    trackEvent("partner_impression", {
+      partner_name: partner.name,
+      partner_page_url: partner.partnerPageUrl || "",
+      source: source
+    });
+  }
+
   function initNwxPartnerMapStable() {
     var PARTNER_FEED_URL = "https://script.google.com/macros/s/AKfycbzsAk65E_OJaBlBrIKJ01g4DAli7xsAsigoicrWk5tuAv0qfjvy6tUyRAtXFhMVDEAP/exec";
     var STATIC_FEED_URL = "data/partners.json"; // Task Q: production static feed; PARTNER_FEED_URL (Apps Script /exec) kept as the rollback target
@@ -4785,12 +4796,15 @@ var MAP_MAX_ZOOM = mapZoom;
 
     var cleanPartners = [];
     var feedOptions = {};
-    /* Two independent dedupe sets so a partner can generate a "view" both
-       from having a pin on the map (opening the program) and again from
-       appearing as a card once the List is opened -- neither blocks the
-       other. */
-    var viewedOnMapPartnerNames = {};
-    var viewedInListPartnerNames = {};
+    /* TASK R4: partner_impression tracking state.
+       - lastMainListImpressionSignature dedupes the main result set (grid)
+         so identical re-renders don't double-count, while a genuinely new
+         filtered/sorted result set fires a fresh batch of impressions.
+       - Region/country popup impressions need no persistent dedupe state:
+         each popup-open is a single fresh render over a unique partner
+         list, so one trackPartnerImpression() call per partner per render
+         is already correct with no cross-call bookkeeping. */
+    var lastMainListImpressionSignature = null;
     var mobileFilterTab = null;
     var activeKeyword = "";
     var activeCategories = [];
@@ -5980,20 +5994,12 @@ if (target.closest(".nwx-typeahead-results")) return true;
         var partnersInGroup = group.partners.slice().sort(sortPartners);
         var codeList = [key];
 
-        /* Opening the partner program counts one view per partner that
-           actually has a pin on the map -- fired here, once per partner,
-           the first time their pin appears. */
-        partnersInGroup.forEach(function (partner) {
-          if (!partner.name || viewedOnMapPartnerNames[partner.name]) return;
-          viewedOnMapPartnerNames[partner.name] = true;
-          trackEvent("partner_profile_view", {
-            partner_name: partner.name,
-            region: partner.region || "",
-            regions: Array.isArray(partner.regions) ? partner.regions.join("|") : "",
-            category: partner.category || "",
-            view_source: "map_pin"
-          });
-        });
+        /* TASK R4: the old per-pin "partner_profile_view" firing here was
+           removed -- rendering a map pin is not an intentional profile view
+           (it fired on every render pass, not on a real user action), and
+           country-pin rendering is not one of the four defined
+           partner_impression sources in the minimal analytics model either.
+           See the handoff doc, TASK R4, Part 4. */
 
         var button = document.createElement("button");
         button.type = "button";
@@ -6059,11 +6065,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
       var tierClass = /premier/i.test(tierLabel) ? " nwx-tier-badge-premier" : "";
 
       if (partner.websiteUrl) {
-        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.ctaLabel || "Website") + '</a>';
+        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(partner.ctaLabel || "Website") + '</a>';
       }
 
       if (partner.contactUrl) {
-        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener">' + escapeHtml(partner.contactCtaLabel || "Contact") + '</a>';
+        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(partner.contactCtaLabel || "Contact") + '</a>';
       }
 
       return '' +
@@ -6071,7 +6077,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
         '</div>';
     }
 
@@ -6080,12 +6086,46 @@ if (target.closest(".nwx-typeahead-results")) return true;
       container.querySelectorAll("a").forEach(function (link) {
         link.addEventListener("click", function (event) {
           event.stopPropagation();
+
+          /* TASK R4: Website/Contact/partner-name clicks used to bubble up
+             to the delegated root click listener (below) to fire their
+             analytics events, but the stopPropagation() above always
+             prevented that from happening -- these 3 events were
+             structurally dead in every real render context. Fire them
+             directly here instead, using data attributes set on the link
+             itself (see partnerCard()) and the nearest ancestor's
+             data-nwx-source (set on each card/summary wrapper), so tracking
+             no longer depends on bubbling at all. */
+          var partnerName = link.getAttribute("data-partner-name") || "";
+          var partnerPageUrl = link.getAttribute("data-partner-page-url") || "";
+          var sourceEl = link.closest("[data-nwx-source]");
+          var source = sourceEl ? sourceEl.getAttribute("data-nwx-source") : "";
+
+          if (link.classList.contains("nwx-profile-cta")) {
+            trackEvent("partner_website_click", { partner_name: partnerName, partner_page_url: partnerPageUrl, source: source });
+          } else if (link.classList.contains("nwx-contact-cta")) {
+            trackEvent("partner_contact_click", { partner_name: partnerName, partner_page_url: partnerPageUrl, source: source });
+          } else if (link.classList.contains("nwx-partner-name")) {
+            trackEvent("partner_page_click", { partner_name: partnerName, partner_page_url: partnerPageUrl, source: source });
+          }
+          /* nwx-region-cta ("View Region Page") is left exactly as before --
+             legacy region_page_click is out of scope for this task. */
         });
       });
     }
 
-    function openPartnerDetail(partner) {
+    function openPartnerDetail(partner, source) {
       if (!partner) return;
+
+      /* TASK R4: this is the one true "intentional detail view" action --
+         partner_profile_view now fires only here, never from map/list
+         rendering. One intentional detail open = one profile-view event. */
+      trackEvent("partner_profile_view", {
+        partner_name: partner.name || "",
+        partner_page_url: partner.partnerPageUrl || "",
+        source: source || ""
+      });
+
       modalCard.innerHTML =
         '<div class="nwx-modal-header">' +
           '<div class="nwx-region-title-row nwx-profile-header-row">' +
@@ -6096,7 +6136,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="nwx-modal-body"><div class="nwx-region-summary">' + partnerCard(partner) + '</div></div>';
+        '<div class="nwx-modal-body"><div class="nwx-region-summary" data-nwx-source="detail_modal">' + partnerCard(partner) + '</div></div>';
 
       openModal();
     }
@@ -6151,10 +6191,19 @@ if (target.closest(".nwx-typeahead-results")) return true;
     function openRegionPopup(regionName) {
       var regionPartners = getRegionPopupPartners(regionName);
 
+      /* TASK R4: every unique Partner shown in this popup gets 1 impression,
+         deduped within this single popup-open occurrence (trivially true
+         here since this list is freshly built once per open, with no
+         repeated DOM instances) -- reopening the popup later fires a fresh
+         set of impressions again, as intended. */
+      regionPartners.forEach(function (partner) {
+        trackPartnerImpression(partner, "region_popup");
+      });
+
       var listHtml = regionPartners.length ?
         '<div class="nwx-region-summary">' +
           regionPartners.map(function (partner, index) {
-            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="region_popup">' +
               partnerCard(partner) +
             '</div>';
           }).join("") +
@@ -6184,7 +6233,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         card.addEventListener("click", function (event) {
           if (event.target.closest("a")) return;
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(regionPartners[index]);
+          openPartnerDetail(regionPartners[index], "region_popup");
         });
 
         card.addEventListener("keydown", function (event) {
@@ -6192,7 +6241,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           if (event.target.closest("a")) return;
           event.preventDefault();
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(regionPartners[index]);
+          openPartnerDetail(regionPartners[index], "region_popup");
         });
       });
     }
@@ -6214,10 +6263,16 @@ if (target.closest(".nwx-typeahead-results")) return true;
     function openCountryPopup(countryName) {
       var countryPartners = getCountryPopupPartners(countryName);
 
+      /* TASK R4: same rule as openRegionPopup() -- 1 impression per unique
+         Partner per popup-open, reopening counts again. */
+      countryPartners.forEach(function (partner) {
+        trackPartnerImpression(partner, "country_popup");
+      });
+
       var listHtml = countryPartners.length ?
         '<div class="nwx-region-summary">' +
           countryPartners.map(function (partner, index) {
-            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="country_popup">' +
               partnerCard(partner) +
             '</div>';
           }).join("") +
@@ -6247,7 +6302,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         card.addEventListener("click", function (event) {
           if (event.target.closest("a")) return;
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(countryPartners[index]);
+          openPartnerDetail(countryPartners[index], "country_popup");
         });
 
         card.addEventListener("keydown", function (event) {
@@ -6255,7 +6310,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           if (event.target.closest("a")) return;
           event.preventDefault();
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(countryPartners[index]);
+          openPartnerDetail(countryPartners[index], "country_popup");
         });
       });
     }
@@ -6322,23 +6377,29 @@ if (target.closest(".nwx-typeahead-results")) return true;
       }
 
       grid.innerHTML = displayed.map(function (partner, index) {
-        return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '">' +
+        return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="main_list">' +
           partnerCard(partner, { showTestimonial: false }) +
         '</div>';
       }).join("");
 
-      displayed.forEach(function (partner) {
-        if (!listMode) return;
-        if (!partner.name || viewedInListPartnerNames[partner.name]) return;
-        viewedInListPartnerNames[partner.name] = true;
-        trackEvent("partner_profile_view", {
-          partner_name: partner.name,
-          region: partner.region || "",
-          regions: Array.isArray(partner.regions) ? partner.regions.join("|") : "",
-          category: partner.category || "",
-          view_source: "list"
+      /* TASK R4: one partner_impression per unique Partner per genuinely
+         new main-result render (Map's top-4 featured cards or List's full
+         grid, whichever is active) -- not per DOM repaint. A signature of
+         the displayed set (plus view mode) is compared against the last
+         fired signature so an identical re-render (e.g. an unrelated
+         renderAll() pass that happens to produce the same result set)
+         never double-counts, while an actual new filtered/sorted result
+         set always fires a fresh batch, per the handoff doc's dedup rule. */
+      var mainListSignature = (listMode ? "list:" : "map:") + displayed.map(function (partner) {
+        return partner.partnerPageUrl || partner.name || "";
+      }).join("|");
+
+      if (mainListSignature !== lastMainListImpressionSignature) {
+        lastMainListImpressionSignature = mainListSignature;
+        displayed.forEach(function (partner) {
+          trackPartnerImpression(partner, "main_list");
         });
-      });
+      }
 
       grid.querySelectorAll(".nwx-featured-partner-card").forEach(function (card) {
         stopLinkPropagation(card);
@@ -6346,7 +6407,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         card.addEventListener("click", function (event) {
           if (event.target.closest("a")) return;
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(displayed[index]);
+          openPartnerDetail(displayed[index], "main_list");
         });
 
         card.addEventListener("keydown", function (event) {
@@ -6354,7 +6415,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           if (event.target.closest("a")) return;
           event.preventDefault();
           var index = Number(card.getAttribute("data-index"));
-          openPartnerDetail(displayed[index]);
+          openPartnerDetail(displayed[index], "main_list");
         });
       });
     }
@@ -6651,7 +6712,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           var partner = matches[Number(button.getAttribute("data-index"))];
           if (!partner) return;
           keywordResults.classList.remove("is-open");
-          openPartnerDetail(partner);
+          openPartnerDetail(partner, "search");
         });
       });
     }
