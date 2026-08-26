@@ -5065,7 +5065,7 @@ var MAP_MAX_ZOOM = mapZoom;
         testimonial: cleanText(partner.testimonial),
         contactName: cleanText(partner.contactName || partner.contactname),
         contactTitle: cleanText(partner.contactTitle || partner.contacttitle),
-        websiteUrl: cleanText(partner.websiteUrl || partner.websiteurl),
+        websiteUrl: (function () { var __u = cleanText(partner.websiteUrl || partner.websiteurl); return __u && !/^[a-z][a-z0-9+.-]*:/i.test(__u) && __u.indexOf("//") !== 0 ? "https://" + __u : __u; })(),
         ctaLabel: cleanText(partner.ctaLabel || partner.ctalabel) || "Website",
         contactUrl: cleanText(partner.contactUrl || partner.contacturl),
         contactCtaLabel: cleanText(partner.contactCtaLabel || partner.contactctalabel) || "Contact",
