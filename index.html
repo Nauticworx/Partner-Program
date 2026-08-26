@@ -4025,8 +4025,18 @@ body {
 <script>
 (function () {
   function trackEvent(name, params) {
+    var payload = params || {};
+    if (window.self !== window.top) {
+      // Task R17: relay Partner events to the WordPress parent via postMessage,
+      // since this iframe's own window.gtag is a separate instance from the
+      // parent page's analytics context.
+      try {
+        window.parent.postMessage({ type: "partner_event", event: name, params: payload }, "https://www.nauticworx.com");
+      } catch (e) {}
+      return;
+    }
     if (typeof window.gtag !== "function") return;
-    window.gtag("event", name, params || {});
+    window.gtag("event", name, payload);
   }
 
   /* TASK R4: shared minimal Partner impression event. source must be one of
