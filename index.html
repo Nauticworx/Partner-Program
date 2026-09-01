@@ -4206,6 +4206,32 @@ body {
 #nwx-partner-map-v3.nwx-results-view-list .nwx-filter-input {
   background: #ffffff !important;
 }
+
+/* ==========================================================
+   TASK R18: MODAL/POPUP PARTNER CARD HIERARCHY
+   Scoped to .nwx-partner-card-modal only (Region popup, Country
+   popup, Partner Profile modal cards -- rendered by
+   partnerCard(partner, { modalLayout: true[, compactModal: true] })).
+   The main List/Map card render, its .nwx-partner-card base
+   styling, and the shared .nwx-profile-cta / .nwx-contact-cta
+   classes used elsewhere are untouched -- this block only adds a
+   scoped override on top of them.
+   ========================================================== */
+
+/* Match the mockup's button emphasis (Contact Partner = filled
+   orange, Visit Website = outlined) without renaming or touching
+   the shared .nwx-contact-cta / .nwx-profile-cta classes used by
+   the main List cards, since those class names also drive
+   partner_contact_click / partner_website_click tracking. */
+#nwx-partner-map-v3 .nwx-partner-card-modal .nwx-contact-cta {
+  border-color: rgba(232, 100, 44, 0.65) !important;
+  background: rgba(232, 100, 44, 0.18) !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-modal .nwx-profile-cta {
+  border-color: rgba(206, 226, 235, 0.65) !important;
+  background: rgba(206, 226, 235, 0.16) !important;
+}
 </style>
 
 
@@ -6253,20 +6279,54 @@ if (target.closest(".nwx-typeahead-results")) return true;
     function partnerCard(partner, options) {
       options = options || {};
       var showTestimonial = options.showTestimonial !== false;
+      var modalLayout = !!options.modalLayout;
+      var compactModal = !!options.compactModal;
       var locationMeta = partnerLocationMeta(partner);
       var categoryMeta = partnerCategoryMeta(partner);
-      var contact = [partner.contactName, partner.contactTitle].filter(Boolean).join(" · ");
+      var contact = [partner.contactName, partner.contactTitle].filter(Boolean).join(" \u00b7 ");
       var website = "";
       var contactCta = "";
       var tierLabel = partner.tier || "Industry Partner";
       var tierClass = /premier/i.test(tierLabel) ? " nwx-tier-badge-premier" : "";
 
       if (partner.websiteUrl) {
-        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(partner.ctaLabel || "Website") + '</a>';
+        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(modalLayout ? "Visit Website" : (partner.ctaLabel || "Website")) + '</a>';
       }
 
       if (partner.contactUrl) {
-        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(partner.contactCtaLabel || "Contact") + '</a>';
+        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(modalLayout ? "Contact Partner" : (partner.contactCtaLabel || "Contact")) + '</a>';
+      }
+
+      /* TASK R18: modal/popup card hierarchy (Region popup, Country popup,
+         Partner Profile modal only -- the main List/Map card render below
+         is completely untouched). Order: Name -> Category . Subcategory(s)
+         -> Contact Name . Contact Title -> Contact Partner -> Visit Website
+         -> Country . RegionsDisplay -> (full profile only) description,
+         testimonial. Everything after the icon lives inside
+         .nwx-partner-card-title-block, which the existing
+         .nwx-partner-card-top grid already aligns with the Partner Name
+         column (not the icon column) -- no icon markup/CSS is touched. */
+      if (modalLayout) {
+        var nameHtml = partner.partnerPageUrl ?
+          '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' :
+          '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>';
+        var showBody = !compactModal;
+
+        return '' +
+          '<div class="nwx-partner-card nwx-partner-card-modal">' +
+            '<div class="nwx-partner-card-top">' +
+              categoryIconHtml(partner, "nwx-card-category-icon") +
+              '<div class="nwx-partner-card-title-block">' +
+                nameHtml +
+                (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
+                (contact ? '<div class="nwx-meta nwx-modal-contact-line">' + escapeHtml(contact) + '</div>' : '') +
+                ((contactCta || website) ? '<div class="nwx-card-actions nwx-card-actions-under-name nwx-modal-card-actions">' + contactCta + website + '</div>' : '') +
+                (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line">' + locationMeta + '</div>' : '') +
+                (showBody && partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
+                (showBody && showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
+              '</div>' +
+            '</div>' +
+          '</div>';
       }
 
       return '' +
@@ -6274,7 +6334,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">“' + escapeHtml(partner.testimonial) + '”</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
         '</div>';
     }
 
@@ -6333,7 +6393,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="nwx-modal-body"><div class="nwx-region-summary" data-nwx-source="detail_modal">' + partnerCard(partner) + '</div></div>';
+        '<div class="nwx-modal-body"><div class="nwx-region-summary" data-nwx-source="detail_modal">' + partnerCard(partner, { modalLayout: true }) + '</div></div>';
 
       openModal();
     }
@@ -6401,7 +6461,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         '<div class="nwx-region-summary">' +
           regionPartners.map(function (partner, index) {
             return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="region_popup">' +
-              partnerCard(partner) +
+              partnerCard(partner, { modalLayout: true, compactModal: true }) +
             '</div>';
           }).join("") +
         '</div>' :
@@ -6470,7 +6530,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
         '<div class="nwx-region-summary">' +
           countryPartners.map(function (partner, index) {
             return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="country_popup">' +
-              partnerCard(partner) +
+              partnerCard(partner, { modalLayout: true, compactModal: true }) +
             '</div>';
           }).join("") +
         '</div>' :
