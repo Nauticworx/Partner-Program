@@ -4208,29 +4208,149 @@ body {
 }
 
 /* ==========================================================
-   TASK R18: MODAL/POPUP PARTNER CARD HIERARCHY
-   Scoped to .nwx-partner-card-modal only (Region popup, Country
-   popup, Partner Profile modal cards -- rendered by
-   partnerCard(partner, { modalLayout: true[, compactModal: true] })).
-   The main List/Map card render, its .nwx-partner-card base
-   styling, and the shared .nwx-profile-cta / .nwx-contact-cta
-   classes used elsewhere are untouched -- this block only adds a
-   scoped override on top of them.
+   TASK R19: BRAND COLOR PASS + REGION/COUNTRY POPUP CAROUSEL
+   Supersedes the narrower R18 button-color override (which was
+   scoped to .nwx-partner-card-modal only) -- Contact Partner / Visit
+   Website now use one consistent style everywhere partnerCard() is
+   rendered (main List cards, Region/Country popup cards, Partner
+   Profile modal), reusing the existing .nwx-contact-cta /
+   .nwx-profile-cta classes so partner_contact_click /
+   partner_website_click tracking is untouched.
    ========================================================== */
 
-/* Match the mockup's button emphasis (Contact Partner = filled
-   orange, Visit Website = outlined) without renaming or touching
-   the shared .nwx-contact-cta / .nwx-profile-cta classes used by
-   the main List cards, since those class names also drive
-   partner_contact_click / partner_website_click tracking. */
-#nwx-partner-map-v3 .nwx-partner-card-modal .nwx-contact-cta {
-  border-color: rgba(232, 100, 44, 0.65) !important;
-  background: rgba(232, 100, 44, 0.18) !important;
+/* Contact Partner: solid brand orange, small rectangular radius. */
+#nwx-partner-map-v3 .nwx-contact-cta {
+  background: var(--nwx-orange) !important;
+  border-color: var(--nwx-orange) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
 }
 
-#nwx-partner-map-v3 .nwx-partner-card-modal .nwx-profile-cta {
-  border-color: rgba(206, 226, 235, 0.65) !important;
-  background: rgba(206, 226, 235, 0.16) !important;
+/* Visit Website: transparent/navy with a thin light border. */
+#nwx-partner-map-v3 .nwx-profile-cta {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+}
+
+/* Partner name uses the brand "blue" (#cee2eb) everywhere. Needs
+   !important + last-in-source to beat the earlier
+   ".nwx-featured-partner-card .nwx-partner-card *  { color: inherit }"
+   rule, which otherwise forces every descendant (including the name)
+   to the card's white text color. */
+#nwx-partner-map-v3 .nwx-partner-name {
+  color: var(--nwx-blue) !important;
+}
+
+/* Give popup/profile partner cards the same subtle translucent-white
+   border the main List cards already have (List cards get theirs from
+   the .nwx-results-view-list override elsewhere in this stylesheet).
+   Needs !important to beat the earlier
+   "#nwx-partner-map-v3 .nwx-partner-card { border: 0 !important }"
+   cleanup rule -- and since the Region/Country popup instance of this
+   card is additionally reached by the more specific (and also
+   !important) "#nwx-partner-map-v3 .nwx-featured-partner-card
+   .nwx-partner-card { border: 0 !important }" rule, the class is
+   doubled here (.nwx-partner-card-modal.nwx-partner-card-modal) purely
+   to raise specificity to match it, so this still wins on source order. */
+#nwx-partner-map-v3 .nwx-partner-card-modal.nwx-partner-card-modal {
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 16px !important;
+}
+
+/* --------------------------------------------------------------
+   Region/Country popup carousel (one Partner card at a time).
+   Applies only inside .nwx-carousel, which only openRegionPopup()
+   and openCountryPopup() render -- the main List/Map grid and the
+   full Partner Profile modal never emit this wrapper.
+   -------------------------------------------------------------- */
+#nwx-partner-map-v3 .nwx-carousel {
+  position: relative;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-viewport {
+  overflow: hidden;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-track {
+  display: flex;
+  transition: transform 0.32s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #nwx-partner-map-v3 .nwx-carousel-track {
+    transition: none;
+  }
+}
+
+#nwx-partner-map-v3 .nwx-carousel-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-controls {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 4px 2px;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-arrow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+#nwx-partner-map-v3 .nwx-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-prev {
+  justify-self: start;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-next {
+  justify-self: end;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(206, 226, 235, 0.4);
+  cursor: pointer;
+}
+
+#nwx-partner-map-v3 .nwx-carousel-dot.is-active {
+  background: var(--nwx-orange);
 }
 </style>
 
@@ -6334,7 +6454,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + website + contactCta + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
         '</div>';
     }
 
@@ -6373,6 +6493,17 @@ if (target.closest(".nwx-typeahead-results")) return true;
 
     function openPartnerDetail(partner, source) {
       if (!partner) return;
+
+      /* TASK R19: the only path that can reach a non-carousel modal body
+         while activeCarousel still points at a live Region/Country popup
+         carousel is this one -- clicking a compact card inside that
+         carousel calls openPartnerDetail() directly, replacing
+         modalCard.innerHTML with the full (non-carousel) profile without
+         going through closeModal() first. Clear the stale reference here,
+         at the actual non-carousel transition, rather than in the shared
+         openModal() (which openRegionPopup()/openCountryPopup() also call,
+         immediately re-wiring their own carousel afterward). */
+      activeCarousel = null;
 
       /* TASK R4: this is the one true "intentional detail view" action --
          partner_profile_view now fires only here, never from map/list
@@ -6445,6 +6576,96 @@ if (target.closest(".nwx-typeahead-results")) return true;
       });
     }
 
+    /* TASK R19: Region/Country popup carousel -- one Partner card at a
+       time, replacing the old vertically-stacked list. Only
+       openRegionPopup()/openCountryPopup() call these; the main
+       List/Map grid and the full Partner Profile modal are untouched. */
+    var CAROUSEL_CHEVRON_LEFT = '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    var CAROUSEL_CHEVRON_RIGHT = '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+
+    var activeCarousel = null;
+
+    function buildCarouselHtml(partners, source) {
+      var slides = partners.map(function (partner, index) {
+        return '<div class="nwx-carousel-slide">' +
+          '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="' + source + '">' +
+            partnerCard(partner, { modalLayout: true, compactModal: true }) +
+          '</div>' +
+        '</div>';
+      }).join("");
+
+      var dots = partners.map(function (_, index) {
+        return '<button class="nwx-carousel-dot' + (index === 0 ? ' is-active' : '') + '" type="button" data-index="' + index + '" aria-label="Partner ' + (index + 1) + ' of ' + partners.length + '"></button>';
+      }).join("");
+
+      var controls = partners.length > 1 ?
+        '<div class="nwx-carousel-controls">' +
+          '<button class="nwx-carousel-arrow nwx-carousel-prev" type="button" aria-label="Previous partner">' + CAROUSEL_CHEVRON_LEFT + '</button>' +
+          '<div class="nwx-carousel-dots">' + dots + '</div>' +
+          '<button class="nwx-carousel-arrow nwx-carousel-next" type="button" aria-label="Next partner">' + CAROUSEL_CHEVRON_RIGHT + '</button>' +
+        '</div>' : '';
+
+      return '<div class="nwx-carousel">' +
+        '<div class="nwx-carousel-viewport"><div class="nwx-carousel-track">' + slides + '</div></div>' +
+        controls +
+      '</div>';
+    }
+
+    function wireCarousel(container, partnerCount) {
+      var track = container.querySelector(".nwx-carousel-track");
+      if (!track) return null;
+
+      var dots = Array.prototype.slice.call(container.querySelectorAll(".nwx-carousel-dot"));
+      var prevBtn = container.querySelector(".nwx-carousel-prev");
+      var nextBtn = container.querySelector(".nwx-carousel-next");
+      var idx = 0;
+
+      function render() {
+        track.style.transform = "translateX(-" + (idx * 100) + "%)";
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle("is-active", i === idx);
+        });
+        if (prevBtn) prevBtn.disabled = idx === 0;
+        if (nextBtn) nextBtn.disabled = idx === partnerCount - 1;
+      }
+
+      function goTo(nextIdx) {
+        idx = Math.max(0, Math.min(partnerCount - 1, nextIdx));
+        render();
+      }
+
+      if (prevBtn) prevBtn.addEventListener("click", function () { goTo(idx - 1); });
+      if (nextBtn) nextBtn.addEventListener("click", function () { goTo(idx + 1); });
+      dots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () { goTo(i); });
+      });
+
+      var touchStartX = null;
+      var viewport = container.querySelector(".nwx-carousel-viewport");
+      if (viewport) {
+        viewport.addEventListener("touchstart", function (event) {
+          if (!event.touches || !event.touches.length) return;
+          touchStartX = event.touches[0].clientX;
+        }, { passive: true });
+
+        viewport.addEventListener("touchend", function (event) {
+          if (touchStartX === null || !event.changedTouches || !event.changedTouches.length) return;
+          var deltaX = event.changedTouches[0].clientX - touchStartX;
+          touchStartX = null;
+          var SWIPE_THRESHOLD = 40;
+          if (deltaX <= -SWIPE_THRESHOLD) goTo(idx + 1);
+          else if (deltaX >= SWIPE_THRESHOLD) goTo(idx - 1);
+        }, { passive: true });
+      }
+
+      render();
+
+      return {
+        prev: function () { goTo(idx - 1); },
+        next: function () { goTo(idx + 1); }
+      };
+    }
+
     function openRegionPopup(regionName) {
       var regionPartners = getRegionPopupPartners(regionName);
 
@@ -6457,17 +6678,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
         trackPartnerImpression(partner, "region_popup");
       });
 
-      var listHtml = regionPartners.length ?
-        '<div class="nwx-region-summary">' +
-          regionPartners.map(function (partner, index) {
-            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="region_popup">' +
-              partnerCard(partner, { modalLayout: true, compactModal: true }) +
-            '</div>';
-          }).join("") +
-        '</div>' :
-        '<div class="nwx-testimonial-card">' +
+      var bodyHtml = regionPartners.length ?
+        buildCarouselHtml(regionPartners, "region_popup") :
+        '<div class="nwx-region-summary"><div class="nwx-testimonial-card">' +
           '<div class="nwx-testimonial-name">No partners match the current filters</div>' +
-        '</div>';
+        '</div></div>';
 
       modalCard.innerHTML =
         '<div class="nwx-modal-header">' +
@@ -6482,9 +6697,13 @@ if (target.closest(".nwx-typeahead-results")) return true;
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="nwx-modal-body">' + listHtml + '</div>';
+        '<div class="nwx-modal-body">' + bodyHtml + '</div>';
 
       openModal();
+
+      activeCarousel = regionPartners.length ?
+        wireCarousel(modalCard.querySelector(".nwx-carousel"), regionPartners.length) :
+        null;
 
       modalCard.querySelectorAll(".nwx-modal-body .nwx-featured-partner-card").forEach(function (card) {
         card.addEventListener("click", function (event) {
@@ -6526,17 +6745,11 @@ if (target.closest(".nwx-typeahead-results")) return true;
         trackPartnerImpression(partner, "country_popup");
       });
 
-      var listHtml = countryPartners.length ?
-        '<div class="nwx-region-summary">' +
-          countryPartners.map(function (partner, index) {
-            return '<div class="nwx-featured-partner-card" role="button" tabindex="0" data-index="' + index + '" data-nwx-source="country_popup">' +
-              partnerCard(partner, { modalLayout: true, compactModal: true }) +
-            '</div>';
-          }).join("") +
-        '</div>' :
-        '<div class="nwx-testimonial-card">' +
+      var bodyHtml = countryPartners.length ?
+        buildCarouselHtml(countryPartners, "country_popup") :
+        '<div class="nwx-region-summary"><div class="nwx-testimonial-card">' +
           '<div class="nwx-testimonial-name">No partners match the current filters</div>' +
-        '</div>';
+        '</div></div>';
 
       modalCard.innerHTML =
         '<div class="nwx-modal-header">' +
@@ -6551,9 +6764,13 @@ if (target.closest(".nwx-typeahead-results")) return true;
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="nwx-modal-body">' + listHtml + '</div>';
+        '<div class="nwx-modal-body">' + bodyHtml + '</div>';
 
       openModal();
+
+      activeCarousel = countryPartners.length ?
+        wireCarousel(modalCard.querySelector(".nwx-carousel"), countryPartners.length) :
+        null;
 
       modalCard.querySelectorAll(".nwx-modal-body .nwx-featured-partner-card").forEach(function (card) {
         card.addEventListener("click", function (event) {
@@ -6585,6 +6802,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
     function closeModal() {
       modal.classList.remove("is-open");
       modalCard.innerHTML = "";
+      activeCarousel = null;
     }
 
     if (modal) {
@@ -6596,6 +6814,10 @@ if (target.closest(".nwx-typeahead-results")) return true;
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {
         if (modal.classList.contains("is-open")) closeModal();
+      }
+      if (activeCarousel && modal.classList.contains("is-open")) {
+        if (event.key === "ArrowLeft") { event.preventDefault(); activeCarousel.prev(); }
+        if (event.key === "ArrowRight") { event.preventDefault(); activeCarousel.next(); }
       }
     });
 
