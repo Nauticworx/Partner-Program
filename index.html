@@ -3036,7 +3036,7 @@ body.page-id-15425 .entry-content > *:first-child {
 
 #nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 10px !important;
   width: 100% !important;
   margin: 0 !important;
@@ -4286,7 +4286,36 @@ body {
 
 #nwx-partner-map-v3 .nwx-carousel-slide {
   min-width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
+  padding: 0 8px;
+}
+
+/* TASK R20: up to 2 Partner cards per carousel page on desktop/tablet
+   (760px is the same mobile breakpoint the rest of this stylesheet already
+   uses). Each "page" is always exactly one viewport-width step regardless
+   of how many slides make it up, so wireCarousel()'s translateX(-idx*100%)
+   paging math is unchanged -- only the slide width below, and the
+   pageSize/pageCount logic in JS, differ between mobile and desktop. */
+@media (min-width: 761px) {
+  #nwx-partner-map-v3 .nwx-carousel-slide {
+    min-width: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Wider popup so two compact cards have room to breathe -- applied only
+   when a carousel is actually present (openRegionPopup()/openCountryPopup()
+   toggle this class on modalCard); the full Partner Profile modal keeps its
+   original width since it never carries this class. */
+#nwx-partner-map-v3 .nwx-modal-card.nwx-modal-card--carousel {
+  width: min(1080px, 96vw);
+}
+
+/* Slightly tighter card padding inside the 2-up carousel layout so cards
+   read as compact at half the popup's width. */
+#nwx-partner-map-v3 .nwx-carousel .nwx-partner-card-modal.nwx-partner-card-modal {
+  padding: 16px;
 }
 
 #nwx-partner-map-v3 .nwx-carousel-controls {
@@ -4351,6 +4380,66 @@ body {
 
 #nwx-partner-map-v3 .nwx-carousel-dot.is-active {
   background: var(--nwx-orange);
+}
+
+/* ==========================================================
+   TASK R20: GEOGRAPHY GLOBE ICON + RESPONSIVE CARD COUNTS
+   ========================================================== */
+
+/* Globe icon sits directly left of "Country . RegionsDisplay", vertically
+   centered with that text. No border/background/container of any kind --
+   this is a completely separate icon system from the existing category
+   icons (.nwx-card-category-icon / categoryIconHtml()), which are
+   untouched. */
+#nwx-partner-map-v3 .nwx-geo-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#nwx-partner-map-v3 .nwx-geo-globe-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  display: block;
+  object-fit: contain;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* List view: 3 Partner cards per row on standard desktop widths, 2 on
+   tablet (existing 1050px breakpoint below), 1 on mobile (existing 760px
+   breakpoint below) -- both of those breakpoints are untouched. A centered
+   max-width keeps cards from stretching edge-to-edge on very wide desktop
+   screens; below that width the grid still fills the available column like
+   before. */
+#nwx-partner-map-v3 .nwx-results-top .nwx-testimonial-grid {
+  max-width: 1320px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Visit Website external-link icon (uploaded assets/visit-partner.PNG) --
+   sits after the label, vertically centered via the button's existing
+   inline-flex/align-items:center, no border/background/container, no
+   recoloring filter (rendered as-is). Completely separate from the globe
+   geography icon above and from the existing category icon system. */
+#nwx-partner-map-v3 .nwx-profile-cta {
+  gap: 6px;
+}
+
+#nwx-partner-map-v3 .nwx-external-link-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  display: block;
+  object-fit: contain;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 </style>
 
@@ -6403,6 +6492,14 @@ if (target.closest(".nwx-typeahead-results")) return true;
       var compactModal = !!options.compactModal;
       var locationMeta = partnerLocationMeta(partner);
       var categoryMeta = partnerCategoryMeta(partner);
+      /* TASK R20: geography globe icon -- sits immediately left of the
+         Country . RegionsDisplay text on every surface that renders it
+         (List cards, Region/Country popup cards, Full Partner Profile).
+         Uses the uploaded assets/globe.png asset (never an inline SVG/CSS
+         globe, per spec) and is completely separate from the existing
+         category icon system (categoryIconHtml()/nwx-card-category-icon),
+         which is untouched. */
+      var geoIconHtml = '<img class="nwx-geo-globe-icon" src="assets/globe.png" alt="" aria-hidden="true">';
       var contact = [partner.contactName, partner.contactTitle].filter(Boolean).join(" \u00b7 ");
       var website = "";
       var contactCta = "";
@@ -6410,7 +6507,13 @@ if (target.closest(".nwx-typeahead-results")) return true;
       var tierClass = /premier/i.test(tierLabel) ? " nwx-tier-badge-premier" : "";
 
       if (partner.websiteUrl) {
-        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(modalLayout ? "Visit Website" : (partner.ctaLabel || "Website")) + '</a>';
+        /* TASK R20b: external-link icon (uploaded assets/visit-partner.PNG)
+           sits after the label, inside the same <a> -- class name, href,
+           target, rel, and the data-partner-name/data-partner-page-url
+           attributes that drive partner_website_click tracking (see
+           stopLinkPropagation() below) are all unchanged, so URL, target,
+           and tracking behavior are untouched. */
+        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '"><span class="nwx-profile-cta-label">' + escapeHtml(modalLayout ? "Visit Website" : (partner.ctaLabel || "Website")) + '</span><img class="nwx-external-link-icon" src="assets/visit-partner.PNG" alt="" aria-hidden="true"></a>';
       }
 
       if (partner.contactUrl) {
@@ -6441,7 +6544,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
                 (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
                 (contact ? '<div class="nwx-meta nwx-modal-contact-line">' + escapeHtml(contact) + '</div>' : '') +
                 ((contactCta || website) ? '<div class="nwx-card-actions nwx-card-actions-under-name nwx-modal-card-actions">' + contactCta + website + '</div>' : '') +
-                (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line">' + locationMeta + '</div>' : '') +
+                (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line nwx-geo-line">' + geoIconHtml + locationMeta + '</div>' : '') +
                 (showBody && partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
                 (showBody && showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
               '</div>' +
@@ -6454,7 +6557,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + '<div class="nwx-meta">' + locationMeta + '</div>' + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + (locationMeta ? '<div class="nwx-meta nwx-geo-line">' + geoIconHtml + locationMeta + '</div>' : '<div class="nwx-meta nwx-geo-line"></div>') + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
         '</div>';
     }
 
@@ -6502,8 +6605,13 @@ if (target.closest(".nwx-typeahead-results")) return true;
          going through closeModal() first. Clear the stale reference here,
          at the actual non-carousel transition, rather than in the shared
          openModal() (which openRegionPopup()/openCountryPopup() also call,
-         immediately re-wiring their own carousel afterward). */
-      activeCarousel = null;
+         immediately re-wiring their own carousel afterward).
+         TASK R20: teardownActiveCarousel() also detaches the carousel's
+         matchMedia resize listener (see wireCarousel()) so it doesn't keep
+         firing against DOM nodes that innerHTML is about to discard, and
+         the modal now also loses the wider carousel-only modal width. */
+      teardownActiveCarousel();
+      modalCard.classList.remove("nwx-modal-card--carousel");
 
       /* TASK R4: this is the one true "intentional detail view" action --
          partner_profile_view now fires only here, never from map/list
@@ -6530,6 +6638,12 @@ if (target.closest(".nwx-typeahead-results")) return true;
     }
 
     function openPartnerList(title, partners) {
+      /* TASK R20: defensive parity with openPartnerDetail() -- this modal
+         body is never a carousel either, and pins can be clicked again
+         without the modal closing first. */
+      teardownActiveCarousel();
+      modalCard.classList.remove("nwx-modal-card--carousel");
+
       modalCard.innerHTML =
         '<div class="nwx-modal-header">' +
           '<div class="nwx-region-title-row">' +
@@ -6548,6 +6662,10 @@ if (target.closest(".nwx-typeahead-results")) return true;
     }
 
     function openComingSoonModal(regionName) {
+      /* TASK R20: same defensive parity as openPartnerList(). */
+      teardownActiveCarousel();
+      modalCard.classList.remove("nwx-modal-card--carousel");
+
       modalCard.innerHTML =
         '<div class="nwx-modal-header">' +
           '<div class="nwx-region-title-row">' +
@@ -6576,14 +6694,43 @@ if (target.closest(".nwx-typeahead-results")) return true;
       });
     }
 
-    /* TASK R19: Region/Country popup carousel -- one Partner card at a
-       time, replacing the old vertically-stacked list. Only
-       openRegionPopup()/openCountryPopup() call these; the main
-       List/Map grid and the full Partner Profile modal are untouched. */
+    /* TASK R19/R20: Region/Country popup carousel. Pages through Partners
+       (up to CAROUSEL_PAGE_SIZE_DESKTOP per page on desktop/tablet,
+       CAROUSEL_PAGE_SIZE_MOBILE -- 1 -- on mobile), replacing the old
+       vertically-stacked list. Only openRegionPopup()/openCountryPopup()
+       call these; the main List/Map grid and the full Partner Profile
+       modal are untouched.
+
+       Paging math: every .nwx-carousel-slide is always exactly one
+       "page width" tall regardless of how many slides make up a page --
+       .nwx-carousel-slide is 100% of the viewport width on mobile (1 per
+       page) and 50% on desktop/tablet (2 per page, CSS media query at
+       761px, the same breakpoint used everywhere else in this
+       stylesheet). Because of that, moving by one whole page is always
+       exactly translateX(-100%) on the track regardless of pageSize, so
+       goTo()/render() below don't need to know pixel widths -- they only
+       track a page index (0..pageCount-1) and CSS handles how many Partner
+       cards that page actually shows. */
     var CAROUSEL_CHEVRON_LEFT = '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
     var CAROUSEL_CHEVRON_RIGHT = '<svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+    var CAROUSEL_DESKTOP_QUERY = "(min-width: 761px)";
+    var CAROUSEL_PAGE_SIZE_DESKTOP = 2;
+    var CAROUSEL_PAGE_SIZE_MOBILE = 1;
 
     var activeCarousel = null;
+
+    /* Detaches the active carousel's matchMedia resize listener (if any)
+       before dropping the reference, so a stale listener never fires
+       against DOM nodes a subsequent innerHTML replacement has already
+       discarded. Called from every place that can leave a live
+       Region/Country carousel state: closeModal() and every modal-body
+       function that doesn't itself render a carousel. */
+    function teardownActiveCarousel() {
+      if (activeCarousel && typeof activeCarousel.destroy === "function") {
+        activeCarousel.destroy();
+      }
+      activeCarousel = null;
+    }
 
     function buildCarouselHtml(partners, source) {
       var slides = partners.map(function (partner, index) {
@@ -6594,15 +6741,15 @@ if (target.closest(".nwx-typeahead-results")) return true;
         '</div>';
       }).join("");
 
-      var dots = partners.map(function (_, index) {
-        return '<button class="nwx-carousel-dot' + (index === 0 ? ' is-active' : '') + '" type="button" data-index="' + index + '" aria-label="Partner ' + (index + 1) + ' of ' + partners.length + '"></button>';
-      }).join("");
-
+      /* Dots are rendered by wireCarousel()/renderDots() once the current
+         pageSize (and therefore page count) is known at mount time -- the
+         count of dots represents pages, not individual Partners, and the
+         mobile/desktop page size can only be determined client-side. */
       var controls = partners.length > 1 ?
         '<div class="nwx-carousel-controls">' +
-          '<button class="nwx-carousel-arrow nwx-carousel-prev" type="button" aria-label="Previous partner">' + CAROUSEL_CHEVRON_LEFT + '</button>' +
-          '<div class="nwx-carousel-dots">' + dots + '</div>' +
-          '<button class="nwx-carousel-arrow nwx-carousel-next" type="button" aria-label="Next partner">' + CAROUSEL_CHEVRON_RIGHT + '</button>' +
+          '<button class="nwx-carousel-arrow nwx-carousel-prev" type="button" aria-label="Previous page">' + CAROUSEL_CHEVRON_LEFT + '</button>' +
+          '<div class="nwx-carousel-dots"></div>' +
+          '<button class="nwx-carousel-arrow nwx-carousel-next" type="button" aria-label="Next page">' + CAROUSEL_CHEVRON_RIGHT + '</button>' +
         '</div>' : '';
 
       return '<div class="nwx-carousel">' +
@@ -6615,30 +6762,64 @@ if (target.closest(".nwx-typeahead-results")) return true;
       var track = container.querySelector(".nwx-carousel-track");
       if (!track) return null;
 
-      var dots = Array.prototype.slice.call(container.querySelectorAll(".nwx-carousel-dot"));
+      var controlsWrap = container.querySelector(".nwx-carousel-controls");
+      var dotsWrap = container.querySelector(".nwx-carousel-dots");
       var prevBtn = container.querySelector(".nwx-carousel-prev");
       var nextBtn = container.querySelector(".nwx-carousel-next");
+      var desktopQuery = window.matchMedia(CAROUSEL_DESKTOP_QUERY);
+
+      var pageSize = desktopQuery.matches ? CAROUSEL_PAGE_SIZE_DESKTOP : CAROUSEL_PAGE_SIZE_MOBILE;
+      var pageCount = Math.max(1, Math.ceil(partnerCount / pageSize));
       var idx = 0;
+
+      function renderDots() {
+        if (!dotsWrap) return;
+        var html = "";
+        for (var i = 0; i < pageCount; i++) {
+          html += '<button class="nwx-carousel-dot' + (i === idx ? ' is-active' : '') + '" type="button" data-index="' + i + '" aria-label="Page ' + (i + 1) + ' of ' + pageCount + '"></button>';
+        }
+        dotsWrap.innerHTML = html;
+        Array.prototype.forEach.call(dotsWrap.querySelectorAll(".nwx-carousel-dot"), function (dot, i) {
+          dot.addEventListener("click", function () { goTo(i); });
+        });
+      }
 
       function render() {
         track.style.transform = "translateX(-" + (idx * 100) + "%)";
-        dots.forEach(function (dot, i) {
-          dot.classList.toggle("is-active", i === idx);
-        });
+        if (dotsWrap) {
+          Array.prototype.forEach.call(dotsWrap.querySelectorAll(".nwx-carousel-dot"), function (dot, i) {
+            dot.classList.toggle("is-active", i === idx);
+          });
+        }
         if (prevBtn) prevBtn.disabled = idx === 0;
-        if (nextBtn) nextBtn.disabled = idx === partnerCount - 1;
+        if (nextBtn) nextBtn.disabled = idx === pageCount - 1;
+        /* Nothing to page through (e.g. 2 Partners on desktop = 1 page) --
+           hide arrows/dots entirely rather than show a single inert dot. */
+        if (controlsWrap) controlsWrap.style.display = pageCount > 1 ? "" : "none";
       }
 
       function goTo(nextIdx) {
-        idx = Math.max(0, Math.min(partnerCount - 1, nextIdx));
+        idx = Math.max(0, Math.min(pageCount - 1, nextIdx));
+        render();
+      }
+
+      /* Recalculates pagination when crossing the desktop/mobile
+         breakpoint while the popup is open (e.g. rotating a tablet, or
+         resizing a desktop window) -- keeps roughly the same first visible
+         Partner in view rather than snapping back to page 0. */
+      function handleViewportChange() {
+        var newPageSize = desktopQuery.matches ? CAROUSEL_PAGE_SIZE_DESKTOP : CAROUSEL_PAGE_SIZE_MOBILE;
+        if (newPageSize === pageSize) return;
+        var firstPartnerIndex = idx * pageSize;
+        pageSize = newPageSize;
+        pageCount = Math.max(1, Math.ceil(partnerCount / pageSize));
+        idx = Math.max(0, Math.min(pageCount - 1, Math.floor(firstPartnerIndex / pageSize)));
+        renderDots();
         render();
       }
 
       if (prevBtn) prevBtn.addEventListener("click", function () { goTo(idx - 1); });
       if (nextBtn) nextBtn.addEventListener("click", function () { goTo(idx + 1); });
-      dots.forEach(function (dot, i) {
-        dot.addEventListener("click", function () { goTo(i); });
-      });
 
       var touchStartX = null;
       var viewport = container.querySelector(".nwx-carousel-viewport");
@@ -6658,15 +6839,25 @@ if (target.closest(".nwx-typeahead-results")) return true;
         }, { passive: true });
       }
 
+      if (desktopQuery.addEventListener) desktopQuery.addEventListener("change", handleViewportChange);
+      else if (desktopQuery.addListener) desktopQuery.addListener(handleViewportChange);
+
+      renderDots();
       render();
 
       return {
         prev: function () { goTo(idx - 1); },
-        next: function () { goTo(idx + 1); }
+        next: function () { goTo(idx + 1); },
+        destroy: function () {
+          if (desktopQuery.removeEventListener) desktopQuery.removeEventListener("change", handleViewportChange);
+          else if (desktopQuery.removeListener) desktopQuery.removeListener(handleViewportChange);
+        }
       };
     }
 
     function openRegionPopup(regionName) {
+      teardownActiveCarousel();
+
       var regionPartners = getRegionPopupPartners(regionName);
 
       /* TASK R4: every unique Partner shown in this popup gets 1 impression,
@@ -6698,6 +6889,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '</div>' +
         '</div>' +
         '<div class="nwx-modal-body">' + bodyHtml + '</div>';
+
+      modalCard.classList.toggle("nwx-modal-card--carousel", regionPartners.length > 0);
 
       openModal();
 
@@ -6737,6 +6930,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
     }
 
     function openCountryPopup(countryName) {
+      teardownActiveCarousel();
+
       var countryPartners = getCountryPopupPartners(countryName);
 
       /* TASK R4: same rule as openRegionPopup() -- 1 impression per unique
@@ -6765,6 +6960,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '</div>' +
         '</div>' +
         '<div class="nwx-modal-body">' + bodyHtml + '</div>';
+
+      modalCard.classList.toggle("nwx-modal-card--carousel", countryPartners.length > 0);
 
       openModal();
 
@@ -6802,7 +6999,8 @@ if (target.closest(".nwx-typeahead-results")) return true;
     function closeModal() {
       modal.classList.remove("is-open");
       modalCard.innerHTML = "";
-      activeCarousel = null;
+      teardownActiveCarousel();
+      modalCard.classList.remove("nwx-modal-card--carousel");
     }
 
     if (modal) {
