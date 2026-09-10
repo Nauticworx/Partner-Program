@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-10T07:35:05.871Z",
+  "updatedAt": "2026-09-10T07:44:50.008Z",
   "partners": [
     {
       "region": "Northern Europe",
@@ -281,6 +281,39 @@
       "logoUrl": "",
       "imageUrl": "https://drive.google.com/thumbnail?id=1bNrp9r4l23ha5TTRQS8h07BFIv9vOFgN&sz=w800",
       "partnerPageUrl": "https://www.nauticworx.com/our-trusted-partners/z-bridge-bring-to-work-system/"
+    },
+    {
+      "region": "Southern Africa",
+      "regions": [
+        "Central Africa",
+        "East Africa",
+        "North Africa",
+        "Southern Africa",
+        "West Africa"
+      ],
+      "regionsDisplay": "Africa",
+      "country": "South Africa",
+      "countryCode": "ZA",
+      "countries": [
+        "South Africa"
+      ],
+      "tier": "Industry Partner",
+      "category": "Crew, Medical & Welfare Services",
+      "subcategories": [
+        "Crew Management & Manning"
+      ],
+      "name": "G. Garnder & Cp Pty",
+      "description": "",
+      "testimonial": "",
+      "contactName": "Gordon Garnder",
+      "contactTitle": "",
+      "websiteUrl": "",
+      "ctaLabel": "Visit Website",
+      "contactUrl": "mailto:g.gardnerandco@outlook.com?subject=Nauticworx Partner Inquiry",
+      "contactCtaLabel": "Contact Partner",
+      "logoUrl": "",
+      "imageUrl": "",
+      "partnerPageUrl": "https://www.nauticworx.com/our-trusted-partners/g-gardner-and-co-pty-ltd/"
     }
   ],
   "options": {
