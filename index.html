@@ -4409,6 +4409,17 @@ body {
   box-shadow: none !important;
 }
 
+/* TASK R21: .nwx-geo-text (new span wrapping locationMeta -- see
+   partnerCard() JS) is a stable CSS hook for the mobile-only compact
+   geography wrap below. display:contents here removes the span from the
+   box tree so its contents (text run + .nwx-meta-separator) become direct
+   flex items of .nwx-geo-line exactly as before the span was introduced,
+   reproducing R20 desktop/tablet wrapping byte-for-byte. Overridden back
+   to a real box only inside the <=760px media query. */
+#nwx-partner-map-v3 .nwx-geo-text {
+  display: contents;
+}
+
 /* List view: 3 Partner cards per row on standard desktop widths, 2 on
    tablet (existing 1050px breakpoint below), 1 on mobile (existing 760px
    breakpoint below) -- both of those breakpoints are untouched. A centered
@@ -4440,6 +4451,210 @@ body {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+
+/* ==========================================================================
+   TASK R21: MOBILE RESPONSIVE REFINEMENT (<=760px, existing breakpoint)
+   Mobile-only. Desktop/tablet (min-width:761px) rules above are untouched.
+   Applies to both modal types that share .nwx-modal-card (Region/Country
+   popup carousel and the full Partner Profile modal) unless a rule is
+   explicitly scoped to .nwx-carousel-only markup, which the Partner
+   Profile modal never renders.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+
+  /* --- 1. Region/Country popup + Partner Profile modal: compact chrome ---
+     Applies to BOTH modal types via the shared .nwx-modal-card node.
+     .nwx-modal-card already has overflow:auto (base rule) which is the
+     single scroll container for header+body together -- intentionally not
+     duplicating overflow-y:auto on .nwx-modal-body, which would create a
+     nested/double scrollbar. */
+  #nwx-partner-map-v3 .nwx-modal {
+    padding: 14px 12px !important;
+    align-items: flex-start !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-card,
+  #nwx-partner-map-v3 .nwx-modal-card.nwx-modal-card--carousel {
+    width: calc(100vw - 24px) !important;
+    max-width: 480px !important;
+    max-height: 88vh !important;
+    border-radius: 14px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-header {
+    padding: 10px 12px 8px !important;
+    gap: 4px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-kicker {
+    font-size: 11px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-region-modal-name {
+    font-size: clamp(20px, 7vw, 32px) !important;
+    line-height: 1.1 !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-partner-count {
+    font-size: 11px !important;
+    margin-top: 2px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-actions {
+    gap: 6px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-region-cta {
+    font-size: 10px !important;
+    padding: 6px 10px !important;
+    min-height: 28px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-close {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    font-size: 17px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-modal-body {
+    padding: 10px 10px 12px !important;
+  }
+
+  /* --- Region/Country carousel: card fills nearly the whole modal width.
+     Scoped to .nwx-carousel, which only the Region/Country popup renders --
+     the full Partner Profile modal never has this markup, so this cannot
+     affect it. */
+  #nwx-partner-map-v3 .nwx-carousel-slide {
+    padding: 0 6px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-carousel .nwx-partner-card-modal.nwx-partner-card-modal {
+    padding: 14px !important;
+  }
+
+  /* --- 4. Carousel controls: smaller, feel secondary to the card --- */
+  #nwx-partner-map-v3 .nwx-carousel-controls {
+    grid-template-columns: 32px 1fr 32px !important;
+    padding: 8px 2px 0 !important;
+    gap: 6px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-carousel-arrow {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-carousel-arrow svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-carousel-dot {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  /* --- 2. Mobile CTAs: stack Contact Partner above Visit Website ---
+     DOM order is already Contact-then-Website in partnerCard() (both the
+     main List/Map card and the modal card path), so flex-direction:column
+     alone preserves the required 1) Contact Partner 2) Visit Website order
+     without needing an explicit `order` property. Applies to both the main
+     card (.nwx-card-actions-under-name) and the modal card, which also
+     carries that class alongside .nwx-modal-card-actions.
+     Higher selector specificity than the existing unscoped
+     "SAME LINE"/"Compact partner card buttons" rules above (three classes
+     deep vs. two) means this wins regardless of source order, independent
+     of being appended last. */
+  #nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions-under-name,
+  #nwx-partner-map-v3 .nwx-modal-card-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions-under-name .nwx-contact-cta,
+  #nwx-partner-map-v3 .nwx-partner-card .nwx-card-actions-under-name .nwx-profile-cta,
+  #nwx-partner-map-v3 .nwx-modal-card-actions .nwx-contact-cta,
+  #nwx-partner-map-v3 .nwx-modal-card-actions .nwx-profile-cta {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 38px !important;
+    padding: 8px 14px !important;
+    font-size: 12.5px !important;
+    /* Buttons are full-width now, so both labels fit without truncation --
+       no overflow:hidden/text-overflow:ellipsis (removed per review). */
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  /* --- 3. Geography: one compact, independently-wrapping text group ---
+     .nwx-geo-text (new span -- see partnerCard() JS) lets the geography
+     text wrap as its own flex item, so a continuation line aligns under
+     the text rather than under the icon, and so this behaves correctly
+     even in the (rarer) case where locationMeta contains multiple <a>
+     region-link elements rather than one plain text run. */
+  #nwx-partner-map-v3 .nwx-geo-line {
+    align-items: flex-start !important;
+    flex-wrap: wrap !important;
+    row-gap: 2px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-geo-globe-icon {
+    margin-top: 2px !important;
+  }
+
+  #nwx-partner-map-v3 .nwx-geo-text {
+    display: inline !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  /* --- 5. Mobile Map view: explicit responsive height instead of the
+     outer .nwx-map-viewport flex-growing to fill all remaining space in
+     the "MAP-ONLY SCROLLING" flex-column layout above (that flex-grow
+     behavior is what left large unused white space below the previously
+     fixed 430px inner map). Scoped to .nwx-results-view-map only, so List
+     mode (.nwx-map-viewport already display:none on mobile) is unaffected.
+     Higher specificity (extra .nwx-results-view-map class) than the
+     unscoped .nwx-map-viewport rules above means this wins regardless of
+     source order. */
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport {
+    flex: 0 0 auto !important;
+    height: clamp(360px, 60vh, 620px) !important;
+    min-height: 360px !important;
+    max-height: 620px !important;
+  }
+
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport .nwx-map-module,
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport .nwx-map-stage,
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport .nwx-map-content,
+  #nwx-partner-map-v3.nwx-results-view-map .nwx-map-viewport .nwx-svg-map-wrap {
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+  }
+
+  /* --- 9. Long-content resilience: wrap only actual text content, never
+     buttons/icons/SVGs/CTA wrappers. overflow-wrap:anywhere only (no
+     word-break), per review -- scoped to the specific text classes rather
+     than every .nwx-partner-card descendant. .nwx-meta covers geography,
+     category/subcategory, and contact-name/title text; overflow-wrap is
+     an inherited property so it also reaches text inside nested <a> tags
+     (region/subcategory links) without a separate rule. */
+  #nwx-partner-map-v3 .nwx-partner-name,
+  #nwx-partner-map-v3 .nwx-meta,
+  #nwx-partner-map-v3 .nwx-description,
+  #nwx-partner-map-v3 .nwx-testimonial-text {
+    overflow-wrap: anywhere !important;
+  }
 }
 </style>
 
@@ -6544,7 +6759,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
                 (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
                 (contact ? '<div class="nwx-meta nwx-modal-contact-line">' + escapeHtml(contact) + '</div>' : '') +
                 ((contactCta || website) ? '<div class="nwx-card-actions nwx-card-actions-under-name nwx-modal-card-actions">' + contactCta + website + '</div>' : '') +
-                (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line nwx-geo-line">' + geoIconHtml + locationMeta + '</div>' : '') +
+                (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line nwx-geo-line">' + geoIconHtml + '<span class="nwx-geo-text">' + locationMeta + '</span></div>' : '') +
                 (showBody && partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
                 (showBody && showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
               '</div>' +
@@ -6557,7 +6772,7 @@ if (target.closest(".nwx-typeahead-results")) return true;
           '<div class="nwx-partner-card-top">' +
             categoryIconHtml(partner, "nwx-card-category-icon") +
             '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + (locationMeta ? '<div class="nwx-meta nwx-geo-line">' + geoIconHtml + locationMeta + '</div>' : '<div class="nwx-meta nwx-geo-line"></div>') + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
+              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + (locationMeta ? '<div class="nwx-meta nwx-geo-line">' + geoIconHtml + '<span class="nwx-geo-text">' + locationMeta + '</span></div>' : '<div class="nwx-meta nwx-geo-line"></div>') + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
         '</div>';
     }
 
@@ -7561,6 +7776,7 @@ function buildSidebarLayout() {
     if (view === "map") {
       window.setTimeout(function () {
         updateMapView();
+        updateAspectMode();
       }, 20);
     }
   });
