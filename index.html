@@ -4656,6 +4656,183 @@ body {
     overflow-wrap: anywhere !important;
   }
 }
+
+/* ==========================================================================
+   TASK R22: COMPACT PARTNER CARD REDESIGN
+   Applies to the main List/Map cards and the Region/Country popup preview
+   cards only -- both now render via buildCompactPartnerCardInner() and
+   carry the new .nwx-partner-card-compact class. The full Partner Profile
+   modal (.nwx-partner-card-modal WITHOUT .nwx-partner-card-compact) never
+   gets this class, so every rule below is structurally incapable of
+   affecting it -- not just "not currently matching" but selector-scoped
+   so it never can. Applies at all breakpoints (desktop and mobile share
+   the same information hierarchy per spec); a couple of small mobile-only
+   adjustments are called out below.
+   ========================================================================== */
+
+/* --- 1. Partner name: larger, white, dominant. Scoped narrowly so the
+   full-profile modal's own .nwx-partner-name (still brand blue, R19)
+   is untouched -- three classes deep here beats R19's two-classes-deep
+   "#nwx-partner-map-v3 .nwx-partner-name" rule on specificity alone,
+   independent of source order. */
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-partner-name {
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+}
+
+/* --- Name row: name grows, website icon pins to the top-right. --- */
+#nwx-partner-map-v3 .nwx-compact-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* --- Website icon: icon-only, no button chrome, slightly larger tap
+   target than the visible icon for accessibility. Scoped three classes
+   deep (.nwx-partner-card-compact .nwx-profile-cta.nwx-website-icon-cta)
+   to safely beat the older unscoped ".nwx-partner-card a/.nwx-profile-cta"
+   "same line" rules (id+2-classes) regardless of source order -- those
+   rules still style the full-profile modal's own .nwx-profile-cta
+   unaffected, since this selector requires nwx-website-icon-cta too. --- */
+/* --- Fix: .nwx-partner-name is an <a> inside .nwx-partner-card, so
+   without this it inherits the older unscoped "PARTNER CARD BUTTONS:
+   SAME LINE, FIT INSIDE THE CARD" rule (nowrap/ellipsis/flex:1 1 0),
+   which was written for the old CTA buttons and truncated long names
+   here. Allow it to wrap naturally instead, per spec point 7. Scoped to
+   .nwx-partner-card-compact so the full-profile modal's name (which
+   never sat inside that old rule's reach in the same way) is untouched. */
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-partner-name {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-profile-cta.nwx-website-icon-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  margin: -6px -6px 0 0 !important;
+  padding: 6px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-website-icon-cta:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-website-icon-cta .nwx-external-link-icon {
+  width: 19px !important;
+  height: 19px !important;
+  flex: 0 0 19px !important;
+}
+
+/* --- Contact block (link when a contactUrl/mailto exists, plain text
+   otherwise): icon + stacked Name/Title, replaces the old Contact Partner
+   button. Scoped three classes deep for the same reason as the website
+   icon above. --- */
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-contact-cta.nwx-contact-block,
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-contact-block-static {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  min-height: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+  flex-basis: auto !important;
+  text-decoration: none !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: normal !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-contact-cta.nwx-contact-block:hover {
+  text-decoration: none !important;
+}
+
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-contact-cta.nwx-contact-block:hover .nwx-contact-name-line {
+  text-decoration: underline;
+}
+
+#nwx-partner-map-v3 .nwx-contact-icon {
+  margin-top: 1px;
+}
+
+#nwx-partner-map-v3 .nwx-contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+#nwx-partner-map-v3 .nwx-contact-name-line {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+#nwx-partner-map-v3 .nwx-contact-title-line {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+
+/* --- Category/Subcategory line below geography: plain text, no icon,
+   no click affordance -- reuses the existing .nwx-category-line color. */
+#nwx-partner-map-v3 .nwx-partner-card-compact .nwx-category-line {
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  /* Long partner names can wrap to two lines on mobile; keep the website
+     icon pinned to the first line's top rather than vertically centered
+     against the full wrapped block. */
+  #nwx-partner-map-v3 .nwx-compact-top-row {
+    align-items: flex-start;
+  }
+
+  /* Compact cards nest the geography row inside .nwx-partner-card-title-block
+     (narrower than the full-width row it used to be, since it now shares
+     its column with the category icon), which made the R21 mobile rule's
+     "flex: 1 1 auto" strand the globe icon alone on its own line for
+     longer geography strings -- flex-wrap's same-line fit test uses the
+     item's hypothetical (content) size with an auto basis, so a long text
+     item can be pushed to the next line wholesale instead of sharing the
+     icon's line and wrapping internally. "flex: 1 1 0%" fixes that by
+     giving the item a zero basis, so it participates in the same-line fit
+     test using only min-width (already 0) rather than its content size.
+     Scoped to .nwx-partner-card-compact (higher specificity than the
+     unscoped R21 rule) so the full Partner Profile modal's geography --
+     still governed by that R21 rule, still at its original wider width --
+     is completely untouched. */
+  #nwx-partner-map-v3 .nwx-partner-card-compact .nwx-geo-text {
+    flex: 1 1 0% !important;
+  }
+}
 </style>
 
 
@@ -6700,55 +6877,108 @@ if (target.closest(".nwx-typeahead-results")) return true;
       });
     }
 
+    /* TASK R22: shared compact-card body, used by partnerCard() for both
+       the main List/Map cards and the Region/Country popup preview cards
+       (buildCarouselHtml() / openPartnerList()). The full Partner Profile
+       modal (modalLayout && !compactModal) never calls this -- it keeps
+       its original richer markup untouched in partnerCard() below, so
+       this function cannot affect it. Reuses the existing
+       categoryIconHtml()/partnerLocationMeta()/partnerCategoryMeta()
+       helpers and the existing nwx-profile-cta/nwx-contact-cta/
+       nwx-partner-name classes (and their data-partner-name/
+       data-partner-page-url attributes) so partner_website_click,
+       partner_contact_click, and partner_page_click tracking in
+       stopLinkPropagation() fires exactly as before -- only the visual
+       treatment of those elements changes (see the .nwx-partner-card-compact
+       CSS scope). */
+    function buildCompactPartnerCardInner(partner) {
+      var locationMeta = partnerLocationMeta(partner);
+      var categoryMeta = partnerCategoryMeta(partner);
+      var geoIconHtml = '<img class="nwx-geo-globe-icon" src="assets/globe.png" alt="" aria-hidden="true">';
+      /* New contact icon reuses the globe icon's own sizing class
+         (nwx-geo-globe-icon: width/height/flex all 17px, object-fit,
+         transparent/borderless) so it is guaranteed to render at exactly
+         the same dimensions as globe.png, per spec, from one shared rule
+         rather than a duplicated size value that could drift. */
+      var contactIconHtml = '<img class="nwx-geo-globe-icon nwx-contact-icon" src="assets/partner-contact-name.png" alt="" aria-hidden="true">';
+
+      var nameHtml = partner.partnerPageUrl ?
+        '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' :
+        '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>';
+
+      var websiteIconHtml = "";
+      if (partner.websiteUrl) {
+        /* Same href/target/rel/data-* attributes and nwx-profile-cta class
+           as before (TASK R20b) -- only the inner markup drops the text
+           label so this renders icon-only; partner_website_click tracking
+           and navigation are unchanged. */
+        websiteIconHtml = '<a class="nwx-profile-cta nwx-website-icon-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '" aria-label="Visit website" title="Visit website"><img class="nwx-external-link-icon" src="assets/visit-partner.PNG" alt="" aria-hidden="true"></a>';
+      }
+
+      var contactName = partner.contactName || "";
+      var contactTitle = partner.contactTitle || "";
+      var contactTextHtml = "";
+      if (contactName) contactTextHtml += '<span class="nwx-contact-name-line">' + escapeHtml(contactName) + '</span>';
+      if (contactTitle) contactTextHtml += '<span class="nwx-contact-title-line">' + escapeHtml(contactTitle) + '</span>';
+
+      var contactBlockHtml = "";
+      if (partner.contactUrl) {
+        /* Same href/target/rel/data-* attributes and nwx-contact-cta class
+           as the old "Contact Partner" button (TASK R18/R19) -- only the
+           inner markup changes, so partner_contact_click tracking and the
+           mailto: navigation itself are unchanged. Falls back to a plain
+           "Contact" label so the action is never silently lost for a
+           partner who has an email on file but no listed contact name. */
+        var linkText = contactTextHtml || '<span class="nwx-contact-name-line">Contact</span>';
+        contactBlockHtml = '<a class="nwx-contact-cta nwx-contact-block" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + contactIconHtml + '<span class="nwx-contact-text">' + linkText + '</span></a>';
+      } else if (contactTextHtml) {
+        /* No contact email on file: show the name/title as plain text,
+           per spec, rather than a broken mailto: link. */
+        contactBlockHtml = '<div class="nwx-contact-block nwx-contact-block-static">' + contactIconHtml + '<span class="nwx-contact-text">' + contactTextHtml + '</span></div>';
+      }
+
+      return '' +
+        '<div class="nwx-partner-card-top">' +
+          categoryIconHtml(partner, "nwx-card-category-icon") +
+          '<div class="nwx-partner-card-title-block">' +
+            '<div class="nwx-compact-top-row">' + nameHtml + websiteIconHtml + '</div>' +
+            contactBlockHtml +
+            (locationMeta ? '<div class="nwx-meta nwx-geo-line">' + geoIconHtml + '<span class="nwx-geo-text">' + locationMeta + '</span></div>' : '') +
+            (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') +
+          '</div>' +
+        '</div>';
+    }
+
     function partnerCard(partner, options) {
       options = options || {};
       var showTestimonial = options.showTestimonial !== false;
       var modalLayout = !!options.modalLayout;
       var compactModal = !!options.compactModal;
-      var locationMeta = partnerLocationMeta(partner);
-      var categoryMeta = partnerCategoryMeta(partner);
-      /* TASK R20: geography globe icon -- sits immediately left of the
-         Country . RegionsDisplay text on every surface that renders it
-         (List cards, Region/Country popup cards, Full Partner Profile).
-         Uses the uploaded assets/globe.png asset (never an inline SVG/CSS
-         globe, per spec) and is completely separate from the existing
-         category icon system (categoryIconHtml()/nwx-card-category-icon),
-         which is untouched. */
-      var geoIconHtml = '<img class="nwx-geo-globe-icon" src="assets/globe.png" alt="" aria-hidden="true">';
-      var contact = [partner.contactName, partner.contactTitle].filter(Boolean).join(" \u00b7 ");
-      var website = "";
-      var contactCta = "";
-      var tierLabel = partner.tier || "Industry Partner";
-      var tierClass = /premier/i.test(tierLabel) ? " nwx-tier-badge-premier" : "";
 
-      if (partner.websiteUrl) {
-        /* TASK R20b: external-link icon (uploaded assets/visit-partner.PNG)
-           sits after the label, inside the same <a> -- class name, href,
-           target, rel, and the data-partner-name/data-partner-page-url
-           attributes that drive partner_website_click tracking (see
-           stopLinkPropagation() below) are all unchanged, so URL, target,
-           and tracking behavior are untouched. */
-        website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '"><span class="nwx-profile-cta-label">' + escapeHtml(modalLayout ? "Visit Website" : (partner.ctaLabel || "Website")) + '</span><img class="nwx-external-link-icon" src="assets/visit-partner.PNG" alt="" aria-hidden="true"></a>';
-      }
+      /* TASK R18/R19 (UNCHANGED): full Partner Profile modal only
+         (modalLayout && !compactModal) -- richer markup with
+         description/testimonial and the original button-style CTAs.
+         TASK R22 explicitly does not redesign this branch; it never calls
+         buildCompactPartnerCardInner(), so nothing below can affect it. */
+      if (modalLayout && !compactModal) {
+        var locationMeta = partnerLocationMeta(partner);
+        var categoryMeta = partnerCategoryMeta(partner);
+        var geoIconHtml = '<img class="nwx-geo-globe-icon" src="assets/globe.png" alt="" aria-hidden="true">';
+        var contact = [partner.contactName, partner.contactTitle].filter(Boolean).join(" \u00b7 ");
+        var website = "";
+        var contactCta = "";
 
-      if (partner.contactUrl) {
-        contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">' + escapeHtml(modalLayout ? "Contact Partner" : (partner.contactCtaLabel || "Contact")) + '</a>';
-      }
+        if (partner.websiteUrl) {
+          website = '<a class="nwx-profile-cta" href="' + escapeAttr(partner.websiteUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '"><span class="nwx-profile-cta-label">Visit Website</span><img class="nwx-external-link-icon" src="assets/visit-partner.PNG" alt="" aria-hidden="true"></a>';
+        }
 
-      /* TASK R18: modal/popup card hierarchy (Region popup, Country popup,
-         Partner Profile modal only -- the main List/Map card render below
-         is completely untouched). Order: Name -> Category . Subcategory(s)
-         -> Contact Name . Contact Title -> Contact Partner -> Visit Website
-         -> Country . RegionsDisplay -> (full profile only) description,
-         testimonial. Everything after the icon lives inside
-         .nwx-partner-card-title-block, which the existing
-         .nwx-partner-card-top grid already aligns with the Partner Name
-         column (not the icon column) -- no icon markup/CSS is touched. */
-      if (modalLayout) {
+        if (partner.contactUrl) {
+          contactCta = '<a class="nwx-contact-cta" href="' + escapeAttr(partner.contactUrl) + '" target="_blank" rel="noopener" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl || "") + '">Contact Partner</a>';
+        }
+
         var nameHtml = partner.partnerPageUrl ?
           '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' :
           '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>';
-        var showBody = !compactModal;
 
         return '' +
           '<div class="nwx-partner-card nwx-partner-card-modal">' +
@@ -6760,20 +6990,24 @@ if (target.closest(".nwx-typeahead-results")) return true;
                 (contact ? '<div class="nwx-meta nwx-modal-contact-line">' + escapeHtml(contact) + '</div>' : '') +
                 ((contactCta || website) ? '<div class="nwx-card-actions nwx-card-actions-under-name nwx-modal-card-actions">' + contactCta + website + '</div>' : '') +
                 (locationMeta ? '<div class="nwx-meta nwx-modal-geo-line nwx-geo-line">' + geoIconHtml + '<span class="nwx-geo-text">' + locationMeta + '</span></div>' : '') +
-                (showBody && partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
-                (showBody && showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
+                (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') +
+                (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
               '</div>' +
             '</div>' +
           '</div>';
       }
 
-      return '' +
-        '<div class="nwx-partner-card">' +
-          '<div class="nwx-partner-card-top">' +
-            categoryIconHtml(partner, "nwx-card-category-icon") +
-            '<div class="nwx-partner-card-title-block">' +
-              (partner.partnerPageUrl ? '<a class="nwx-partner-name" href="' + escapeAttr(partner.partnerPageUrl) + '" target="_top" data-partner-name="' + escapeAttr(partner.name || "") + '" data-partner-page-url="' + escapeAttr(partner.partnerPageUrl) + '">' + escapeHtml(partner.name) + '</a>' : '<div class="nwx-partner-name">' + escapeHtml(partner.name) + '</div>') + (website || contactCta ? '<div class="nwx-card-actions nwx-card-actions-under-name">' + contactCta + website + '</div>' : '') + '</div>' + '</div>' + (locationMeta ? '<div class="nwx-meta nwx-geo-line">' + geoIconHtml + '<span class="nwx-geo-text">' + locationMeta + '</span></div>' : '<div class="nwx-meta nwx-geo-line"></div>') + (categoryMeta ? '<div class="nwx-meta nwx-category-line">' + categoryMeta + '</div>' : '') + (contact ? '<div class="nwx-meta">' + escapeHtml(contact) + '</div>' : '') + (partner.description ? '<div class="nwx-description">' + escapeHtml(partner.description) + '</div>' : '') + (showTestimonial && partner.testimonial ? '<div class="nwx-testimonial-text">\u201c' + escapeHtml(partner.testimonial) + '\u201d</div>' : '') +
-        '</div>';
+      /* TASK R22: compact card layout -- shared by the main List/Map cards
+         (!modalLayout) and the Region/Country popup preview cards
+         (modalLayout && compactModal). Wrapper classes differ slightly
+         (the modal variant keeps nwx-partner-card-modal for the existing
+         carousel-width/padding CSS that targets it); inner markup is
+         identical via buildCompactPartnerCardInner(). */
+      var wrapperClass = modalLayout ?
+        "nwx-partner-card nwx-partner-card-modal nwx-partner-card-compact" :
+        "nwx-partner-card nwx-partner-card-compact";
+
+      return '<div class="' + wrapperClass + '">' + buildCompactPartnerCardInner(partner) + '</div>';
     }
 
     function stopLinkPropagation(container) {
