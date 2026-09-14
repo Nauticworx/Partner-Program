@@ -4676,14 +4676,29 @@ body {
    "#nwx-partner-map-v3 .nwx-partner-name" rule on specificity alone,
    independent of source order. */
 #nwx-partner-map-v3 .nwx-partner-card-compact .nwx-partner-name {
-  font-size: 20px !important;
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
   line-height: 1.15 !important;
-  font-weight: 700 !important;
-  color: #fff !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  flex: 1 1 auto !important;
 }
+
+/* --- Fix: inside the main List/Map grid (.nwx-results-top), an older
+   rule -- "#nwx-partner-map-v3 .nwx-results-top .nwx-partner-card a"
+   (font-size:11.5px, min-width:761px) -- was winning over the rule above
+   on specificity alone: .nwx-partner-name renders as an <a>, so it also
+   matches that broader selector, whose extra type selector (a) gives it
+   one more specificity point than the class-only rule above. This didn't
+   affect the Region/Country popup (its cards live in .nwx-modal-card, not
+   .nwx-results-top), which is why only List-view names were shrunk.
+   Re-declaring font-size/line-height here, scoped to .nwx-results-top,
+   pushes specificity past that rule without touching it or anything else
+   it still legitimately sizes (category/contact/geography text, which
+   this task does not touch). */
+#nwx-partner-map-v3 .nwx-results-top .nwx-partner-card-compact .nwx-partner-name {
+  font-size: 22px !important;
+  line-height: 1.15 !important;
+}
+
 /* --- Name row: name grows, website icon pins to the top-right. --- */
 #nwx-partner-map-v3 .nwx-compact-top-row {
   display: flex;
@@ -4712,11 +4727,6 @@ body {
   text-overflow: clip !important;
   flex: 1 1 auto !important;
   min-width: 0 !important;
-
-  font-size: 20px !important;
-  line-height: 1.15 !important;
-  font-weight: 700 !important;
-  color: #fff !important;
 }
 
 #nwx-partner-map-v3 .nwx-partner-card-compact .nwx-profile-cta.nwx-website-icon-cta {
