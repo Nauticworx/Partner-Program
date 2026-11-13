@@ -61,7 +61,7 @@
     height: 100%;
     overflow: hidden;
     background: var(--nwx-navy);
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham, Helvetica, Arial, sans-serif;
     color: var(--nwx-name);
   }
 
@@ -107,9 +107,9 @@
 }
 
 .partner-program-logo-desktop {
-  height: 92px;
+  height: 48px;
   width: auto;
-  align-self: center;
+  align-self: flex-start;
 }
 
 .partner-program-logo-mobile {
@@ -177,7 +177,7 @@
     outline: none;
     color: var(--nwx-name);
     font-size: 12.5px;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .rail-search input::placeholder { color: rgba(206,226,235,0.4); }
 
@@ -217,7 +217,7 @@
     border-radius: 7px;
     padding: 7px 9px;
     font-size: 11px;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
     color: rgba(206,226,235,0.85);
     cursor: pointer;
   }
@@ -541,7 +541,7 @@
     padding: 0;
     margin: 0;
     cursor: pointer;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .rail-browse-toggle .rail-section-title { margin: 0; }
   .rail-browse-toggle .browse-chev {
@@ -741,7 +741,7 @@
     outline: none;
     color: var(--nwx-name);
     font-size: 12px;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .mobile-search input::placeholder { color: rgba(206,226,235,0.45); }
 
@@ -786,7 +786,7 @@
     cursor: pointer;
     white-space: nowrap;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .nwx-chip:hover {
     transform: scale(1.05);
@@ -823,7 +823,7 @@
     font-size: 14px;
     cursor: pointer;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .nwx-marker:hover {
     transform: scale(1.08);
@@ -868,7 +868,7 @@
     border-radius: 10px;
     padding: 14px 16px 12px 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham;
   }
   .mapboxgl-popup-tip { display: none; }
   .mapboxgl-popup-close-button {
@@ -1438,103 +1438,13 @@
     #rail { display: none; }
     #mobile-bar, #mobile-stats { display: flex; }
       #partner-list-view {
-    font-family: "gotham", Helvetica, Arial, sans-serif;
+    font-family: Gotham, Helvetica, Arial, sans-serif;
   }
     .nwx-marker { width: 38px; height: 38px; font-size: 13px; }
     .nwx-marker.country-marker { width: 26px; height: 26px; font-size: 10.5px; }
     .nwx-chip { padding: 5px 9px 5px 11px; gap: 6px; }
     .nwx-chip .chip-name { font-size: 10.5px; }
     .nwx-chip .chip-count { font-size: 12px; }
-  }
-
-  /* ---------- DESKTOP RAIL: light theme (visual-only, scoped to #rail).
-     #rail is display:none at <=860px, so none of this reaches mobile.
-     Search/filter controls, filter chips and the reset icon keep their
-     existing #rail rules unchanged. ---------- */
-  #rail {
-    background: #ffffff;
-    color: #021229;
-    border-right: 1px solid rgba(2,18,41,0.12);
-    scrollbar-color: rgba(2,18,41,0.22) transparent;
-  }
-  #rail::-webkit-scrollbar-thumb { background: rgba(2,18,41,0.18); background-clip: padding-box; }
-  #rail::-webkit-scrollbar-thumb:hover { background: rgba(2,18,41,0.30); background-clip: padding-box; }
-  #rail .rail-section-title { color: rgba(2,18,41,0.55); }
-#rail .view-toggle {
-  background: #021229;
-  border-color: #021229;
-}
-
-#rail .view-toggle button {
-  color: #cee2eb;
-}
-
-#rail .view-toggle button.active {
-  background: var(--nwx-orange);
-  color: #ffffff;
-}
-#rail .mini-card {
-  background: #021229;
-  border-color: rgba(2,18,41,0.10);
-}
-
-#rail .mini-card .mc-name {
-  color: #ffffff;
-}
-
-#rail .mini-card .mc-meta {
-  color: #cee2eb;
-}
-
-#rail .mini-card:hover,
-#rail .mini-card.selected {
-  background: #06192f;
-  border-color: var(--nwx-orange);
-}
-  #rail .rail-browse { border-top-color: rgba(2,18,41,0.12); }
-  #rail .rail-browse-toggle .browse-chev { color: rgba(2,18,41,0.45); }
-  #rail #breadcrumb { color: rgba(2,18,41,0.65); }
-  #rail #back-btn {
-    background: #ffffff;
-    border-color: rgba(2,18,41,0.16);
-    color: #021229;
-  }
-  #rail #back-btn:hover { background: rgba(2,18,41,0.04); }
-  #rail .region-row {
-    background: #ffffff;
-    border-color: rgba(2,18,41,0.12);
-  }
-  #rail .region-row:hover {
-    background: rgba(232,100,44,0.08);
-    border-color: rgba(232,100,44,0.35);
-  }
-  #rail .region-row .name { color: #021229; }
-
-  /* ---------- DESKTOP RAIL: only the partner results list scrolls.
-     Logo, toggle, search, filters, reset and Browse by Region keep their
-     natural height; the list takes the remaining rail height. Scrollbar
-     matches the white-rail #rail scrollbar above. Desktop only. ---------- */
-  @media (min-width: 861px) {
-    #rail { overflow: hidden; }
-    #rail .partner-card-list {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      scrollbar-color: rgba(2,18,41,0.22) transparent;
-      scrollbar-width: thin;
-    }
-    #rail .partner-card-list::-webkit-scrollbar { width: 8px; }
-    #rail .partner-card-list::-webkit-scrollbar-track { background: transparent; }
-    #rail .partner-card-list::-webkit-scrollbar-thumb {
-      background: rgba(2,18,41,0.18);
-      border-radius: 999px;
-      border: 2px solid transparent;
-      background-clip: padding-box;
-    }
-    #rail .partner-card-list::-webkit-scrollbar-thumb:hover {
-      background: rgba(2,18,41,0.30);
-      background-clip: padding-box;
-    }
   }
 </style>
 </head>
@@ -1546,7 +1456,7 @@
 <div id="rail">
   <div class="rail-top">
     <img
-      src="assets/Partner Program (Vertical).png"
+      src="assets/Partner Program White (Horizontal).png"
       alt="Nauticworx Partner Program"
       class="partner-program-logo partner-program-logo-desktop"
     >
@@ -1835,11 +1745,6 @@
     attributionControl: true
   });
   map.touchZoomRotate.disableRotation();
-
-  if (isMobile()) {
-  map.dragPan.disable();
-}
-
   map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
 
   // ---- Nauticworx re-skin of the base Mapbox style ----
